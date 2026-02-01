@@ -2,7 +2,7 @@
 // Do not edit manually. Run "npm run generate:icons" (or node src/integrations/icons/utils/generate-icon-map.mjs) to regenerate.
 
 import type { IconType } from 'react-icons';
-import { LuArrowRight, LuBookOpen, LuChartBar, LuChevronRight, LuCode, LuContact, LuGithub, LuGlobe, LuImage, LuLinkedin, LuMail, LuMegaphone, LuMinus, LuMousePointer, LuPhone, LuPlus, LuSearch, LuSettings, LuThumbsUp, LuTwitter } from 'react-icons/lu';
+import { LuArrowRight, LuBookOpen, LuChevronRight, LuContact, LuGithub, LuGlobe, LuImage, LuLinkedin, LuMail, LuPhone, LuSettings, LuTwitter } from 'react-icons/lu';
 import { FaBullhorn, FaCode } from 'react-icons/fa';
 import { SiFacebook } from 'react-icons/si';
 import { FaArrowsUpDownLeftRight, FaBullseye, FaClockRotateLeft, FaCompass, FaEye, FaFeather, FaFileLines, FaHeadset, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaUniversalAccess, FaWandMagicSparkles, FaXmark } from 'react-icons/fa6';
@@ -31,23 +31,15 @@ export const iconMap = {
   'fa:code': FaCode,
   'lu:arrow-right': LuArrowRight,
   'lu:book-open': LuBookOpen,
-  'lu:chart-bar': LuChartBar,
   'lu:chevron-right': LuChevronRight,
-  'lu:code': LuCode,
   'lu:contact': LuContact,
   'lu:github': LuGithub,
   'lu:globe': LuGlobe,
   'lu:image': LuImage,
   'lu:linkedin': LuLinkedin,
   'lu:mail': LuMail,
-  'lu:megaphone': LuMegaphone,
-  'lu:minus': LuMinus,
-  'lu:mouse-pointer': LuMousePointer,
   'lu:phone': LuPhone,
-  'lu:plus': LuPlus,
-  'lu:search': LuSearch,
   'lu:settings': LuSettings,
-  'lu:thumbs-up': LuThumbsUp,
   'lu:twitter': LuTwitter,
   'si:facebook': SiFacebook,
 } satisfies Record<string, IconType>;

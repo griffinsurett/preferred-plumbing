@@ -4,7 +4,7 @@
  * Site Header with Navigation
  */
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
-import { query, sortBy } from "@/utils/query";
+import { related } from "@/utils/query";
 import { siteData } from "@/content/siteData";
 ---
 
@@ -21,15 +21,7 @@ import { siteData } from "@/content/siteData";
 
       <!-- Navigation Menu using query -->
       <ContentRenderer
-        query={query("menu-items")
-          .where((entry) => {
-            const menus = entry.data.menu;
-            if (Array.isArray(menus)) {
-              return menus.some((m) => m.id === "main-menu");
-            }
-            return menus?.id === "main-menu";
-          })
-          .orderBy(sortBy("order", "asc"))}
+        query={related("menu-items", "menu", "main-menu")}
         variant="MenuVariant"
         mode="responsive"
         className="header-navigation"

@@ -1,5 +1,6 @@
 // astro.config.mjs
 import { defineConfig } from 'astro/config';
+import { fileURLToPath } from 'node:url';
 import { loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
@@ -25,6 +26,11 @@ export default defineConfig({
   output: 'static',
   
   vite: {
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    },
     plugins: [tailwindcss()],
     build: {
       assetsInlineLimit: 10240, // 10KB - will inline your 7.3KB CSS automatically

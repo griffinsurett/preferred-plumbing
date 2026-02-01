@@ -5,6 +5,7 @@
  *
  * Renders individual menu link with dropdown support.
  * Uses global CSS with direct child selectors for infinite nesting.
+ * If a parent has children but no URL, clicking toggles the dropdown.
  */
 
 import MenuDropdown from "@/components/LoopTemplates/Menu/MenuDropdown.astro";
@@ -40,6 +41,9 @@ const childIsActive = hasChildren
   : false;
 const isTopLevel = level === 0;
 
+// If parent has children but no page URL, it should toggle dropdown not navigate
+const isToggleOnly = hasChildren && !url;
+
 const linkClasses = isTopLevel
   ? `
     flex items-center gap-1 px-4 py-2 rounded-md transition-colors font-medium
@@ -62,36 +66,63 @@ const dropdownId = `dropdown-${slug}-${level}`;
 ---
 
 <li class={`relative ${hasChildren ? "menu-item" : ""}`}>
-  <a
-    href={url || "#"}
-    target={openInNewTab ? "_blank" : undefined}
-    rel={openInNewTab ? "noopener noreferrer" : undefined}
-    class={linkClasses.trim()}
-    aria-current={isActive ? "page" : undefined}
-    aria-haspopup={hasChildren ? "menu" : undefined}
-    title={description}
-  >
-    {icon && <span class="icon">{icon}</span>}
-    <span>{title}</span>
-    {
-      hasChildren && (
-        <svg
-          class="w-4 h-4 transition-transform menu-arrow"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      )
-    }
-  </a>
+  {isToggleOnly ? (
+    <button
+      type="button"
+      class={`${linkClasses.trim()} cursor-pointer`}
+      aria-expanded="false"
+      aria-haspopup="menu"
+      title={description}
+    >
+      {icon && <span class="icon">{icon}</span>}
+      <span>{title}</span>
+      <svg
+        class="w-4 h-4 transition-transform menu-arrow"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"
+        />
+      </svg>
+    </button>
+  ) : (
+    <a
+      href={url || "#"}
+      target={openInNewTab ? "_blank" : undefined}
+      rel={openInNewTab ? "noopener noreferrer" : undefined}
+      class={linkClasses.trim()}
+      aria-current={isActive ? "page" : undefined}
+      aria-haspopup={hasChildren ? "menu" : undefined}
+      title={description}
+    >
+      {icon && <span class="icon">{icon}</span>}
+      <span>{title}</span>
+      {
+        hasChildren && (
+          <svg
+            class="w-4 h-4 transition-transform menu-arrow"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        )
+      }
+    </a>
+  )}
 
   {
     hasChildren && (

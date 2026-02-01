@@ -423,19 +423,67 @@ async function processCollectionMenus(
           const hasRenderablePage = shouldItemHavePageData(itemData, meta);
           const isParentContainer = parentToChildren.has(slug);
           const hasPageableDescendants = isParentContainer && hasDescendantWithPage(slug);
+          const hasExternalLink = Boolean(itemData.link || itemData.url);
 
           // Skip items with no page unless they are parent containers with descendants that have pages
-          if (!hasRenderablePage && !hasPageableDescendants) continue;
+          // or they have an external link
+          if (!hasRenderablePage && !hasPageableDescendants && !hasExternalLink) continue;
 
-          const itemUrl = hasRenderablePage
-            ? (shouldItemUseRootPathData(itemData, meta) ? `/${slug}` : `/${collection}/${slug}`)
-            : undefined;
+          // Determine URL based on linkBehavior config
+          let itemUrl: string | undefined;
+          const linkBehavior = menuConfig.linkBehavior;
+          const linkMode = linkBehavior?.mode ?? 'standard';
+
+          if (linkMode === 'field') {
+            // Use external link field
+            const linkField = linkBehavior?.link ?? 'link';
+            itemUrl = itemData[linkField];
+          } else if (linkMode === 'none') {
+            itemUrl = undefined;
+          } else if (hasRenderablePage) {
+            // Standard/root mode - use page URL
+            itemUrl = shouldItemUseRootPathData(itemData, meta) ? `/${slug}` : `/${collection}/${slug}`;
+          } else if (hasExternalLink) {
+            // Fallback to external link if no page
+            itemUrl = itemData.link || itemData.url;
+          }
 
           let parent = attachTo;
-          // If attachTo is the collection but no explicit collection parent exists in the store,
-          // avoid creating an implicit menu item and instead drop to root.
-          if (attachTo === collection && !store.has(collection)) {
-            parent = null;
+          // If attachTo is the collection, search for the collection's menu item in the store
+          // by checking both direct ID match and URL match (/${collection})
+          if (attachTo === collection) {
+            let foundCollectionParent: string | null = null;
+
+            // First check direct ID match
+            if (store.has(collection)) {
+              foundCollectionParent = collection;
+            } else {
+              // Search for a menu item with URL matching /${collection} on the same menu
+              const targetMenuId = typeof menuConfig.menu === 'string'
+                ? menuConfig.menu
+                : menuConfig.menu?.id;
+
+              for (const [id, entry] of store.entries()) {
+                const entryUrl = entry.data?.url;
+                const entryMenus = entry.data?.menu || [];
+
+                // Check if URL matches the collection path
+                if (entryUrl === `/${collection}`) {
+                  // Verify it's on the same menu
+                  const isOnSameMenu = entryMenus.some((m: any) => {
+                    const menuId = typeof m === 'string' ? m : m?.id;
+                    return menuId === targetMenuId;
+                  });
+
+                  if (isOnSameMenu) {
+                    foundCollectionParent = id;
+                    break;
+                  }
+                }
+              }
+            }
+
+            parent = foundCollectionParent;
           }
           if (itemData.parent && menuConfig.respectHierarchy !== false) {
             parent = itemData.parent;
@@ -459,7 +507,7 @@ async function processCollectionMenus(
               url: itemUrl,
               menu: menus,
               parent: resolvedParent,
-              openInNewTab: menuConfig.openInNewTab ?? false,
+              openInNewTab: itemData.openInNewTab ?? menuConfig.openInNewTab ?? false,
               order: itemData.order,
             },
           });
