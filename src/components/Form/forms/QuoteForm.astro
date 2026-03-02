@@ -16,9 +16,14 @@ interface Props {
 }
 
 const { title, description, className = "" } = Astro.props;
+const quoteFormId =
+  import.meta.env.PUBLIC_FORMSPREE_QUOTE_ID ||
+  import.meta.env.PUBLIC_FORMSPREE_ID;
 
-const handleSubmit = async (values: any) => {
-  console.log("Quote form submitted:", values);
+const handleSubmit = async () => {
+  throw new Error(
+    "Quote form is not configured. Set PUBLIC_FORMSPREE_QUOTE_ID or PUBLIC_FORMSPREE_ID."
+  );
 };
 ---
 
@@ -28,11 +33,15 @@ const handleSubmit = async (values: any) => {
 
   <FormWrapper
     client:idle
-    onSubmit={handleSubmit}
+    onSubmit={!quoteFormId ? handleSubmit : undefined}
+    formspreeId={quoteFormId}
+    useNativeFormSubmission={Boolean(quoteFormId)}
     successMessage="Thank you for your quote request! We'll get back to you soon."
     resetOnSuccess={true}
     className="w-full gap-0"
   >
+    <input type="hidden" name="formName" value="Greastro Quote Form" />
+
     <div class="flex flex-col lg:flex-row justify-between gap-2 mb-4">
       <Input
         name="firstName"

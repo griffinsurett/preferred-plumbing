@@ -17,9 +17,14 @@ interface Props {
 }
 
 const { title, description, className = "" } = Astro.props;
+const contactFormId =
+  import.meta.env.PUBLIC_FORMSPREE_CONTACT_ID ||
+  import.meta.env.PUBLIC_FORMSPREE_ID;
 
-const handleSubmit = async (values: any) => {
-  console.log("Contact form submitted:", values);
+const handleSubmit = async () => {
+  throw new Error(
+    "Contact form is not configured. Set PUBLIC_FORMSPREE_CONTACT_ID or PUBLIC_FORMSPREE_ID."
+  );
 };
 ---
 
@@ -29,12 +34,16 @@ const handleSubmit = async (values: any) => {
 
   <FormWrapper
     client:idle
-    onSubmit={handleSubmit}
+    onSubmit={!contactFormId ? handleSubmit : undefined}
+    formspreeId={contactFormId}
+    useNativeFormSubmission={Boolean(contactFormId)}
     successMessage="Thank you for contacting us! We'll get back to you soon."
     errorMessage="There was an error submitting your form. Please try again."
     resetOnSuccess={true}
     className="w-full"
   >
+    <input type="hidden" name="formName" value="Greastro Contact Form" />
+
     <div class="flex flex-col lg:flex-row justify-between gap-2 mb-4">
       <Input
         name="firstName"

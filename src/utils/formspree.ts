@@ -9,7 +9,9 @@ interface SubmitToFormspreeParams {
 }
 
 interface FormspreeResponse {
-  errors?: { message: string }[];
+  errors?: { message?: string }[];
+  error?: string;
+  message?: string;
 }
 
 export async function submitToFormspree({
@@ -46,20 +48,29 @@ export async function submitToFormspree({
   });
 
   if (!response.ok) {
-    let errorMessage = "Unable to submit the form. Please try again later.";
+    let errorMessage = `Unable to submit the form (status ${response.status}).`;
 
     try {
       const bodyText = await response.text();
       if (bodyText) {
         try {
           const data = JSON.parse(bodyText) as FormspreeResponse;
-          errorMessage = data?.errors?.[0]?.message ?? errorMessage;
+          errorMessage =
+            data?.errors?.[0]?.message ||
+            data?.error ||
+            data?.message ||
+            errorMessage;
         } catch {
           errorMessage = bodyText;
         }
       }
     } catch {
       // Ignore parse errors
+    }
+
+    if (response.status === 403 && errorMessage.includes("status 403")) {
+      errorMessage =
+        "Formspree rejected this submission (403). Check that the form is active and this domain is allowed in Formspree.";
     }
 
     throw new Error(errorMessage);

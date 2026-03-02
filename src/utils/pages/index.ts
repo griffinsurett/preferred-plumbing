@@ -128,3 +128,13 @@ export async function shouldProcessCollection(
   const entries = await getCollection(collectionName);
   return shouldProcessCollectionData(entries, meta);
 }
+
+export {
+  buildPaginationMeta,
+  buildPageHref,
+  clampPage,
+  getTotalPages,
+  parsePageParam,
+  type PaginationMeta,
+  type PaginationOptions,
+} from "./pagination";

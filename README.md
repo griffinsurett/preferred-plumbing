@@ -300,7 +300,17 @@ export const siteData = {
 ### Environment Variables
 ```env
 PUBLIC_SITE_DOMAIN=yoursite.com
+PUBLIC_FORMSPREE_CONTACT_ID=your_contact_form_id
+PUBLIC_FORMSPREE_QUOTE_ID=your_quote_form_id
+# Optional fallback used when a per-form ID is not set
+PUBLIC_FORMSPREE_ID=your_default_form_id
 ```
+
+### Formspree Forms
+- `ContactForm.astro` uses `PUBLIC_FORMSPREE_CONTACT_ID` (falls back to `PUBLIC_FORMSPREE_ID`).
+- `QuoteForm.astro` uses `PUBLIC_FORMSPREE_QUOTE_ID` (falls back to `PUBLIC_FORMSPREE_ID`).
+- Native form submission is used to avoid AJAX + reCAPTCHA issues.
+- `vercel.json` CSP must allow `https://formspree.io` in both `connect-src` and `form-action`.
 
 ## Advanced Features
 

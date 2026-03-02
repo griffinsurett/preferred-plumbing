@@ -7,19 +7,29 @@
 import {
   Children,
   isValidElement,
+  useEffect,
   useMemo,
   useState,
   type FormEvent,
+  type FormHTMLAttributes,
   type ReactNode,
 } from "react";
 import SuccessMessage from "./messages/SuccessMessage";
 import ErrorMessage from "./messages/ErrorMessage";
 import LoadingMessage from "./messages/LoadingMessage";
 import { FormContext } from "./FormContext";
+import { submitToFormspree } from "@/utils/formspree";
 
 export interface FormWrapperProps {
   children: ReactNode;
-  onSubmit: (values: Record<string, any>) => Promise<void> | void;
+  onSubmit?: (values: Record<string, any>) => Promise<void> | void;
+  formspreeId?: string;
+  formspreeEndpoint?: string;
+  formMethod?: FormHTMLAttributes<HTMLFormElement>["method"];
+  useNativeFormSubmission?: boolean;
+  reloadOnSuccess?: boolean;
+  formspreeFormName?: string;
+  formspreeExcludeKeys?: string[];
   successMessage?: string;
   errorMessage?: string;
   loadingMessage?: string;
@@ -32,6 +42,13 @@ export interface FormWrapperProps {
 export default function FormWrapper({
   children,
   onSubmit,
+  formspreeId,
+  formspreeEndpoint,
+  formMethod = "post",
+  useNativeFormSubmission = false,
+  reloadOnSuccess,
+  formspreeFormName,
+  formspreeExcludeKeys = [],
   successMessage = "Form submitted successfully!",
   errorMessage = "An error occurred. Please try again.",
   loadingMessage = "Submitting your form...",
@@ -46,6 +63,7 @@ export default function FormWrapper({
   >("idle");
   const [message, setMessage] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [currentUrl, setCurrentUrl] = useState("");
 
   const childrenArray = Children.toArray(children);
   const formSteps = childrenArray.filter(
@@ -75,6 +93,20 @@ export default function FormWrapper({
     }
   };
 
+  const resolvedFormspreeEndpoint =
+    formspreeEndpoint ||
+    (formspreeId ? `https://formspree.io/f/${formspreeId}` : "");
+
+  const shouldUseNativeSubmission =
+    useNativeFormSubmission && Boolean(resolvedFormspreeEndpoint);
+  const shouldReloadAfterSuccess = reloadOnSuccess ?? shouldUseNativeSubmission;
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && shouldUseNativeSubmission) {
+      setCurrentUrl(window.location.href);
+    }
+  }, [shouldUseNativeSubmission]);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -103,7 +135,18 @@ export default function FormWrapper({
         }
       });
 
-      await onSubmit(data);
+      if (onSubmit) {
+        await onSubmit(data);
+      } else if (resolvedFormspreeEndpoint) {
+        await submitToFormspree({
+          endpoint: resolvedFormspreeEndpoint,
+          values: data,
+          excludeKeys: formspreeExcludeKeys,
+          formName: formspreeFormName,
+        });
+      } else {
+        throw new Error("Form submission handler is not configured.");
+      }
 
       setStatus("success");
       setMessage(successMessage);
@@ -153,7 +196,18 @@ export default function FormWrapper({
 
   return (
     <FormContext.Provider value={contextValue}>
-      <form onSubmit={handleSubmit} className={className} noValidate={false}>
+      <form
+        onSubmit={shouldUseNativeSubmission ? undefined : handleSubmit}
+        action={shouldUseNativeSubmission ? resolvedFormspreeEndpoint : undefined}
+        method={shouldUseNativeSubmission ? formMethod : undefined}
+        encType={shouldUseNativeSubmission ? "multipart/form-data" : undefined}
+        className={className}
+        noValidate={false}
+      >
+        {shouldUseNativeSubmission &&
+          shouldReloadAfterSuccess &&
+          currentUrl && <input type="hidden" name="_next" value={currentUrl} />}
+
         {status === "submitting" && (
           <LoadingMessage>{loadingMessage}</LoadingMessage>
         )}

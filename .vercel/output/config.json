@@ -1,0 +1,97 @@
+{
+	"version": 3,
+	"routes": [
+		{
+			"src": "^/about$",
+			"headers": {
+				"Location": "/about-us"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/aboutus$",
+			"headers": {
+				"Location": "/about-us"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/contact$",
+			"headers": {
+				"Location": "/contact-us"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/contactus$",
+			"headers": {
+				"Location": "/contact-us"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/digital-marketing$",
+			"headers": {
+				"Location": "/services/digital-marketing"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/ecommerce-platform$",
+			"headers": {
+				"Location": "/projects/ecommerce-platform"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/first-post$",
+			"headers": {
+				"Location": "/blog/first-post"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/legal/cookie-policy$",
+			"headers": {
+				"Location": "/cookie-policy"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/legal/privacy-policy$",
+			"headers": {
+				"Location": "/privacy-policy"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/legal/terms-of-service$",
+			"headers": {
+				"Location": "/terms-of-service"
+			},
+			"status": 301
+		},
+		{
+			"src": "^/services/web-development$",
+			"headers": {
+				"Location": "/web-development"
+			},
+			"status": 301
+		},
+		{
+			"handle": "filesystem"
+		},
+		{
+			"src": "^/_astro/(.*)$",
+			"headers": {
+				"cache-control": "public, max-age=31536000, immutable"
+			},
+			"continue": true
+		},
+		{
+			"src": "^/.*$",
+			"dest": "/404.html",
+			"status": 404
+		}
+	]
+}
