@@ -19,7 +19,6 @@ Greastro extends Astro's content collections with a powerful, database-like quer
 - [Advanced Features](#advanced-features)
 - [User Preferences System](#user-preferences-system)
 - [Performance Optimizations](#performance-optimizations)
-- [API Reference](#api-reference)
 - [Scripts](#scripts)
 - [Contributing](#contributing)
 
@@ -157,7 +156,7 @@ The `ContentRenderer` component accepts a `variant` prop to render content in di
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18+
+- Node.js 18.20+ (Node 20 LTS recommended)
 - npm/pnpm/yarn
 
 ### Installation
@@ -216,50 +215,57 @@ The Widget Pro is our flagship product...
 ```
 src/
 ├── components/
-│   ├── ContentRenderer/      # Universal section renderer
-│   │   ├── variants/         # Layout variants (Grid, Blog, List, etc.)
-│   │   └── ContentRenderer.types.ts
-│   ├── preferences/          # User preference components
-│   │   ├── consent/          # Cookie consent system
-│   │   ├── language/         # Multi-language support
-│   │   ├── accessibility/    # Accessibility features
-│   │   └── theme/            # Dark mode toggle
-│   ├── Button.astro          # Polymorphic button
-│   ├── Icon.tsx              # Icon system
-│   └── Modal.tsx             # Lazy-loaded modal
+│   ├── Button/               # Polymorphic button system
+│   ├── ContentRenderer/      # Universal content renderer + variants
+│   ├── Form/                 # Contact/quote forms
+│   ├── LoopComponents/       # Reusable display primitives
+│   ├── LoopTemplates/        # Collection template wrappers
+│   ├── Menu/                 # Header/mobile navigation UI
+│   ├── Pagination/           # Query-aware pagination helpers
+│   ├── Video/                # Video player + lazy thumbnail logic
+│   ├── Icon.tsx
+│   └── Modal.tsx
 ├── content/
 │   ├── config.ts             # Collection definitions
 │   ├── schema.ts             # Shared schemas
 │   ├── [collection]/         # Content collections
 │   │   ├── _meta.mdx         # Collection config
 │   │   └── *.mdx             # Collection items
-│   ├── menus/                # Menu configuration
+│   ├── menus/                # Menu definitions (JSON)
+│   ├── menu-items/           # Menu item data (JSON + loader)
 │   └── siteData.ts           # Global site config
 ├── hooks/
-│   ├── useLocalStorage.ts    # localStorage state management
-│   ├── useTheme.ts           # Dark mode hook
-│   ├── useCookieStorage.ts   # Cookie utilities hook
-│   └── useAccessibility.ts   # Accessibility preferences
+│   ├── theme/UseMode.ts      # Theme state + DOM sync
+│   ├── useCookieStorage.ts   # Cookie helpers
+│   ├── useLocalStorage.ts    # localStorage hook alias
+│   └── interactions/         # Click/hover/touch/scroll hooks
+├── integrations/
+│   ├── analytics/            # GTM integration
+│   ├── client-directives/    # Custom hydration directives
+│   ├── icons/                # Build-time icon map generation
+│   ├── partytown/            # Conditional Partytown integration
+│   ├── preferences/          # Consent/language/accessibility systems
+│   └── scroll-animations/    # Observer + plugin registry
 ├── layouts/
-│   ├── BaseLayout.astro      # Main layout
-│   ├── PreferencesLayout.astro # User preferences wrapper
+│   ├── BaseLayout.astro      # Root HTML layout
+│   ├── PreferencesLayout.astro # Shared preferences UI mount
 │   └── collections/          # Custom collection layouts
+├── pages/
+│   ├── [collection]/         # Dynamic collection pages
+│   ├── [slug].astro          # Root-level item pages
+│   └── links.astro           # Link tree page
 ├── utils/
-│   ├── content/              # Content utilities
-│   │   ├── query.ts          # Query builder
-│   │   ├── graph.ts          # Relation resolution
-│   │   └── hierarchy.ts      # Parent-child queries
-│   ├── storage.ts            # localStorage utilities
-│   ├── cookies.ts            # Cookie utilities
+│   ├── query/                # Query builder + filters/sorting/relations
 │   ├── collections/          # Collection utilities
+│   ├── filesystem/           # Content scanning/frontmatter parsing
+│   ├── pages/                # Page generation + pagination helpers
 │   ├── redirects/            # Redirect system
-│   ├── loaders/              # Custom Astro loaders
-│   └── pageGeneration/       # Static page helpers
+│   ├── loaders/              # Custom Astro data loaders
+│   └── storage.ts            # localStorage utilities
 └── styles/
-    ├── global.css            # Base styles
-    ├── preferences.css       # Preference button styles
-    ├── accessibility.css     # A11y feature styles
-    └── language-switcher.css # Language UI styles
+    ├── global.css            # Base styles + design tokens
+    ├── legal.css             # Legal page styles
+    └── system.css            # Shared utility styles
 ```
 
 ## Configuration
@@ -282,18 +288,23 @@ Configure automatic redirects in `astro.config.mjs`:
 ```javascript
 import { buildRedirectConfig } from './src/utils/redirects';
 
+const redirects = await buildRedirectConfig();
+
 export default defineConfig({
-  redirects: buildRedirectConfig(),
+  redirects,
 });
 ```
 
 ### SEO
 Configure site-wide SEO in `src/content/siteData.ts`:
 ```typescript
+const siteDomain = import.meta.env.PUBLIC_SITE_DOMAIN;
+
 export const siteData = {
-  title: "Your Site Name",
-  description: "Your site description",
-  domain: "yoursite.com",
+  title: "Greastro",
+  description: "Finest Typesafe Static Sites with Astro.",
+  domain: siteDomain,
+  url: `https://${siteDomain}`,
 };
 ```
 
@@ -302,13 +313,17 @@ export const siteData = {
 PUBLIC_SITE_DOMAIN=yoursite.com
 PUBLIC_FORMSPREE_CONTACT_ID=your_contact_form_id
 PUBLIC_FORMSPREE_QUOTE_ID=your_quote_form_id
+PUBLIC_GTM_ID=GTM-XXXXXXX
 # Optional fallback used when a per-form ID is not set
 PUBLIC_FORMSPREE_ID=your_default_form_id
+# Optional integration disclosure metadata
+# PUBLIC_INTEGRATION_EXAMPLE_NAME=Example Integration
+# PUBLIC_INTEGRATION_EXAMPLE_PURPOSE=What it does
 ```
 
 ### Formspree Forms
-- `ContactForm.astro` uses `PUBLIC_FORMSPREE_CONTACT_ID` (falls back to `PUBLIC_FORMSPREE_ID`).
-- `QuoteForm.astro` uses `PUBLIC_FORMSPREE_QUOTE_ID` (falls back to `PUBLIC_FORMSPREE_ID`).
+- `src/components/Form/forms/ContactForm.astro` uses `PUBLIC_FORMSPREE_CONTACT_ID` (falls back to `PUBLIC_FORMSPREE_ID`).
+- `src/components/Form/forms/QuoteForm.astro` uses `PUBLIC_FORMSPREE_QUOTE_ID` (falls back to `PUBLIC_FORMSPREE_ID`).
 - Native form submission is used to avoid AJAX + reCAPTCHA issues.
 - `vercel.json` CSP must allow `https://formspree.io` in both `connect-src` and `form-action`.
 
@@ -419,10 +434,10 @@ const { entries, title, description, customProp } = Astro.props;
 - **CardVariant**: Feature showcase cards (1-4 columns)
 - **MasonryVariant**: Pinterest-style layout
 - **AccordionVariant**: Collapsible Q&A
-- **HeroVariant**: Full-width hero section
 - **ContactVariant**: Contact information cards
 - **SocialMediaVariant**: Social media icons
 - **MenuVariant**: Navigation menu
+- **LinkTreeVariant**: Link-aggregation cards for `/links`
 
 ## User Preferences System
 
@@ -444,10 +459,12 @@ GDPR/CCPA-compliant cookie consent with localStorage-based preference storage:
 ```astro
 ---
 // src/layouts/PreferencesLayout.astro
-import CookiePreferencesButton from "@/components/preferences/consent/CookiePreferencesButton";
-import CookieConsentBanner from "@/components/preferences/consent/CookieConsentBanner";
+import CookiePreferencesButton from "@/integrations/preferences/consent/ui/CookiePreferencesButton";
+import CookieConsentBanner from "@/integrations/preferences/consent/ui/CookieConsentBanner";
+import ConsentScript from "@/integrations/preferences/consent/core/scripts/ConsentScript.astro";
 ---
 
+<ConsentScript />
 <CookiePreferencesButton client:visible />
 <CookieConsentBanner client:idle />
 ```
@@ -473,98 +490,80 @@ if (parsed?.performance) {
 }
 ```
 
-### Multi-Language Support (Google Translate)
+### Multi-Language Support (Browser + Google Translate)
 
-**Performance**: 0KB API load when using cached translations
+**Performance**: 0KB until user actively switches languages
 
-Cookie-based Google Translate integration with localStorage caching:
+Hybrid browser translation integration:
 ```astro
 ---
-import LanguageSwitcher from "@/components/preferences/language/LanguageSwitcher";
-import GoogleTranslateScript from "@/components/preferences/language/GoogleTranslateScript.astro";
-import LanguageDetectionScript from "@/components/preferences/language/LanguageDetectionScript.astro";
+import LanguageSwitcher from "@/integrations/preferences/language/ui/LanguageSwitcher";
+import BrowserTranslateScript from "@/integrations/preferences/language/core/scripts/BrowserTranslateScript.astro";
 ---
 
-<!-- Inline script runs before page render -->
-<LanguageDetectionScript />
-
-<!-- Google Translate API loads conditionally -->
-<GoogleTranslateScript />
+<!-- Native translation + Google fallback -->
+<BrowserTranslateScript enableNative={true} enableGoogle={true} />
 
 <!-- Language switcher UI -->
 <LanguageSwitcher client:visible />
 ```
 
 **Features**:
-- **Automatic browser language detection**: Detects user's browser language on first visit
-- **Translation caching**: Caches translated page content in localStorage
-- **Zero flicker**: Inline script applies cached translation before DOM render
-- **Smart API loading**: Skips Google Translate API entirely when cache exists
-- **Cookie-based control**: Uses `googtrans` cookie instead of widget manipulation
+- **Native translation first**: Uses browser Translator API where available
+- **Google fallback**: Loads Google Translate only when needed
+- **Consent-aware behavior**: Google fallback is gated by functional-cookie consent
+- **Persistent preference**: Stores selected language in localStorage (`user-language`)
+- **Dynamic content support**: MutationObserver handles content added after load
 
 **Supported Languages**:
-Configure in `src/utils/languageTranslation/languages.ts`:
+Configure in `src/integrations/preferences/language/core/utils/languages.ts`:
 ```typescript
 export const supportedLanguages = [
-  { name: 'English', code: 'en', flag: '🇺🇸' },
-  { name: 'Español', code: 'es', flag: '🇪🇸' },
-  { name: 'Français', code: 'fr', flag: '🇫🇷' },
+  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
+  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸' },
+  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷' },
   // Add more languages...
 ];
 ```
 
-**How Translation Caching Works**:
-1. User selects language → Cookie set → Page reloads
-2. Google Translate API translates page → Clean HTML cached in localStorage
-3. Next page load → Inline script injects cached translation instantly
-4. Result: Instant translations with zero Google API calls on subsequent visits
+**How Language Selection Works**:
+1. User selects a language in the switcher
+2. Language code is persisted in `localStorage` (`user-language`)
+3. System attempts native browser translation first
+4. If native translation is unavailable, Google Translate fallback is used (with consent)
 
 ### Dark Mode System
 
-**Performance**: ~2KB, 0ms blocking time
+**Performance**: Lightweight hook with localStorage persistence
 
-Fully-featured dark mode with OS preference detection:
+Theme state management uses `UseMode`:
 ```typescript
-import { useTheme } from '@/hooks/useTheme';
+import { UseMode } from '@/hooks/theme/UseMode';
 
 function ThemeToggle() {
-  const { theme, toggleTheme, isDark } = useTheme();
+  const [isLight, setIsLight] = UseMode();
   
   return (
-    <button onClick={toggleTheme}>
-      {isDark ? '☀️ Light' : '🌙 Dark'}
+    <button onClick={() => setIsLight(!isLight)}>
+      {isLight ? 'Switch to Dark' : 'Switch to Light'}
     </button>
   );
 }
 ```
 
 **Features**:
-- **Inline detection script**: Sets theme before page render (prevents flash)
-- **OS preference detection**: Auto-detects `prefers-color-scheme` when no preference set
-- **Dynamic meta tag**: Updates `<meta name="theme-color">` from CSS variables
-- **Cross-tab sync**: Theme changes synchronized across all open tabs
-- **CSS-first approach**: Uses `data-theme` attribute and `--color-*` variables
+- **Persistent preference**: Stores selected mode in localStorage (`theme`)
+- **DOM sync**: Updates `data-theme` and `color-scheme` on `document.documentElement`
+- **Theme-color updates**: Writes/updates `<meta name="theme-color">`
+- **Cross-tab sync**: Syncs mode changes via storage events
+- **CSS-first approach**: Driven by `data-theme` and CSS variables
 
 **Implementation**:
 ```astro
 ---
-// src/layouts/BaseLayout.astro
+// Example usage in a React client component
 ---
-
-<html data-theme="light">
-  <head>
-    <!-- Inline script prevents flash -->
-    <script is:inline>
-      (function() {
-        const stored = localStorage.getItem('theme');
-        const theme = stored || 
-          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
-        document.documentElement.style.colorScheme = theme;
-      })();
-    </script>
-  </head>
-</html>
+<ThemeToggle client:idle />
 ```
 
 **CSS Configuration**:
@@ -588,8 +587,8 @@ function ThemeToggle() {
 Comprehensive accessibility preferences with visual and interaction customization:
 ```astro
 ---
-import AccessibilityButton from "@/components/preferences/accessibility/AccessibilityButton";
-import "@/styles/accessibility.css";
+import AccessibilityButton from "@/integrations/preferences/accessibility/ui/AccessibilityButton";
+import "@/integrations/preferences/accessibility/styles/accessibility.css";
 ---
 
 <AccessibilityButton client:idle />
@@ -622,7 +621,7 @@ import "@/styles/accessibility.css";
 
 **Usage in React**:
 ```typescript
-import { useAccessibility } from '@/hooks/useAccessibility';
+import { useAccessibility } from '@/integrations/preferences/accessibility/core/hooks/useAccessibility';
 
 function AccessibilityPanel() {
   const { preferences, setPreferences, resetPreferences } = useAccessibility();
@@ -775,10 +774,11 @@ npm run preview                # Preview production build
 
 # Maintenance
 rm -rf .astro node_modules/.astro dist  # Clear all caches
-npx astro sync                 # Regenerate TypeScript types
+npm run astro -- sync          # Regenerate TypeScript types
 
 # Utilities
-npm run log-redirects          # Show all configured redirects
+npm run generate:icons         # Regenerate icon map from installed icon packs
+npm run astro -- check         # Astro + TypeScript checks
 ```
 
 ## Browser Support
@@ -830,14 +830,14 @@ npm run build
 - Check console for loader warnings
 
 ### Dark mode flashing
-- Verify inline script is in `<head>` before any content
-- Check that script uses `is:inline` directive
-- Ensure no SSR/CSR mismatches with hydration
+- Ensure your theme component hydrates on the client (`client:idle` or `client:load`)
+- Confirm `UseMode` is setting `data-theme` on `document.documentElement`
+- Check for conflicting server-rendered theme attributes/styles
 
 ### Translation not working
 - Clear localStorage: `localStorage.clear()`
-- Check browser console for Google Translate errors
-- Verify language is in `supportedLanguages` array
+- Check browser console for Translator API / Google Translate errors
+- Verify language is in `src/integrations/preferences/language/core/utils/languages.ts`
 - Ensure `googtrans` cookie is being set
 
 ## Contributing
