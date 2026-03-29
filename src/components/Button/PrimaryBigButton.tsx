@@ -25,15 +25,15 @@ export default function PrimaryBigButton({
   ...props
 }: PrimaryBigButtonProps) {
   const layoutClasses = fullWidth
-    ? "w-full justify-center px-8"
-    : "shrink-0 px-7 lg:px-9 xl:px-10";
+    ? "w-full justify-center"
+    : "shrink-0";
 
   return (
     <Button
       {...props}
       variant="primary"
       size="lg"
-      className={`shadow-md hover:shadow-lg transition-shadow ${layoutClasses} ${className}`.trim()}
+      className={`${layoutClasses} ${className}`.trim()}
     >
       {children}
     </Button>

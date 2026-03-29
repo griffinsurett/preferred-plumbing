@@ -15,7 +15,6 @@ export default function GhostButton({
   className = "",
   ...props
 }: ButtonProps) {
-  // Outlined style with blue border
   const variantClasses =
     "bg-bg/25 text-bg border-0 hover:bg-primary focus:ring-primary";
 

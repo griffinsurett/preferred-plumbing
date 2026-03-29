@@ -136,9 +136,9 @@ const resolvedSecondaryCTA =
 
     <div
       id="about"
-      class="under-hero relative min-h-[60vh] px-8 pt-12 pb-10 md:px-12 md:pt-16 lg:px-16 lg:pr-[24rem] lg:pt-20 xl:px-20 xl:pr-[32rem]"
+      class="under-hero relative min-h-[60vh] lg:py-10 px-8 md:px-12 lg:px-16 lg:pr-[24rem] xl:px-20 xl:pr-[32rem]"
     >
-      <div class="w-full text-left">
+      <div class="w-full text-left pt-10">
         <h2
           class="text-white font-medium"
           style="font-family: var(--font-tt-lakes);"
@@ -179,6 +179,16 @@ const resolvedSecondaryCTA =
             </div>
           )
         }
+
+        <div class="mt-10 flex justify-center lg:hidden" aria-hidden="true">
+          <img
+            src={plumberImage.src}
+            alt=""
+            class="block h-auto w-full max-w-[20rem]"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
       </div>
     </div>
   </div>

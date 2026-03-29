@@ -172,7 +172,7 @@ body {
   }
 
   .btn-lg {
-    @apply px-6 py-3 text-lg lg:text-xl;
+    @apply px-7 py-3 text-lg lg:px-9 lg:text-xl xl:px-10;
   }
 
   /* Link base styles */
