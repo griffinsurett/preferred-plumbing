@@ -40,7 +40,7 @@ export default function AccordionItem({
             <div className="flex-1">{headerSlot}</div>
           ) : (
             <div className="flex-1">
-              <h3 className="font-semibold text-heading">{title}</h3>
+              <h3 className="text-heading">{title}</h3>
             </div>
           )}
       </button>

@@ -2,8 +2,7 @@
 /**
  * Secondary Button Variant
  *
- * Outlined button with transparent background.
- * Used for secondary actions that need less emphasis than primary buttons.
+ * Heading-colored background with primary text (e.g. second hero CTA).
  */
 
 import { ButtonBase, type ButtonProps } from "../Button";
@@ -15,9 +14,8 @@ export default function SecondaryButton({
   className = "",
   ...props
 }: ButtonProps) {
-  // Outlined style with blue border
   const variantClasses =
-    "bg-bg text-text hover:text-bg border-2 border-primary hover:bg-primary focus:ring-primary";
+    "bg-heading text-primary hover:brightness-110 focus:ring-primary focus:ring-offset-2 focus:ring-offset-bg transition-colors";
 
   return (
     <ButtonBase

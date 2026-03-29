@@ -9,24 +9,47 @@
  * - Optional description
  * - Clickable link if linkPrefix provided
  *
- * Used in ContactVariant to display phone, email, address, etc.
+ * Used in ContactVariant and MenuContactsVariant (inline).
  */
 
 import Icon from "@/components/Icon";
 
 export interface Props {
-  title: string; // Label (e.g., "Call Us", "Email Us")
-  linkPrefix?: string; // URL prefix (tel:, mailto:, etc.)
-  tags?: string[]; // Used to determine default icon
-  description?: string; // Contact value (phone digits, email address)
-  icon?: any; // Custom icon (overrides default)
-  displayValue?: string; // Optional formatted value for UI
+  title: string;
+  linkPrefix?: string;
+  tags?: string[];
+  description?: string;
+  icon?: any;
+  displayValue?: string;
   url?: string;
+  variant?: "card" | "inline";
+  label?: string;
+  href?: string;
+  iconClassName?: string;
+  textClassName?: string;
+  wrapperClassName?: string;
+  showLabel?: boolean;
+  iconSize?: "sm" | "md" | "lg";
 }
 
-const { title, linkPrefix, tags, description, icon, displayValue, url } = Astro.props;
+const {
+  title,
+  linkPrefix,
+  tags,
+  description,
+  icon,
+  displayValue,
+  url,
+  variant = "card",
+  label,
+  href: hrefProp,
+  iconClassName,
+  textClassName,
+  wrapperClassName,
+  showLabel = true,
+  iconSize = "md",
+} = Astro.props;
 
-// Smart icon selection based on tags if no custom icon provided
 const defaultIcon = tags?.includes("phone")
   ? "lu:phone"
   : tags?.includes("email")
@@ -37,45 +60,70 @@ const displayIcon = icon || defaultIcon;
 
 const rawValue = description ?? title ?? "";
 const value = displayValue ?? rawValue;
-const showLabel = !!description && !!title;
+const showFieldLabel = !!(description && title);
 
-// Build full link if prefix provided (tel:, mailto:, etc.)
-const href = url ?? (linkPrefix && rawValue ? `${linkPrefix}${rawValue}` : undefined);
+const builtHref =
+  url ??
+  hrefProp ??
+  (linkPrefix && rawValue ? `${linkPrefix}${rawValue}` : undefined);
+
+const inlinePrimary = displayValue ?? description ?? label ?? title;
+const inlineWrapper =
+  wrapperClassName ??
+  "flex items-center gap-1 text-primary hover:opacity-85 transition-opacity";
+const inlineIconClass = iconClassName ?? "text-primary";
+const inlineTextClass = textClassName ?? "text-base hidden lg:inline";
+const inlineAriaLabel = [label, displayValue, description, title]
+  .find((item) => typeof item === "string" && item.trim().length > 0)
+  ?.trim();
 ---
 
-<div class="bg-bg rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
-  <div class="flex items-start gap-4">
-    {/* Icon circle */}
-    <div class="flex-shrink-0">
-      <div
-        class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center"
+{
+  variant === "inline" ? (
+    builtHref ? (
+      <a
+        href={builtHref}
+        class={inlineWrapper}
+        aria-label={!showLabel ? inlineAriaLabel : undefined}
+        title={!showLabel ? inlineAriaLabel : undefined}
       >
-        <Icon icon={displayIcon} size="md" className="text-primary" />
+        <Icon icon={displayIcon} size={iconSize} className={inlineIconClass} />
+        {showLabel && <span class={inlineTextClass}>{inlinePrimary}</span>}
+      </a>
+    ) : (
+      <div class={inlineWrapper}>
+        <Icon icon={displayIcon} size={iconSize} className={inlineIconClass} />
+        {showLabel && <span class={inlineTextClass}>{inlinePrimary}</span>}
+      </div>
+    )
+  ) : (
+    <div class="bg-bg rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0">
+          <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+            <Icon icon={displayIcon} size="md" className="text-primary" />
+          </div>
+        </div>
+
+        <div class="flex-1">
+          {showFieldLabel && (
+            <p class="text-sm uppercase tracking-wide text-text/70">{title}</p>
+          )}
+
+          {
+            builtHref ? (
+              <a
+                href={builtHref}
+                class="text-lg font-semibold text-heading hover:text-primary transition-colors block"
+              >
+                {value}
+              </a>
+            ) : (
+              <p class="text-lg font-semibold text-heading">{value}</p>
+            )
+          }
+        </div>
       </div>
     </div>
-
-    {/* Contact info */}
-    <div class="flex-1">
-      {/* Label */}
-      {showLabel && (
-        <p class="text-sm uppercase tracking-wide text-text/70">
-          {title}
-        </p>
-      )}
-
-      {/* Value as link or plain text */}
-      {
-        href ? (
-          <a
-            href={href}
-            class="text-lg font-semibold text-heading hover:text-primary transition-colors block"
-          >
-            {value}
-          </a>
-        ) : (
-          <p class="text-lg font-semibold text-heading">{value}</p>
-        )
-      }
-    </div>
-  </div>
-</div>
+  )
+}

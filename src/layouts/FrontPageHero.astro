@@ -4,17 +4,6 @@
  * Front Page Hero Layout
  *
  * Full-width hero section with optimized background media for homepage.
- *
- * Features:
- * - Responsive background images with LCP optimization
- * - Optional video background with poster image
- * - Large centered text with gradient overlay
- * - Primary and secondary CTAs
- * - Configurable minimum height (default 95vh)
- * - Supports both static images and video backgrounds
- *
- * This is a layout component for landing pages.
- * Use directly in your homepage or marketing pages.
  */
 
 import Button from "@/components/Button/Button";
@@ -25,7 +14,7 @@ import DefaultImg from "@/assets/background.svg";
 export interface Props {
   title?: string;
   description?: string;
-  image?: any; // Astro image asset or public path
+  image?: any;
   video?: {
     src: string;
     autoPlay?: boolean;
@@ -63,12 +52,11 @@ const {
   minHeight = "95vh",
 } = Astro.props;
 
-// Prepare optimized background media
 const backgroundMedia = {
   image: {
     src: image || DefaultImg,
     imageClass: "bg-cover bg-center",
-    aboveTheFold: true, // Front page hero is always LCP
+    aboveTheFold: true,
   },
   video: video
     ? {
@@ -91,25 +79,22 @@ const backgroundMedia = {
     class="relative flex items-center justify-center overflow-hidden"
     style={`min-height: ${minHeight}`}
   >
-    {/* Optimized background media with overlay */}
     <BackgroundMedia backgroundMedia={backgroundMedia} />
 
-    {/* Hero Content */}
-    <div class="relative text-center text-bg px-8 max-w-4xl mx-auto z-10">
-      <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+    <div class="relative z-10 mx-auto max-w-4xl px-8 text-center text-bg">
+      <h1 class="h1 text-white">
         {title}
       </h1>
 
       {
         description && (
-          <p class="text-xl md:text-2xl mb-10 opacity-95 leading-relaxed max-w-3xl mx-auto">
+          <p class="mx-auto mt-6 mb-10 max-w-3xl text-xl leading-relaxed opacity-95 md:text-2xl">
             {description}
           </p>
         )
       }
 
-      {/* CTA Buttons */}
-      <div class="flex gap-4 justify-center flex-wrap">
+      <div class="flex flex-wrap justify-center gap-4">
         {
           primaryCTA && (
             <Button
@@ -134,12 +119,10 @@ const backgroundMedia = {
     </div>
   </div>
 
-  {/* Optional slot for additional content below hero */}
   <slot />
 </section>
 
 <style>
-  /* Ensure text is readable on all backgrounds */
   h1,
   p {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);

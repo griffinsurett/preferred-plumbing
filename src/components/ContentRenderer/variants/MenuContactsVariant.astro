@@ -1,0 +1,57 @@
+---
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import ContactCard from "@/components/LoopComponents/ContactCard.astro";
+
+interface Props extends BaseVariantProps {
+  showLabel?: boolean;
+  iconSize?: "sm" | "md" | "lg";
+  iconClassName?: string;
+  textClassName?: string;
+  itemClassName?: string;
+  wrapperClassName?: string;
+}
+
+const {
+  items = [],
+  className = "",
+  id,
+  showLabel = true,
+  iconSize = "md",
+  iconClassName = "text-primary",
+  textClassName = "text-base hidden lg:block",
+  itemClassName = "flex items-center gap-1 text-primary hover:opacity-85 transition-opacity",
+  wrapperClassName,
+} = Astro.props as Props;
+
+const resolveContactHref = (item: Record<string, unknown>) =>
+  (item?.href as string | undefined) ??
+  (item?.url as string | undefined) ??
+  (item?.linkPrefix &&
+  (item?.description ?? item?.label ?? item?.title)
+    ? `${item.linkPrefix}${item.description ?? item.label ?? item.title}`
+    : undefined);
+---
+
+<div id={id} class={className}>
+  {
+    items.map((item) => (
+      <ContactCard
+        variant="inline"
+        title={item.title}
+        label={item.label ?? item.title}
+        description={item.description}
+        tags={item.tags}
+        icon={item.icon}
+        linkPrefix={item.linkPrefix}
+        displayValue={item.displayValue}
+        url={item.url}
+        href={resolveContactHref(item)}
+        iconSize={iconSize}
+        iconClassName={iconClassName}
+        textClassName={textClassName}
+        wrapperClassName={wrapperClassName ?? itemClassName}
+        showLabel={showLabel}
+      />
+    ))
+  }
+</div>

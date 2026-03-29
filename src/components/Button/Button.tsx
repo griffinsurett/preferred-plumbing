@@ -3,7 +3,7 @@
  * Button Component System
  * 
  * Polymorphic button component that renders as either <button> or <a> based on props.
- * Supports multiple variants (primary, secondary, ghost, link) with consistent API.
+ * Supports multiple variants (primary, secondary, ghost, link, tertiary) with consistent API.
  * Uses TypeScript discriminated unions for type safety between button and link modes.
  */
 

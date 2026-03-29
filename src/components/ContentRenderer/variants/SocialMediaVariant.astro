@@ -12,6 +12,10 @@ interface Props extends BaseVariantProps {
   size?: "sm" | "md" | "lg";
   layout?: "horizontal" | "vertical";
   alignment?: "left" | "center" | "right";
+  wrapperClassName?: string;
+  linkClassName?: string;
+  iconClassName?: string;
+  listClassName?: string;
 }
 
 const {
@@ -22,6 +26,10 @@ const {
   size = "md",
   layout = "horizontal",
   alignment = "center",
+  wrapperClassName = "",
+  linkClassName = "",
+  iconClassName = "",
+  listClassName = "",
   id,
 } = Astro.props as Props;
 
@@ -42,7 +50,7 @@ const layoutClasses = {
     (title || description) && (
       <div class={`mb-6`}>
         {title && (
-          <h3 class="text-2xl text-heading text-left font-bold">
+          <h3 class="h3 text-heading text-left">
             {title}
           </h3>
         )}
@@ -54,11 +62,17 @@ const layoutClasses = {
   {
     items.length > 0 && (
       <ul
-        class={`flex ${layoutClasses[layout]} ${alignmentClasses[alignment]} gap-1 list-none flex-wrap`}
+        class={`flex ${layoutClasses[layout]} ${alignmentClasses[alignment]} gap-1 list-none flex-wrap ${listClassName}`}
       >
         {items.map((item) => (
           <li>
-            <SocialIcon {...item} size={size} />
+            <SocialIcon
+              {...item}
+              size={size}
+              wrapperClassName={wrapperClassName}
+              linkClassName={linkClassName}
+              iconClassName={iconClassName}
+            />
           </li>
         ))}
       </ul>

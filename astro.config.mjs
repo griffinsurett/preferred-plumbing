@@ -1,21 +1,20 @@
 // astro.config.mjs
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
-import { loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
+import { SITE_URL } from './src/content/siteDomain.js';
 import { buildRedirectConfig } from './src/utils/redirects';
 import { manualChunks, assetFileNames } from './vite.chunks.js';
 import iconGeneratorIntegration from './src/integrations/icons/icon-generator.integration.mjs';
 import clientDirectivesIntegration from './src/integrations/client-directives/client-directives.integration.mjs';
 import conditionalPartytown from './src/integrations/partytown/partytown.integration.mjs';
 
-const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '');
 const redirects = await buildRedirectConfig();
-const siteUrl = `https://${env.PUBLIC_SITE_DOMAIN}`;
+const siteUrl = SITE_URL;
 
 console.log(`Site URL: ${siteUrl}`);
 

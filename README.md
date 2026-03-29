@@ -296,21 +296,21 @@ export default defineConfig({
 ```
 
 ### SEO
-Configure site-wide SEO in `src/content/siteData.ts`:
+Configure the site domain in `src/content/siteDomain.js` and site-wide SEO in `src/content/siteData.ts`:
 ```typescript
-const siteDomain = import.meta.env.PUBLIC_SITE_DOMAIN;
+export const SITE_DOMAIN = "yoursite.com";
+export const SITE_URL = `https://${SITE_DOMAIN}`;
 
 export const siteData = {
   title: "Greastro",
   description: "Finest Typesafe Static Sites with Astro.",
-  domain: siteDomain,
-  url: `https://${siteDomain}`,
+  domain: SITE_DOMAIN,
+  url: SITE_URL,
 };
 ```
 
 ### Environment Variables
 ```env
-PUBLIC_SITE_DOMAIN=yoursite.com
 PUBLIC_FORMSPREE_CONTACT_ID=your_contact_form_id
 PUBLIC_FORMSPREE_QUOTE_ID=your_quote_form_id
 PUBLIC_GTM_ID=GTM-XXXXXXX

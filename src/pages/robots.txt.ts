@@ -3,8 +3,6 @@ import { siteData } from "@/content/siteData";
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = () => {
-  // Get domain from environment variable with fallback
-
   // Build your robots directives
   const lines = [
     "User-agent: *",

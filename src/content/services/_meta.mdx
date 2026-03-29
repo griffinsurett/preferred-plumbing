@@ -1,14 +1,16 @@
 ---
 title: "Services"
 description: "Our professional services"
-hasPage: true
-itemsHasPage: true
+hasPage: false
+itemsHasPage: false
 itemsRootPath: true
-itemsAddToMenu:
-  - menu: "main-menu"
 addToMenu:
   - menu: "main-menu"
+    order: 1
+    url: "/#services-home"
   - menu: "footer-menu"
+    order: 1
+    url: "/#services-home"
 ---
 import ContentRenderer from '@/components/ContentRenderer/ContentRenderer.astro';
 import { query, sortByOrder } from '@/utils/query';

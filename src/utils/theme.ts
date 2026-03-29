@@ -1,18 +1,14 @@
-// src/constants/theme.ts
+// src/utils/theme.ts
 /**
  * Theme-related constants shared between Astro layouts and React hooks.
  */
 
 export const ACCENT_COLORS = [
-  "var(--main-accent)",
-  "var(--color-purple-700)",
-  "var(--color-teal-500)",
-  "var(--color-emerald-500)",
-  "var(--color-lime-500)",
-  "var(--color-red-500)",
-  "var(--color-pink-500)",
-  "var(--color-orange-500)",
-  "#722F37",
+  "#2BB34A",
+  "#16a34a",
+  "#15803d",
+  "#22c55e",
+  "#4ade80",
 ] as const;
 
 export type AccentColor = (typeof ACCENT_COLORS)[number];

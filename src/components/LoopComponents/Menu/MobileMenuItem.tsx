@@ -30,7 +30,7 @@ export default function MobileMenuItem({
 }: MobileMenuItemProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasChildren = children.length > 0;
-  const indent = level * 16; // 16px per level
+  const nestedSpacingClass = level > 0 ? "mt-2" : "";
 
   // Parent with children - always show expand/collapse button
   if (hasChildren) {
@@ -49,8 +49,7 @@ export default function MobileMenuItem({
     return (
       <li>
         <div
-          className="flex items-center justify-between hover:bg-text/5 rounded-md transition-colors"
-          style={{ paddingLeft: `${indent + 16}px` }}
+          className={`mx-auto flex max-w-sm items-center justify-center gap-2 rounded-md transition-colors ${nestedSpacingClass}`}
         >
           {hasUrl ? (
             <a
@@ -58,7 +57,7 @@ export default function MobileMenuItem({
               onClick={onNavigate}
               target={openInNewTab ? "_blank" : undefined}
               rel={openInNewTab ? "noopener noreferrer" : undefined}
-              className="flex-1 py-3 font-medium text-heading hover:text-primary transition-colors"
+              className="h2 py-3 text-center text-on-primary hover:text-accent transition-colors"
             >
               {title}
             </a>
@@ -66,14 +65,14 @@ export default function MobileMenuItem({
             <button
               type="button"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="flex-1 py-3 text-left font-medium text-heading hover:text-primary transition-colors"
+              className="h2 py-3 text-center text-on-primary hover:text-accent transition-colors"
             >
               {title}
             </button>
           )}
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="p-3 text-text hover:text-primary transition-colors"
+            className="p-3 text-on-primary hover:text-accent transition-colors"
             aria-expanded={isExpanded}
             aria-controls={`mobile-submenu-${slug}`}
             aria-label={isExpanded ? `Collapse ${title}` : `Expand ${title}`}
@@ -126,8 +125,7 @@ export default function MobileMenuItem({
         onClick={onNavigate}
         target={openInNewTab ? "_blank" : undefined}
         rel={openInNewTab ? "noopener noreferrer" : undefined}
-        className="block py-3 px-4 text-text hover:text-primary hover:bg-text/5 rounded-md transition-colors"
-        style={{ paddingLeft: `${indent + 16}px` }}
+        className={`h2 mx-auto block max-w-sm py-3 px-4 text-center text-on-primary hover:text-accent rounded-md transition-colors ${nestedSpacingClass}`}
       >
         {title}
       </a>

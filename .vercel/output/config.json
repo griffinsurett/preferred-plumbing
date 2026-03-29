@@ -2,6 +2,13 @@
 	"version": 3,
 	"routes": [
 		{
+			"src": "^/(.*)/$",
+			"headers": {
+				"Location": "/$1"
+			},
+			"status": 308
+		},
+		{
 			"src": "^/about$",
 			"headers": {
 				"Location": "/about-us"
@@ -16,37 +23,9 @@
 			"status": 301
 		},
 		{
-			"src": "^/contact$",
-			"headers": {
-				"Location": "/contact-us"
-			},
-			"status": 301
-		},
-		{
-			"src": "^/contactus$",
-			"headers": {
-				"Location": "/contact-us"
-			},
-			"status": 301
-		},
-		{
-			"src": "^/digital-marketing$",
-			"headers": {
-				"Location": "/services/digital-marketing"
-			},
-			"status": 301
-		},
-		{
 			"src": "^/ecommerce-platform$",
 			"headers": {
 				"Location": "/projects/ecommerce-platform"
-			},
-			"status": 301
-		},
-		{
-			"src": "^/first-post$",
-			"headers": {
-				"Location": "/blog/first-post"
 			},
 			"status": 301
 		},
@@ -68,13 +47,6 @@
 			"src": "^/legal/terms-of-service$",
 			"headers": {
 				"Location": "/terms-of-service"
-			},
-			"status": 301
-		},
-		{
-			"src": "^/services/web-development$",
-			"headers": {
-				"Location": "/web-development"
 			},
 			"status": 301
 		},

@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Host: https://example.com
+Disallow: /*?*
+Host: https://greastro.com

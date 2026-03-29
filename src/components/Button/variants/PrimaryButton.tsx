@@ -2,25 +2,20 @@
 /**
  * Primary Button Variant
  *
- * Solid blue button - the default and most prominent button style.
- * Used for primary actions like form submissions, main CTAs.
+ * Accent background with brand primary text (e.g. main CTAs).
  */
 
 import { ButtonBase, type ButtonProps } from "../Button";
 import { renderButtonIcon } from "../utils";
 
-/**
- * Primary button with blue background and white text
- */
 export default function PrimaryButton({
   leftIcon,
   rightIcon,
   className = "",
   ...props
 }: ButtonProps) {
-  // Primary button styling
   const variantClasses =
-    "text-bg hover:bg-primary-700 focus:ring-primary bg-gradient-to-r from-primary to-primary-700 hover:from-primary-700 hover:to-primary-800 transition-colors";
+    "bg-accent text-primary transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl focus:ring-accent focus:-translate-y-0.5 focus:shadow-lg active:translate-y-0 active:shadow-lg";
 
   return (
     <ButtonBase

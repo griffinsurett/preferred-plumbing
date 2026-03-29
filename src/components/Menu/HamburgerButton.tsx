@@ -42,27 +42,30 @@ function HamburgerButton({
       {/* Label styled as hamburger button */}
       <label
         htmlFor={id}
-        className="cursor-pointer p-2 text-text hover:text-primary transition-colors inline-flex items-center justify-center"
+        className="group cursor-pointer p-2 text-accent hover:text-accent transition-colors inline-flex items-center justify-center gap-2"
       >
-        <div className="w-6 h-5 relative flex items-center justify-center">
+        <span className="font-tt-lakes text-[1.05rem] leading-none tracking-[0.08em] uppercase">
+          Menu
+        </span>
+        <div className="w-7 h-6 relative flex items-center justify-center">
           {/* Top line */}
           <span
-            className={`absolute h-0.5 w-full bg-current rounded-full transition-all duration-300 ease-in-out origin-center ${
-              shouldTransform ? "rotate-45" : "-translate-y-2"
+            className={`absolute h-[3px] w-full bg-current transition-all duration-300 ease-in-out origin-center ${
+              shouldTransform ? "rotate-45" : "-translate-y-[9px]"
             }`}
           />
 
           {/* Middle line */}
           <span
-            className={`absolute h-0.5 w-full bg-current rounded-full transition-all duration-300 ease-in-out ${
+            className={`absolute h-[3px] bg-current transition-all duration-300 ease-in-out ${
               shouldTransform ? "opacity-0 scale-0" : "opacity-100 scale-100"
-            }`}
+            } ${shouldTransform ? "w-1/2" : "w-1/2 group-hover:w-full"}`}
           />
 
           {/* Bottom line */}
           <span
-            className={`absolute h-0.5 w-full bg-current rounded-full transition-all duration-300 ease-in-out origin-center ${
-              shouldTransform ? "-rotate-45" : "translate-y-2"
+            className={`absolute h-[3px] w-full bg-current transition-all duration-300 ease-in-out origin-center ${
+              shouldTransform ? "-rotate-45" : "translate-y-[9px]"
             }`}
           />
         </div>

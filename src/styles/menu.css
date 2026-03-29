@@ -1,18 +1,156 @@
 /* src/styles/menu.css */
 
-/* Menu hover behavior - works for infinite nesting */
-.menu-item:hover > .menu-dropdown {
+/* Header masthead (bg-primary): top-level nav uses on-primary; hover uses accent text + underline */
+.menu-item:hover > .menu-dropdown,
+.menu-item:focus-within > .menu-dropdown,
+.menu-item.is-open > .menu-dropdown,
+.menu-dropdown:hover,
+.menu-dropdown:focus-within {
   display: block;
 }
 
+@media (min-width: 768px) {
+  .header-navigation {
+    align-self: stretch;
+    display: flex;
+    align-items: stretch;
+  }
+
+  .header-navigation .menu-desktop {
+    height: 100%;
+  }
+
+  .header-navigation .menu-desktop > ul {
+    height: 100%;
+    align-items: stretch;
+  }
+
+  .site-header .menu-desktop > ul > li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  .header-navigation .menu-item > a,
+  .header-navigation .menu-item > button {
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .header-navigation .menu-desktop > ul > li.menu-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -30px;
+    height: 30px;
+  }
+}
+
+.site-header .menu-desktop > ul > li::after {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 0;
+  height: 3px;
+  background-color: var(--color-accent);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 240ms ease, opacity 240ms ease;
+}
+
+.site-header .menu-desktop > ul > li > a,
+.site-header .menu-desktop > ul > li > button {
+  color: var(--color-on-primary);
+  background-color: transparent;
+  font-family: var(--font-montserrat-heading);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  transition: color 220ms ease;
+}
+
+.site-header .menu-desktop > ul > li > a:hover,
+.site-header .menu-desktop > ul > li > a:focus-visible,
+.site-header .menu-desktop > ul > li > button:hover,
+.site-header .menu-desktop > ul > li > button:focus-visible {
+  color: var(--color-accent);
+  background-color: transparent;
+}
+
+.site-header .menu-desktop > ul > li:hover::after,
+.site-header .menu-desktop > ul > li:focus-within::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.site-header .menu-desktop > ul > li > a.text-primary,
+.site-header .menu-desktop > ul > li > button.text-primary {
+  color: var(--color-on-primary);
+  background-color: transparent;
+}
+
+@media (min-width: 1024px) {
+  .site-header .menu-desktop > ul > li > a,
+  .site-header .menu-desktop > ul > li > button {
+    font-size: 1.0625rem;
+    line-height: 1.4;
+  }
+}
+
+@media (min-width: 1280px) {
+  .site-header .menu-desktop > ul > li > a,
+  .site-header .menu-desktop > ul > li > button {
+    font-size: 1.125rem;
+  }
+}
+
+.site-header .menu-mobile label.cursor-pointer {
+  color: var(--color-accent);
+}
+.site-header .menu-mobile label.cursor-pointer:hover {
+  color: var(--color-accent);
+}
+
 /* Arrow rotation on hover */
-.menu-item:hover > a .menu-arrow {
+.menu-item:hover > a .menu-arrow,
+.menu-item:hover > button .menu-arrow,
+.menu-item.is-open > a .menu-arrow,
+.menu-item.is-open > button .menu-arrow,
+.menu-item:focus-within > a .menu-arrow,
+.menu-item:focus-within > button .menu-arrow {
   transform: rotate(180deg);
 }
 
 /* Dropdown animation */
 .menu-dropdown {
   animation: menu-slide-down 0.2s ease-out;
+}
+
+.menu-dropdown--top {
+  position: fixed;
+  top: var(--header-bottom, 0px);
+  left: var(--menu-dropdown-left, 0px);
+  z-index: 70;
+}
+
+.menu-dropdown--top::before {
+  content: "";
+  position: absolute;
+  top: -30px;
+  left: -20px;
+  right: -20px;
+  height: 30px;
+}
+
+.menu-dropdown--nested {
+  position: absolute;
+  top: 0;
+  left: 100%;
 }
 
 @keyframes menu-slide-down {

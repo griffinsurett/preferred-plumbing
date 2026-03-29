@@ -1,32 +1,150 @@
 ---
 // src/layouts/Header.astro
 /**
- * Site Header with Navigation
+ * Site Header with Navigation + accent top bar (contact strip)
  */
+import { Image } from "astro:assets";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
-import { related } from "@/utils/query";
-import { siteData } from "@/content/siteData";
+import Icon from "@/components/Icon";
+import PrimaryBigButton from "@/components/Button/PrimaryBigButton";
+import { find, related } from "@/utils/query";
+import { siteData, siteLogo, ctaData } from "@/content/siteData";
+
+const phoneEntry = await find("contact-us", "phone");
+const phoneValue = String(phoneEntry?.data?.description ?? "").trim();
+const phoneHref = phoneValue ? `${phoneEntry?.data?.linkPrefix || "tel:"}${phoneValue}` : undefined;
+const phoneLabel = phoneEntry?.data?.title || "Call Us";
 ---
 
-<header class="sticky top-0 z-[40] bg-bg shadow-sm">
-  <div class="">
-    <div class="flex items-center justify-between h-16 w-full">
-      <!-- Logo -->
+<header class="sticky top-0 z-[40]">
+  <div
+    class="relative w-full flex justify-center items-center text-[0.78rem] sm:text-sm lg:text-base xl:text-lg bg-accent text-primary py-1.5 px-4 pr-12 sm:px-5"
+  >
+    <p
+      class="m-0 text-center font-bold uppercase tracking-wide text-balance text-primary"
+    >
+      {siteData.topBarMessage}
+    </p>
+
+    {
+      phoneHref && (
+        <a
+          href={phoneHref}
+          class="absolute right-4 sm:right-5 flex lg:hidden items-center justify-center text-primary transition-[transform,opacity] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-80 active:translate-y-0"
+          aria-label={phoneLabel}
+          title={phoneLabel}
+        >
+          <Icon icon="fa6:phone" size="md" className="text-current" />
+        </a>
+      )
+    }
+  </div>
+
+  <div
+    class="site-header bg-primary text-on-primary shadow-md shadow-black/20"
+  >
+    <div
+      class="w-full flex items-center justify-between gap-3 sm:gap-4 md:gap-6 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12"
+    >
       <a
         href="/"
-        class="text-2xl font-bold text-heading hover:text-primary transition-colors"
+        class="shrink-0 flex items-center hover:opacity-90 transition-opacity leading-none min-w-0"
+        aria-label={siteData.title}
       >
-        {siteData.title}
+        <Image
+          src={siteLogo}
+          alt={siteData.logoAlt}
+          class="block h-14 w-auto sm:h-16 md:h-[3.25rem] lg:h-18 xl:h-22 max-w-[min(100%,220px)] sm:max-w-[260px] md:max-w-[280px] lg:max-w-[300px] object-contain object-left"
+          loading="eager"
+          fetchpriority="high"
+        />
       </a>
 
-      <!-- Navigation Menu using query -->
-      <ContentRenderer
-        query={related("menu-items", "menu", "main-menu")}
-        variant="MenuVariant"
-        mode="responsive"
-        className="header-navigation"
-        hamburgerTransform={true}
-      />
+        <ContentRenderer
+          query={related("menu-items", "menu", "main-menu")}
+          variant="MenuVariant"
+          mode="responsive"
+          className="header-navigation"
+          hamburgerTransform={false}
+          closeButton={true}
+        />
+        <PrimaryBigButton
+          href={ctaData.link}
+          className="hidden lg:inline-flex"
+        >
+          {ctaData.text}
+        </PrimaryBigButton>
     </div>
   </div>
 </header>
+
+<script is:inline>
+  const header = document.querySelector("header");
+  if (header) {
+    const setHeaderBottom = () => {
+      const rect = header.getBoundingClientRect();
+      document.documentElement.style.setProperty("--header-bottom", `${rect.bottom}px`);
+    };
+
+    setHeaderBottom();
+    const observer = new ResizeObserver(setHeaderBottom);
+    observer.observe(header);
+
+    window.addEventListener("resize", setHeaderBottom);
+    window.addEventListener("scroll", setHeaderBottom, { passive: true });
+  }
+
+  const menuRoot = document.querySelector(".header-navigation .menu-desktop > ul");
+  const topLevelItems = menuRoot?.querySelectorAll(":scope > li.menu-item") ?? [];
+
+  const updateDropdownLeft = (el) => {
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    document.documentElement.style.setProperty("--menu-dropdown-left", `${rect.left}px`);
+  };
+
+  const closeAllTopLevelDropdowns = (exceptEl) => {
+    topLevelItems.forEach((node) => {
+      if (node !== exceptEl) node.classList.remove("is-open");
+    });
+  };
+
+  topLevelItems.forEach((item) => {
+    const trigger = item.querySelector(":scope > a[aria-haspopup='menu'], :scope > button[aria-haspopup='menu']");
+    const dropdown = item.querySelector(":scope > .menu-dropdown");
+    if (!trigger || !dropdown) return;
+
+    const openDropdown = () => {
+      closeAllTopLevelDropdowns(item);
+      updateDropdownLeft(item);
+      item.classList.add("is-open");
+    };
+
+    const closeDropdown = () => {
+      item.classList.remove("is-open");
+    };
+
+    item.addEventListener("mouseenter", openDropdown);
+    item.addEventListener("focusin", openDropdown);
+    item.addEventListener("mouseleave", closeDropdown);
+    item.addEventListener("focusout", (event) => {
+      const nextTarget = event.relatedTarget;
+      if (!nextTarget || !item.contains(nextTarget)) {
+        closeDropdown();
+      }
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!menuRoot) return;
+    if (!menuRoot.contains(event.target)) {
+      closeAllTopLevelDropdowns();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeAllTopLevelDropdowns();
+    }
+  });
+</script>

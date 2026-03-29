@@ -290,7 +290,7 @@ async function processItemMenus(
 
       const meta = getCollectionMetaFromModules(collection, modules);
       const useRootPath = shouldItemUseRootPathData(data, meta);
-      const itemUrl = useRootPath ? `/${slug}` : `/${collection}/${slug}`;
+      const itemUrl = menuConfig.url ?? (useRootPath ? `/${slug}` : `/${collection}/${slug}`);
 
       store.set({
         id: itemId,
@@ -343,7 +343,7 @@ async function processCollectionMenus(
         const collectionId = getUniqueId(semanticId);
 
         const hasPage = meta.hasPage ?? false;
-        const itemUrl = hasPage ? `/${collection}` : undefined;
+        const itemUrl = menuConfig.url ?? (hasPage ? `/${collection}` : undefined);
 
         store.set({
           id: collectionId,

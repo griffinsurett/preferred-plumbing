@@ -1,4 +1,42 @@
 /* src/styles/global.css */
+
+/*
+ * TT Lakes Neue (Trial Condensed — “Trl Cnd”): trial fonts are not licensed for
+ * production. Purchase a commercial license before launch:
+ * https://www.dafont.com/tt-lakes-neue.font
+ *
+ * Add your files under public/fonts/ — filenames must match src URLs below
+ * (or update the URLs to match your files).
+ */
+@font-face {
+  font-family: "TT Lakes Neue Trl Cnd";
+  src: url("/fonts/tt-lakes-neue-trl-cnd-medium.ttf") format("truetype");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TT Lakes Neue Trl Cnd";
+  src: url("/fonts/tt-lakes-neue-trl-cnd-bold.ttf") format("truetype");
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*
+ * Montserrat — self-hosted (no Google Fonts CDN). Copy files from your download
+ * into public/fonts/. Prefer the variable file from the family .zip root; if you
+ * only use the static/ folder, swap src paths to e.g. Montserrat-SemiBold.ttf.
+ */
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @import "tailwindcss";
 
 /* Tell Tailwind to scan integration components for class usage */
@@ -12,10 +50,14 @@
 @import "@/styles/menu.css";
 
 @theme {
-  /* ───── PRIMARY – change ONLY this one line for the brand ───── */
-  --color-primary: var(--color-blue-500);   /* your main brand color */
-  /* ───── ACCENT – secondary / interactive ───── */
-  --color-accent: var(--color-purple-700);  /* complementary accent color */
+  /* ───── BRAND ───── */
+  --color-primary: #233746;
+  --color-accent: #2bb34a;
+  /* Hooks / legacy aliases */
+  --main-accent: var(--color-accent);
+  --color-MainDark: var(--color-primary);
+  /* Copy, links, and UI on top of primary (e.g. header bar) */
+  --color-on-primary: #e1f1df;
 
   /* ───── Neutrals ───── */
   --color-text:         oklch(18% 0.03 260);   /* almost black */
@@ -47,6 +89,14 @@
   --color-accent-800:  oklch(from var(--color-accent) calc(l - 0.25) c h);
   --color-accent-900:  oklch(from var(--color-accent) calc(l - 0.35) c h);
   --color-accent-950:  oklch(from var(--color-accent) calc(l - 0.45) c h);
+
+  /* Display / CTAs: TT Lakes Neue Trial Condensed (see @font-face + license note above) */
+  --font-tt-lakes: "TT Lakes Neue Trl Cnd", ui-sans-serif, system-ui, sans-serif;
+  /* Subheadings (h3–h6): Montserrat (@font-face above, files in public/fonts/) */
+  --font-montserrat-heading: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  /* Match logo “PLUMBING” wordmark: extrabold + wide tracked caps (~0.2–0.3em) */
+  --heading-montserrat-weight: 900;
+  --heading-montserrat-tracking: 0.3em;
 }
 
 body {
@@ -58,10 +108,52 @@ body {
     @apply cursor-pointer;
   }
 
+  .h1 {
+    @apply text-5xl sm:text-6xl lg:text-7xl xl:text-[5.25rem] font-bold leading-[0.92];
+    font-family: var(--font-tt-lakes);
+  }
+
+  .h2 {
+    @apply text-4xl sm:text-5xl lg:text-6xl font-bold leading-[0.95];
+    font-family: var(--font-tt-lakes);
+  }
+
+  .h3 {
+    @apply text-2xl md:text-3xl leading-[1.05];
+    font-family: var(--font-montserrat-heading);
+    font-weight: var(--heading-montserrat-weight);
+    text-transform: uppercase;
+    letter-spacing: var(--heading-montserrat-tracking);
+  }
+
+  .h4 {
+    @apply text-xl md:text-2xl leading-[1.05];
+    font-family: var(--font-montserrat-heading);
+    font-weight: var(--heading-montserrat-weight);
+    text-transform: uppercase;
+    letter-spacing: var(--heading-montserrat-tracking);
+  }
+
+  .h5 {
+    @apply text-lg md:text-xl leading-[1.05];
+    font-family: var(--font-montserrat-heading);
+    font-weight: var(--heading-montserrat-weight);
+    text-transform: uppercase;
+    letter-spacing: var(--heading-montserrat-tracking);
+  }
+
+  .h6 {
+    @apply text-base md:text-lg leading-[1.05];
+    font-family: var(--font-montserrat-heading);
+    font-weight: var(--heading-montserrat-weight);
+    text-transform: uppercase;
+    letter-spacing: var(--heading-montserrat-tracking);
+  }
+
   /* Base button styles */
   .btn-base {
-    @apply inline-flex items-center justify-center gap-2;
-    @apply font-semibold rounded-lg transition-all duration-200;
+    @apply inline-flex items-center justify-center gap-2 uppercase;
+    @apply font-tt-lakes font-semibold rounded-md transition-all duration-200;
     @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
     @apply disabled:opacity-50 disabled:cursor-not-allowed;
   }
@@ -72,15 +164,15 @@ body {
   }
 
   .btn-sm {
-    @apply px-3 py-1.5 text-sm;
+    @apply px-3 py-1.5 text-sm lg:text-base;
   }
 
   .btn-md {
-    @apply px-4 py-2 text-base;
+    @apply px-4 py-2 text-base lg:text-lg;
   }
 
   .btn-lg {
-    @apply px-6 py-3 text-lg;
+    @apply px-6 py-3 text-lg lg:text-xl;
   }
 
   /* Link base styles */

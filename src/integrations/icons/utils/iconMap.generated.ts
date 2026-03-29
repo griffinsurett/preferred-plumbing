@@ -2,10 +2,10 @@
 // Do not edit manually. Run "npm run generate:icons" (or node src/integrations/icons/utils/generate-icon-map.mjs) to regenerate.
 
 import type { IconType } from 'react-icons';
-import { LuArrowRight, LuBookOpen, LuChevronRight, LuContact, LuGithub, LuGlobe, LuImage, LuLinkedin, LuMail, LuPhone, LuSettings, LuTwitter } from 'react-icons/lu';
+import { LuArrowRight, LuBookOpen, LuChevronRight, LuContact, LuGlobe, LuImage, LuMail, LuPhone, LuSettings } from 'react-icons/lu';
+import { FaArrowsUpDownLeftRight, FaBullseye, FaClockRotateLeft, FaCompass, FaEye, FaFeather, FaFileLines, FaHeadset, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaPhone, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaUniversalAccess, FaWandMagicSparkles, FaXmark } from 'react-icons/fa6';
 import { FaBullhorn, FaCode } from 'react-icons/fa';
-import { SiFacebook } from 'react-icons/si';
-import { FaArrowsUpDownLeftRight, FaBullseye, FaClockRotateLeft, FaCompass, FaEye, FaFeather, FaFileLines, FaHeadset, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaUniversalAccess, FaWandMagicSparkles, FaXmark } from 'react-icons/fa6';
+import { SiFacebook, SiInstagram, SiLinkedin } from 'react-icons/si';
 
 export const iconMap = {
   'fa6:arrows-up-down-left-right': FaArrowsUpDownLeftRight,
@@ -20,6 +20,7 @@ export const iconMap = {
   'fa6:life-ring': FaLifeRing,
   'fa6:link': FaLink,
   'fa6:palette': FaPalette,
+  'fa6:phone': FaPhone,
   'fa6:robot': FaRobot,
   'fa6:rotate-left': FaRotateLeft,
   'fa6:scale-balanced': FaScaleBalanced,
@@ -33,15 +34,14 @@ export const iconMap = {
   'lu:book-open': LuBookOpen,
   'lu:chevron-right': LuChevronRight,
   'lu:contact': LuContact,
-  'lu:github': LuGithub,
   'lu:globe': LuGlobe,
   'lu:image': LuImage,
-  'lu:linkedin': LuLinkedin,
   'lu:mail': LuMail,
   'lu:phone': LuPhone,
   'lu:settings': LuSettings,
-  'lu:twitter': LuTwitter,
   'si:facebook': SiFacebook,
+  'si:instagram': SiInstagram,
+  'si:linkedin': SiLinkedin,
 } satisfies Record<string, IconType>;
 
 export type IconKey = keyof typeof iconMap;

@@ -16,43 +16,65 @@
 import Icon from '@/components/Icon';
 
 export interface Props {
-  title: string;              // Platform name (for aria-label)
-  link?: string;             // URL to social profile
-  icon?: any;                // Icon identifier
-  size?: 'sm' | 'md' | 'lg'; // Icon size
+  title: string; // Platform name (for aria-label)
+  link?: string; // URL to social profile
+  icon?: any;
+  size?: "sm" | "md" | "lg";
+  /** When set with linkClassName, replaces default surface chip styles (e.g. header top bar) */
+  wrapperClassName?: string;
+  linkClassName?: string;
+  iconClassName?: string;
 }
 
-const { title, link, icon, size = 'md' } = Astro.props;
+const {
+  title,
+  link,
+  icon,
+  size = "md",
+  wrapperClassName = "",
+  linkClassName = "",
+  iconClassName = "",
+} = Astro.props;
 
-// Default to globe icon if none specified
-const displayIcon = icon || 'lu:globe';
+const displayIcon = icon || "lu:globe";
 
-// Padding scales with size
 const wrapperPadding = {
-  sm: 'p-2',
-  md: 'p-2.5',
-  lg: 'p-3',
+  sm: "p-2",
+  md: "p-2.5",
+  lg: "p-3",
 };
+
+const linkBase = `${wrapperPadding[size]} rounded-full inline-flex items-center justify-center transition-all duration-200 hover:scale-110`;
+const hasCustomChip = Boolean(linkClassName || wrapperClassName);
+const linkOuterClasses = hasCustomChip
+  ? `${linkBase} ${linkClassName} ${wrapperClassName}`.trim()
+  : `${linkBase} bg-surface hover:bg-primary/10`;
+const iconClasses = iconClassName || "text-text";
 ---
 
 {/* Render as link if URL provided */}
-{link ? (
-  <a 
-    href={link}
-    target="_blank"
-    rel="noopener noreferrer"
-    class={`${wrapperPadding[size]} bg-surface hover:bg-primary/10 rounded-full inline-flex items-center justify-center transition-all duration-200 hover:scale-110`}
-    aria-label={`Visit our ${title} page`}
-    title={title}
-  >
-    <Icon icon={displayIcon} size={size} className="text-text" />
-  </a>
-) : (
-  /* Otherwise just display icon */
-  <div 
-    class={`${wrapperPadding[size]} bg-surface rounded-full inline-flex items-center justify-center`}
-    title={title}
-  >
-    <Icon icon={displayIcon} size={size} className="text-text" />
-  </div>
-)}
+{
+  link ? (
+    <a
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      class={linkOuterClasses}
+      aria-label={`Visit our ${title} page`}
+      title={title}
+    >
+      <Icon icon={displayIcon} size={size} className={iconClasses} />
+    </a>
+  ) : (
+    <div
+      class={
+        hasCustomChip
+          ? `${linkBase} ${wrapperClassName}`.trim()
+          : `${linkBase} bg-surface`
+      }
+      title={title}
+    >
+      <Icon icon={displayIcon} size={size} className={iconClasses} />
+    </div>
+  )
+}
