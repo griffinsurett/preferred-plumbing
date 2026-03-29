@@ -89,8 +89,8 @@ const resolvedSecondaryCTA =
 
     <div class="relative h-[100vh] overflow-hidden">
       <div
-        class="absolute inset-0 bg-center bg-no-repeat"
-        style={`background-image: url('${biggerAndBetterHero.src}'); background-size: 100% 100%;`}
+        class="hero-bg absolute inset-0 bg-no-repeat"
+        style={`background-image: url('${biggerAndBetterHero.src}');`}
         aria-hidden="true"
       ></div>
 
@@ -102,7 +102,7 @@ const resolvedSecondaryCTA =
 
             {
               description && (
-                <p class="mt-6 mb-10 max-w-2xl text-xl leading-relaxed text-text opacity-95 md:text-2xl">
+                <p class="mt-4 mb-5 max-w-2xl text-xl leading-relaxed text-text opacity-95 md:text-2xl">
                   {description}
                 </p>
               )
@@ -185,6 +185,18 @@ const resolvedSecondaryCTA =
 </section>
 
 <style>
+  .hero-bg {
+    background-position: center;
+    background-size: 100% 100%;
+  }
+
+  @media (max-width: 1023px) {
+    .hero-bg {
+      background-position: 24% 38%;
+      background-size: auto 116%;
+    }
+  }
+
   h1,
   h2,
   p {
