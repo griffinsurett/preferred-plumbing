@@ -26,9 +26,19 @@ export interface Props {
     };
     overlayClass?: string;
   };
+  class?: string;
+  contentClass?: string;
+  tagName?: keyof astroHTML.JSX.IntrinsicElements;
 }
 
-const { backgroundMedia } = Astro.props;
+const {
+  backgroundMedia,
+  class: wrapperClass = "",
+  contentClass = "",
+  tagName = "div",
+  ...rest
+} = Astro.props;
+const hasDefaultSlot = Astro.slots.has("default");
 
 // Automatic optimization based on position
 const aboveTheFold = backgroundMedia?.image?.aboveTheFold ?? false;
@@ -94,50 +104,58 @@ if (backgroundMedia?.image?.src) {
 }
 ---
 
-{backgroundMedia?.video?.src ? (
-  <video
-    class={`absolute inset-0 z-0 w-full h-full object-cover ${backgroundMedia.video.videoClass || ""}`}
-    autoplay={backgroundMedia.video.autoPlay !== false}
-    muted={backgroundMedia.video.muted !== false}
-    loop={backgroundMedia.video.loop !== false}
-    playsinline={backgroundMedia.video.playsInline !== false}
-    controls={backgroundMedia.video.controls || false}
-    preload={backgroundMedia.video.preload || "metadata"}
-    poster={responsiveImages?.mobile?.src || ""}
-    aria-hidden="true"
-  >
-    <source src={backgroundMedia.video.src} type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-) : responsiveImages ? (
-  <picture class="absolute inset-0 z-0">
-    <source
-      media="(max-width: 640px)"
-      srcset={responsiveImages.mobile.src}
-      type="image/webp"
-    />
-    <source
-      media="(min-width: 641px) and (max-width: 1024px)"
-      srcset={responsiveImages.tablet.src}
-      type="image/webp"
-    />
-    <source
-      media="(min-width: 1025px)"
-      srcset={responsiveImages.desktop.src}
-      type="image/webp"
-    />
-    <img
-      src={responsiveImages.desktop.src}
-      alt=""
-      class={`w-full h-full object-cover ${backgroundMedia?.image?.imageClass || ""}`}
-      loading={loading}
-      fetchpriority={priority ? "high" : "auto"}
-      decoding={priority ? "sync" : "async"}
+<component is={tagName} class={`relative overflow-hidden ${wrapperClass}`} {...rest}>
+  {backgroundMedia?.video?.src ? (
+    <video
+      class={`absolute inset-0 z-0 w-full h-full object-cover ${backgroundMedia.video.videoClass || ""}`}
+      autoplay={backgroundMedia.video.autoPlay !== false}
+      muted={backgroundMedia.video.muted !== false}
+      loop={backgroundMedia.video.loop !== false}
+      playsinline={backgroundMedia.video.playsInline !== false}
+      controls={backgroundMedia.video.controls || false}
+      preload={backgroundMedia.video.preload || "metadata"}
+      poster={responsiveImages?.mobile?.src || ""}
       aria-hidden="true"
-    />
-  </picture>
-) : null}
+    >
+      <source src={backgroundMedia.video.src} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  ) : responsiveImages ? (
+    <picture class="absolute inset-0 z-0">
+      <source
+        media="(max-width: 640px)"
+        srcset={responsiveImages.mobile.src}
+        type="image/webp"
+      />
+      <source
+        media="(min-width: 641px) and (max-width: 1024px)"
+        srcset={responsiveImages.tablet.src}
+        type="image/webp"
+      />
+      <source
+        media="(min-width: 1025px)"
+        srcset={responsiveImages.desktop.src}
+        type="image/webp"
+      />
+      <img
+        src={responsiveImages.desktop.src}
+        alt=""
+        class={`w-full h-full object-cover ${backgroundMedia?.image?.imageClass || ""}`}
+        loading={loading}
+        fetchpriority={priority ? "high" : "auto"}
+        decoding={priority ? "sync" : "async"}
+        aria-hidden="true"
+      />
+    </picture>
+  ) : null}
 
-{backgroundMedia?.overlayClass && (
-  <div class={`absolute inset-0 z-0 ${backgroundMedia.overlayClass}`} aria-hidden="true"></div>
-)}
+  {backgroundMedia?.overlayClass && (
+    <div class={`absolute inset-0 z-0 ${backgroundMedia.overlayClass}`} aria-hidden="true"></div>
+  )}
+
+  {hasDefaultSlot && (
+    <div class={`relative z-10 ${contentClass}`}>
+      <slot />
+    </div>
+  )}
+</component>

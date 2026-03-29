@@ -60,9 +60,9 @@
   --color-on-primary: #e1f1df;
 
   /* ───── Neutrals ───── */
-  --color-text:         oklch(18% 0.03 260);   /* almost black */
-  --color-heading:      oklch(14% 0.03 260);   /* slightly darker */
-  --color-bg:           oklch(99.5% 0.004 260); /* off-white */
+  --color-text:         #E1F1DF;   /* almost white */
+  --color-heading:      #FFFFFF;   /* white */
+  --color-bg:           var(--color-primary); /* off-white */
   --color-surface:      oklch(97.5% 0.006 260); /* cards, nav, modals */
 
   /* color helpers */
@@ -109,7 +109,7 @@ body {
   }
 
   .h1 {
-    @apply text-5xl sm:text-6xl lg:text-7xl xl:text-[5.25rem] font-bold leading-[0.92];
+    @apply text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.92];
     font-family: var(--font-tt-lakes);
   }
 

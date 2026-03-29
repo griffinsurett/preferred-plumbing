@@ -10,7 +10,7 @@ export const siteData = {
   tagline: "Your Pipes Are Our Business.",
   legalName: "Preferred Plumbing",
   description:
-    "Professional plumbing services you can count on—installations, repairs, and maintenance.",
+    "Professional plumbing services you can count on. From emergency repairs to new installations, we deliver quality workmanship with honest pricing.",
   domain: SITE_DOMAIN,
   url: SITE_URL,
   location: "New Jersey, USA",
