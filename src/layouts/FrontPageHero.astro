@@ -9,6 +9,7 @@
 import Button from "@/components/Button/Button";
 import { siteData, ctaData } from "@/content/siteData";
 import biggerAndBetterHero from "@/assets/bigger-and-better hero.png";
+import plumberImage from "@/assets/plumber.webp";
 import { find } from "@/utils/query";
 import { formatPhoneNumber } from "@/utils/string";
 import preferredWordmark from "@/assets/just-preferred/just-pref-blue-white.png";
@@ -70,6 +71,22 @@ const resolvedSecondaryCTA =
 
 <section id={id} class={`relative bg-accent ${className}`}>
   <div class="relative min-h-[160vh]">
+    <div class="pointer-events-none absolute top-0 right-0 bottom-0 z-20 hidden w-[min(34vw,31rem)] translate-x-[4%] lg:block xl:w-[min(36vw,34rem)]">
+      <div
+        class="sticky"
+        style="top: max(5rem, calc(100vh - 43rem));"
+        aria-hidden="true"
+      >
+        <img
+          src={plumberImage.src}
+          alt=""
+          class="block h-auto w-full"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+    </div>
+
     <div class="relative h-[100vh] overflow-hidden">
       <div
         class="absolute inset-0 bg-center bg-no-repeat"
@@ -77,7 +94,7 @@ const resolvedSecondaryCTA =
         aria-hidden="true"
       ></div>
 
-      <div class="relative z-10 flex h-screen w-full items-center justify-start px-8 md:px-12 lg:px-16 xl:px-20">
+      <div class="relative z-10 flex h-screen w-full items-center justify-start px-8 md:px-12 lg:px-16 lg:pr-[24rem] xl:px-20 xl:pr-[32rem]">
         <div class="max-w-3xl text-left text-heading">
             <h1 class="h1">
               {title}
@@ -119,7 +136,7 @@ const resolvedSecondaryCTA =
 
     <div
       id="about"
-      class="under-hero relative min-h-[60vh] px-8 pt-12 pb-10 md:px-12 md:pt-16 lg:px-16 lg:pt-20 xl:px-20"
+      class="under-hero relative min-h-[60vh] px-8 pt-12 pb-10 md:px-12 md:pt-16 lg:px-16 lg:pr-[24rem] lg:pt-20 xl:px-20 xl:pr-[32rem]"
     >
       <div class="w-full text-left">
         <h2
