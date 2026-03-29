@@ -76,25 +76,26 @@ const backgroundMedia = {
 
 <section id={id} class={`relative ${className}`}>
   <div
-    class="relative flex items-center justify-center overflow-hidden"
+    class="relative flex items-center justify-start overflow-hidden"
     style={`min-height: ${minHeight}`}
   >
     <BackgroundMedia backgroundMedia={backgroundMedia} />
 
-    <div class="relative z-10 mx-auto max-w-4xl px-8 text-center text-bg">
+    <div class="relative z-10 w-full px-8 md:px-12 lg:px-16 xl:px-20 text-left text-bg">
+      <div class="max-w-4xl">
       <h1 class="h1 text-white">
         {title}
       </h1>
 
       {
         description && (
-          <p class="mx-auto mt-6 mb-10 max-w-3xl text-xl leading-relaxed opacity-95 md:text-2xl">
+          <p class="mt-6 mb-10 max-w-3xl text-xl leading-relaxed opacity-95 md:text-2xl">
             {description}
           </p>
         )
       }
 
-      <div class="flex flex-wrap justify-center gap-4">
+      <div class="flex flex-wrap justify-start gap-4">
         {
           primaryCTA && (
             <Button
@@ -115,6 +116,7 @@ const backgroundMedia = {
             </Button>
           )
         }
+      </div>
       </div>
     </div>
   </div>
