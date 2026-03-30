@@ -28,5 +28,5 @@ export const siteData = {
  */
 export const ctaData = {
   text: "Get An Estimate",
-  link: "/contact-us",
+  link: "/#contact-us-home",
 } as const;

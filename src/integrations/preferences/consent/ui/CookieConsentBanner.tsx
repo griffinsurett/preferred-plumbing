@@ -107,7 +107,7 @@ export default function CookieConsentBanner() {
                 <span className="text-2xl" role="img" aria-label="Cookie">
                   🍪
                 </span>
-                <p className="text-sm text-bg leading-relaxed">
+                <p className="text-sm text-text leading-relaxed">
                   We use cookies to improve your browsing experience and for
                   marketing purposes.{" "}
                   <Button

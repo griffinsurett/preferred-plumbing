@@ -7,6 +7,8 @@
  */
 
 import Button from "@/components/Button/Button";
+import StarRating from "@/components/StarRating";
+import PlumberImage from "@/components/PlumberImage";
 import { siteData, ctaData } from "@/content/siteData";
 import backgroundImage from "@/assets/background-img.jpg";
 import newHeroFrame from "@/assets/new-hero-frame.png";
@@ -78,13 +80,7 @@ const resolvedSecondaryCTA =
         style="top: 0;"
         aria-hidden="true"
       >
-        <img
-          src={plumberImage.src}
-          alt=""
-          class="block h-auto w-full translate-y-[3.5rem]"
-          loading="eager"
-          decoding="async"
-        />
+        <PlumberImage src={plumberImage.src} priority={true} className="w-full" client:visible />
       </div>
     </div>
 
@@ -101,9 +97,10 @@ const resolvedSecondaryCTA =
               {title}
             </h1>
 
-            <p class="mt-4 max-w-2xl text-sm font-black uppercase tracking-[0.16em] text-white/90 sm:text-base md:text-lg">
+            <!-- <p class="mt-4 max-w-2xl text-sm font-black uppercase tracking-[0.16em] text-white/90 sm:text-base md:text-lg">
               {siteData.serviceAreaMessage}
-            </p>
+            </p> -->
+
 
             {
               description && (
@@ -134,6 +131,10 @@ const resolvedSecondaryCTA =
                   </Button>
                 )
               }
+            </div>
+
+            <div class="mt-6">
+              <StarRating client:load />
             </div>
         </div>
       </div>
@@ -186,13 +187,7 @@ const resolvedSecondaryCTA =
         }
 
         <div class="mt-10 flex justify-center lg:hidden" aria-hidden="true">
-          <img
-            src={plumberImage.src}
-            alt=""
-            class="block h-auto w-full max-w-[20rem]"
-            loading="lazy"
-            decoding="async"
-          />
+          <PlumberImage src={plumberImage.src} className="max-w-[20rem] w-full" client:visible />
         </div>
       </div>
     </div>

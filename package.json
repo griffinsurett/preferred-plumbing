@@ -23,6 +23,7 @@
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "astro": "^5.17.1",
+    "framer-motion": "^12.38.0",
     "lottie-web": "^5.13.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
