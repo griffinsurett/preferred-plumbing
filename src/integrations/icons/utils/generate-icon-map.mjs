@@ -152,6 +152,15 @@ async function main() {
   const importsByPackage = buildImports(iconIds);
   const fileContent = renderFile(importsByPackage, iconIds);
   await fs.mkdir(path.dirname(outputFile), { recursive: true });
+
+  // Skip write if content is unchanged to avoid triggering Vercel rebuild loops
+  let existingContent = null;
+  try { existingContent = await fs.readFile(outputFile, 'utf8'); } catch {}
+  if (existingContent === fileContent) {
+    console.log(`Icon map unchanged (${iconIds.size} icon(s)). Skipping write.`);
+    return;
+  }
+
   await fs.writeFile(outputFile, fileContent);
   console.log(`Generated ${outputFile} with ${iconIds.size} icon(s).`);
 }
