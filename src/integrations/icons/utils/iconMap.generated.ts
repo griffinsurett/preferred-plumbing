@@ -3,19 +3,22 @@
 
 import type { IconType } from 'react-icons';
 import { LuArrowRight, LuBookOpen, LuChevronRight, LuContact, LuGlobe, LuImage, LuMail, LuPhone, LuSettings } from 'react-icons/lu';
-import { FaArrowsUpDownLeftRight, FaBullseye, FaClockRotateLeft, FaCompass, FaEye, FaFeather, FaFileLines, FaHeadset, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaPhone, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaUniversalAccess, FaWandMagicSparkles } from 'react-icons/fa6';
+import { FaArrowsUpDownLeftRight, FaBuilding, FaBullseye, FaClockRotateLeft, FaCompass, FaDroplet, FaEye, FaFeather, FaFileLines, FaHeadset, FaHouseFloodWater, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaPhone, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaShower, FaTemperatureArrowUp, FaUniversalAccess, FaWandMagicSparkles, FaWater } from 'react-icons/fa6';
 import { FaBullhorn, FaCode } from 'react-icons/fa';
 import { SiFacebook, SiInstagram, SiLinkedin } from 'react-icons/si';
 
 export const iconMap = {
   'fa6:arrows-up-down-left-right': FaArrowsUpDownLeftRight,
+  'fa6:building': FaBuilding,
   'fa6:bullseye': FaBullseye,
   'fa6:clock-rotate-left': FaClockRotateLeft,
   'fa6:compass': FaCompass,
+  'fa6:droplet': FaDroplet,
   'fa6:eye': FaEye,
   'fa6:feather': FaFeather,
   'fa6:file-lines': FaFileLines,
   'fa6:headset': FaHeadset,
+  'fa6:house-flood-water': FaHouseFloodWater,
   'fa6:layer-group': FaLayerGroup,
   'fa6:life-ring': FaLifeRing,
   'fa6:link': FaLink,
@@ -25,8 +28,11 @@ export const iconMap = {
   'fa6:rotate-left': FaRotateLeft,
   'fa6:scale-balanced': FaScaleBalanced,
   'fa6:shield-halved': FaShieldHalved,
+  'fa6:shower': FaShower,
+  'fa6:temperature-arrow-up': FaTemperatureArrowUp,
   'fa6:universal-access': FaUniversalAccess,
   'fa6:wand-magic-sparkles': FaWandMagicSparkles,
+  'fa6:water': FaWater,
   'fa:bullhorn': FaBullhorn,
   'fa:code': FaCode,
   'lu:arrow-right': LuArrowRight,

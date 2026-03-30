@@ -1,0 +1,101 @@
+---
+import { getImageSrc } from "@/layouts/collections/helpers/layoutHelpers";
+
+export interface Props {
+  title: string;
+  description?: string;
+  category?: string;
+  location?: string;
+  highlights?: string[];
+  featuredImage?: any;
+  beforeImage?: any;
+  afterImage?: any;
+  videoSrc?: string;
+}
+
+const {
+  title,
+  description,
+  category,
+  location,
+  highlights = [],
+  featuredImage,
+  beforeImage,
+  afterImage,
+  videoSrc,
+} = Astro.props;
+
+const featuredImageSrc = getImageSrc(featuredImage);
+const featuredImageAlt = featuredImage?.alt || title;
+const beforeImageSrc = getImageSrc(beforeImage);
+const beforeImageAlt = beforeImage?.alt || `${title} before`;
+const afterImageSrc = getImageSrc(afterImage);
+const afterImageAlt = afterImage?.alt || `${title} after`;
+---
+
+<article class="overflow-hidden rounded-[2rem] border border-white/10 bg-white/8 shadow-xl shadow-black/10 backdrop-blur-sm">
+  <div class="border-b border-white/10 bg-primary/35">
+    {
+      videoSrc ? (
+        <video
+          class="h-72 w-full object-cover"
+          autoplay
+          muted
+          loop
+          playsinline
+          controls={false}
+          preload="metadata"
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+      ) : beforeImageSrc && afterImageSrc ? (
+        <div class="grid gap-px bg-white/10 md:grid-cols-2">
+          <figure class="relative">
+            <img src={beforeImageSrc} alt={beforeImageAlt} class="h-72 w-full object-cover" />
+            <figcaption class="absolute left-4 top-4 rounded-full bg-black/60 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white">
+              Before
+            </figcaption>
+          </figure>
+          <figure class="relative">
+            <img src={afterImageSrc} alt={afterImageAlt} class="h-72 w-full object-cover" />
+            <figcaption class="absolute left-4 top-4 rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+              After
+            </figcaption>
+          </figure>
+        </div>
+      ) : featuredImageSrc ? (
+        <img src={featuredImageSrc} alt={featuredImageAlt} class="h-72 w-full object-cover" />
+      ) : (
+        <div class="flex h-72 items-center justify-center bg-gradient-to-br from-primary via-primary/85 to-accent/70 px-8 text-center text-white">
+          <p class="max-w-md text-lg font-semibold leading-relaxed">
+            Before-and-after project media can drop in here as the portfolio grows.
+          </p>
+        </div>
+      )
+    }
+  </div>
+
+  <div class="space-y-5 p-6 md:p-8">
+    <div class="flex flex-wrap gap-2 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-accent">
+      {category && <span>{category}</span>}
+      {location && <span class="text-white/65">{location}</span>}
+    </div>
+
+    <div>
+      <h3 class="h4 mb-3 text-white">{title}</h3>
+      {description && <p class="max-w-3xl text-base leading-relaxed text-white/82">{description}</p>}
+    </div>
+
+    {
+      highlights.length > 0 && (
+        <ul class="grid gap-3 text-sm text-white/85 md:grid-cols-2">
+          {highlights.map((highlight) => (
+            <li class="rounded-2xl border border-white/10 bg-black/10 px-4 py-3">
+              {highlight}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>
