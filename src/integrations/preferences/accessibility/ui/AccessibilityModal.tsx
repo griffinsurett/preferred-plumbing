@@ -267,15 +267,22 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
                   type="button"
                   onClick={onClose}
                   aria-label="Close accessibility menu"
-                  className="group cursor-pointer text-accent hover:text-accent transition-colors inline-flex items-center justify-center gap-2"
+                  className="text-accent"
                 >
-                  <span className="font-tt-lakes text-[1.05rem] leading-none tracking-[0.08em] uppercase">
-                    Close
-                  </span>
-                  <div className="w-7 h-6 relative flex items-center justify-center">
-                    <span className="absolute h-[3px] w-full bg-current transition-all duration-300 ease-in-out origin-center rotate-45" />
-                    <span className="absolute h-[3px] w-full bg-current transition-all duration-300 ease-in-out origin-center -rotate-45" />
-                  </div>
+                  <svg
+                    className="w-6 h-6"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M18 6L6 18M6 6l12 12"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </button>
               </div>
             </div>
