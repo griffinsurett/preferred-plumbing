@@ -24,23 +24,23 @@ import FrontPageHero from "@/layouts/FrontPageHero.astro";
     />
 
     <div class="homepage-content bg-primary text-text">
-      <ContentRenderer query={query("about-us")} variant="AccordionVariant" />
+      <!-- <ContentRenderer query={query("about-us")} variant="AccordionVariant" /> -->
 
       <!-- Services - auto-populates from services meta -->
-      <ContentRenderer
+      <!-- <ContentRenderer
         query={query("services").orderBy(sortByOrder())}
         variant="GridVariant"
         columns={3}
         gap="lg"
-      />
+      /> -->
 
       <!-- Filtered query - still gets meta from authors -->
-      <ContentRenderer
+      <!-- <ContentRenderer
         query={query("authors").where(whereArrayContains("tags", "featured"))}
         variant="GridVariant"
         columns={3}
         gap="lg"
-      />
+      /> -->
 
       <!-- Portfolio with sorting -->
       <ContentRenderer

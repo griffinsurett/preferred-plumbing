@@ -15,8 +15,9 @@ export const siteData = {
   url: SITE_URL,
   location: "New Jersey, USA",
   address: "123 Main St, Springfield, NJ 07081",
+  serviceAreaMessage: "Serving Lakewood NJ & surrounding areas",
   /** Accent strip under announcement bar (phone/email live in contact-us content) */
-  topBarMessage: "Serving Lakewood NJ & surrounding areas",
+  topBarMessage: "24/7 emergency service, even on Shabbos!",
   /** Accessible name for the header logo (keep in sync with branding) */
   logoAlt: "Preferred Plumbing",
 };
