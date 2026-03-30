@@ -101,20 +101,20 @@ export default function CookieConsentBanner() {
         ariaLabel="Cookie consent banner"
       >
         <div id="cookie-consent-banner" className="group text-left transition-all duration-300">
-          <div className="rounded-3xl border border-text/10 bg-surface p-6 shadow-md backdrop-blur-sm">
+          <div className="rounded-3xl border border-text/10 bg-primary p-6 shadow-md backdrop-blur-sm">
             <div className="flex flex-col gap-6">
               <div className="flex items-start gap-3">
                 <span className="text-2xl" role="img" aria-label="Cookie">
                   🍪
                 </span>
-                <p className="text-sm text-text leading-relaxed">
+                <p className="text-sm text-bg leading-relaxed">
                   We use cookies to improve your browsing experience and for
                   marketing purposes.{" "}
                   <Button
                     variant="link"
                     onClick={handleOpenSettings}
                     type="button"
-                    className="text-sm"
+                    className="text-sm text-heading"
                   >
                     Manage preferences
                   </Button>

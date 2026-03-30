@@ -5,7 +5,7 @@
  * Full accessibility preferences panel. For custom UI, use the
  * useAccessibility hook from core directly.
  */
-import { memo, useCallback, useState, type ReactNode } from "react";
+import { memo, useCallback, type ReactNode } from "react";
 import Modal from "@/components/Modal";
 import Icon from "@/components/Icon";
 import { useAccessibility } from "@/integrations/preferences/accessibility/core/hooks/useAccessibility";
@@ -22,8 +22,6 @@ type IconName = string;
 
 function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
   const { preferences, setPreferences, resetPreferences } = useAccessibility();
-  const [hoveredAction, setHoveredAction] = useState<"reset" | "close" | null>(null);
-
   const updateText = useCallback(
     <K extends keyof A11yPreferences["text"]>(
       key: K,
@@ -245,59 +243,43 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
       ssr={false}
     >
       <div className="a11y-modal-shell">
-        <div className="bg-primary px-6 py-4 text-bg flex-shrink-0">
+        <div className="bg-primary px-6 py-4 flex-shrink-0">
           <div className="flex flex-col gap-3">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-2">
                 <span className="shrink-0">
-                  <Icon icon="fa6:universal-access" size="lg" className="text-bg" />
+                  <Icon icon="fa6:universal-access" size="lg" className="text-heading" />
                 </span>
                 <div>
-                  <h2 className="text-xl font-bold leading-snug">Accessibility</h2>
+                  <h2 className="text-xl font-bold leading-snug text-heading">Accessibility</h2>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onMouseEnter={() => setHoveredAction("reset")}
-                  onMouseLeave={() => setHoveredAction(null)}
-                  onFocus={() => setHoveredAction("reset")}
-                  onBlur={() => setHoveredAction(null)}
                   onClick={resetPreferences}
                   className="a11y-header-action relative"
                   aria-label="Reset preferences"
                 >
-                  <Icon icon="fa6:rotate-left" size="sm" className="text-bg" />
-                  <span
-                    className={`absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-bg text-text text-[10px] tracking-wide px-2 py-1 shadow-md transition-opacity ${
-                      hoveredAction === "reset" ? "opacity-100" : "opacity-0 pointer-events-none"
-                    }`}
-                  >
-                    Reset
-                  </span>
+                  <Icon icon="fa6:rotate-left" size="sm" className="text-heading" />
                 </button>
                 <button
                   type="button"
-                  onMouseEnter={() => setHoveredAction("close")}
-                  onMouseLeave={() => setHoveredAction(null)}
-                  onFocus={() => setHoveredAction("close")}
-                  onBlur={() => setHoveredAction(null)}
                   onClick={onClose}
                   aria-label="Close accessibility menu"
-                  className="a11y-header-action relative"
+                  className="group cursor-pointer text-accent hover:text-accent transition-colors inline-flex items-center justify-center gap-2"
                 >
-                  <Icon icon="fa6:xmark" size="md" className="text-bg" />
-                  <span
-                    className={`absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-bg text-text text-[10px] tracking-wide px-2 py-1 shadow-md transition-opacity ${
-                      hoveredAction === "close" ? "opacity-100" : "opacity-0 pointer-events-none"
-                    }`}
-                  >
+                  <span className="font-tt-lakes text-[1.05rem] leading-none tracking-[0.08em] uppercase">
                     Close
                   </span>
+                  <div className="w-7 h-6 relative flex items-center justify-center">
+                    <span className="absolute h-[3px] w-full bg-current transition-all duration-300 ease-in-out origin-center rotate-45" />
+                    <span className="absolute h-[3px] w-full bg-current transition-all duration-300 ease-in-out origin-center -rotate-45" />
+                  </div>
                 </button>
               </div>
             </div>
-            <p className="text-sm text-bg/80 max-w-sm">
+            <p className="text-sm text-text max-w-sm">
               Fine-tune how {siteData.title} displays information.
             </p>
           </div>
@@ -417,7 +399,7 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
             </div>
           </SectionBlock>
 
-          <div className="rounded-2xl border border-dashed border-surface/70 bg-surface/40 p-4 text-xs text-text/70">
+          <div className="rounded-2xl border border-dashed border-accent/70 bg-accent/40 p-4 text-xs text-text/70">
             Preferences save instantly in your browser and sync across tabs.
             These adjustments change visual presentation only&mdash;assistive
             technologies continue working as expected.
@@ -574,8 +556,8 @@ function SegmentedTile({
               onClick={() => onChange(option.value)}
               className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
                 isActive
-                  ? "border-primary/60 bg-primary/10 text-primary"
-                  : "border border-text/10 bg-surface text-text hover:border-primary/40"
+                  ? "border-0 bg-primary text-heading"
+                  : "border border-secondary text-text hover:border-primary/40"
               }`}
             >
               {option.icon && (
@@ -612,8 +594,8 @@ function IconBadge({ icon, active = false, size = "sm" }: IconBadgeProps) {
     "inline-flex items-center justify-center rounded-2xl transition-all",
     sizeClasses[size],
     active
-      ? "border border-primary/20 bg-primary/10 text-primary"
-      : "border border-text/10 bg-surface text-primary",
+      ? "border border-primary/20 bg-primary text-bg"
+      : "border border-text/10 bg-accent text-primary",
   ]
     .filter(Boolean)
     .join(" ");

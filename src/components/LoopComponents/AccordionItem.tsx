@@ -25,22 +25,22 @@ export default function AccordionItem({
   headerSlot,
 }: AccordionItemProps) {
   return (
-    <div className={`border border-surface bg-surface rounded-lg overflow-hidden ${className}`}>
+    <div className={`border border-accent bg-accent rounded-lg overflow-hidden ${className}`}>
       <button
         type="button"
-        className={`flex items-center justify-between p-4 bg-text/5 cursor-pointer hover:bg-text/5 transition-colors w-full text-left ${headerClassName}`}
+        className={`flex items-center justify-between p-4 bg-accent cursor-pointer hover:bg-accent/80 transition-colors w-full text-left ${headerClassName}`}
         onClick={onToggle}
         aria-expanded={isExpanded}
         aria-controls={`${id}-content`}
       >
-          <span className="text-text font-medium text-xl px-2">
+          <span className="text-primary font-medium text-xl px-2">
             {isExpanded ? "−" : "+"}
           </span>
           {headerSlot ? (
             <div className="flex-1">{headerSlot}</div>
           ) : (
             <div className="flex-1">
-              <h3 className="text-heading">{title}</h3>
+              <h3 className="text-primary">{title}</h3>
             </div>
           )}
       </button>

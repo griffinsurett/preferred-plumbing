@@ -90,7 +90,7 @@ export default function ToggleControl({
           } ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}
         >
           <span
-            className={`inline-block ${trackSizes.thumb} transform rounded-full bg-bg transition-transform shadow ${
+            className={`inline-block ${trackSizes.thumb} transform rounded-full bg-accent transition-transform shadow ${
               checked ? trackSizes.on : trackSizes.off
             }`}
           />

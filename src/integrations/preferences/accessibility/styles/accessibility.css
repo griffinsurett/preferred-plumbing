@@ -433,7 +433,7 @@ html[data-a11y-font="readable"] body * {
    ============================================================================ */
 @layer components {
   .a11y-modal-shell {
-    @apply rounded-[28px] bg-surface text-text border border-text/10 backdrop-blur-md overflow-hidden flex flex-col max-h-[78vh];
+    @apply rounded-[28px] bg-primary text-text border border-text/10 backdrop-blur-md overflow-hidden flex flex-col max-h-[78vh];
     box-shadow: 0 20px 60px var(--int-a11y-modal-shadow);
   }
 
@@ -443,7 +443,7 @@ html[data-a11y-font="readable"] body * {
   }
 
   .a11y-card {
-    @apply rounded-2xl border border-text/10 bg-surface shadow-sm;
+    @apply rounded-2xl border border-text/10 bg-accent shadow-sm;
   }
 
   .a11y-card--compact {
@@ -455,11 +455,11 @@ html[data-a11y-font="readable"] body * {
   }
 
   .a11y-toggle {
-    @apply rounded-2xl border border-text/10 bg-surface px-4 py-3 shadow-sm text-left transition focus:outline-none focus:ring-2 focus:ring-primary/40;
+    @apply rounded-2xl border border-text/10 bg-accent px-4 py-3 shadow-sm text-left transition focus:outline-none focus:ring-2 focus:ring-primary/40;
   }
 
   .a11y-toggle--active {
-    @apply border-primary/60 bg-primary/10;
+    @apply border-primary/60 bg-primary text-bg;
   }
 
   .a11y-toggle--idle {
@@ -471,7 +471,7 @@ html[data-a11y-font="readable"] body * {
   }
 
   .a11y-slider {
-    @apply mt-3 w-full h-2 rounded-full bg-bg border border-primary/20 appearance-none cursor-pointer transition;
+    @apply mt-3 w-full h-2 rounded-full bg-accent border border-primary/20 appearance-none cursor-pointer transition;
   }
 
   .a11y-slider:focus-visible {
@@ -481,14 +481,14 @@ html[data-a11y-font="readable"] body * {
 
   .a11y-slider::-webkit-slider-runnable-track {
     height: 0.5rem;
-    background: var(--color-bg);
+    background: var(--color-accent);
     border-radius: 999px;
     border: 1px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
   }
 
   .a11y-slider::-moz-range-track {
     height: 0.5rem;
-    background: var(--color-bg);
+    background: var(--color-accent);
     border-radius: 999px;
     border: 1px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
   }
@@ -509,7 +509,7 @@ html[data-a11y-font="readable"] body * {
     width: 18px;
     border-radius: 999px;
     background: var(--color-primary);
-    border: 2px solid var(--color-bg);
+    border: 2px solid var(--color-accent);
     box-shadow: 0 10px 25px var(--int-a11y-slider-shadow);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }

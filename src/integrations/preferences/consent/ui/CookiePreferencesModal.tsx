@@ -183,26 +183,26 @@ function CookiePreferencesModal({
       isOpen={isOpen}
       onClose={onClose}
       closeButton={true}
-      className="bg-bg rounded-2xl p-8 max-w-3xl w-full mx-4 max-h-[90vh] flex flex-col shadow-2xl"
+      className="bg-primary rounded-2xl p-8 max-w-3xl w-full mx-4 max-h-[90vh] flex flex-col shadow-2xl"
       overlayClass="bg-primary-dark/60"
       ariaLabel="Manage cookie consent preferences"
       ssr={false}
     >
       <div className="mb-6 shrink-0">
-        <h2 className="text-3xl font-bold text-heading mb-4">
+        <h2 className="text-3xl font-bold text-text mb-4">
           Manage Consent Preferences
         </h2>
         <p className="text-text text-xs lg:text-sm leading-relaxed mb-3">
           We use cookies and similar technologies to help personalize content
           and offer a better experience. You can click{" "}
-          <Button variant="link" href="/cookie-policy">
+          <Button variant="link" href="/cookie-policy" className="text-heading">
             here
           </Button>{" "}
           to find out more and change our default settings. However, blocking
           some types of cookies may impact your experience of the site and the
           services we are able to offer.
         </p>
-        <Button variant="link" href="/cookie-policy">
+        <Button variant="link" href="/cookie-policy" className="text-heading">
           More information
           <svg
             className="w-4 h-4"
@@ -237,7 +237,7 @@ function CookiePreferencesModal({
               const toggleId = `${id}-toggle`;
               return (
                 <div className="flex items-center gap-3 w-full">
-                  <span className="font-semibold text-heading text-base flex-1">
+                  <span className="font-semibold text-primary text-base flex-1">
                     {category.title}
                   </span>
                   <div className="shrink-0 flex items-center gap-3">
