@@ -57,7 +57,7 @@ export default function MobileMenuItem({
               onClick={onNavigate}
               target={openInNewTab ? "_blank" : undefined}
               rel={openInNewTab ? "noopener noreferrer" : undefined}
-              className="h2 py-3 text-center text-on-primary hover:text-accent transition-colors"
+              className="h2 py-3 text-center tracking-[0.08em] text-on-primary hover:text-accent transition-colors"
             >
               {title}
             </a>
@@ -65,7 +65,7 @@ export default function MobileMenuItem({
             <button
               type="button"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="h2 py-3 text-center text-on-primary hover:text-accent transition-colors"
+              className="h2 py-3 text-center tracking-[0.08em] text-on-primary hover:text-accent transition-colors"
             >
               {title}
             </button>
@@ -125,7 +125,7 @@ export default function MobileMenuItem({
         onClick={onNavigate}
         target={openInNewTab ? "_blank" : undefined}
         rel={openInNewTab ? "noopener noreferrer" : undefined}
-        className={`h2 mx-auto block max-w-sm py-3 px-4 text-center text-on-primary hover:text-accent rounded-md transition-colors ${nestedSpacingClass}`}
+        className={`h2 mx-auto block max-w-sm py-3 px-4 text-center tracking-[0.08em] text-on-primary hover:text-accent rounded-md transition-colors ${nestedSpacingClass}`}
       >
         {title}
       </a>
