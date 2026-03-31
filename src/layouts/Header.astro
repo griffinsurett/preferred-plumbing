@@ -12,8 +12,9 @@ import { siteData, siteLogo, ctaData } from "@/content/siteData";
 
 const phoneEntry = await find("contact-us", "phone");
 const phoneValue = String(phoneEntry?.data?.description ?? "").trim();
-const phoneHref = phoneValue ? `${phoneEntry?.data?.linkPrefix || "tel:"}${phoneValue}` : undefined;
-const phoneLabel = phoneEntry?.data?.title || "Call Us";
+const phoneHref =
+  phoneValue && phoneEntry?.data?.linkPrefix ? `${phoneEntry.data.linkPrefix}${phoneValue}` : undefined;
+const phoneLabel = String(phoneEntry?.data?.title ?? "").trim() || undefined;
 ---
 
 <header class="sticky top-0 z-[40]">

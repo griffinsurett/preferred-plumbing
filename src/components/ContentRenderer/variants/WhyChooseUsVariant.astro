@@ -1,0 +1,139 @@
+---
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import SectionHeading from "@/components/SectionHeading.astro";
+import Icon from "@/components/Icon";
+import plumberImage from "@/assets/plumber.webp";
+
+interface Props extends BaseVariantProps {}
+
+const {
+  items = [],
+  title,
+  description,
+  className = "",
+  id,
+} = Astro.props as Props;
+
+const leftBenefits = items.filter((_, index) => index % 2 === 0);
+const rightBenefits = items.filter((_, index) => index % 2 === 1);
+const benefitColumns = [
+  {
+    items: leftBenefits,
+    articleClass: "lg:ml-auto lg:max-w-[28rem]",
+    rowClass: "",
+  },
+  {
+    items: rightBenefits,
+    articleClass: "lg:mr-auto lg:max-w-[28rem]",
+    rowClass: "",
+  },
+];
+---
+
+<section id={id} class={`px-8 md:px-12 lg:px-16 xl:px-20 ${className}`}>
+  <div class="mx-auto max-w-7xl">
+    <SectionHeading
+      title={title}
+      description={description}
+      align="center"
+      className="pt-10"
+      titleClass="text-white"
+      descriptionClass="mx-auto max-w-3xl text-text/82"
+    />
+
+    <div class="mt-14 hidden lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)_minmax(0,1fr)] lg:items-center xl:gap-12">
+      {
+        benefitColumns.map((column, columnIndex) => (
+          <Fragment>
+            <div class="grid gap-5">
+              {column.items.map((benefit) => (
+                <article class={`p-2 ${column.articleClass}`}>
+                  <div class={`flex items-center gap-5 ${column.rowClass}`.trim()}>
+                    {benefit.icon && (
+                      <span class="inline-flex h-[4.75rem] w-[4.75rem] shrink-0 items-center justify-center text-accent">
+                        <Icon icon={benefit.icon} size="2xl" />
+                      </span>
+                    )}
+
+                    <div>
+                      <h3 class="font-tt-lakes text-[1.35rem] font-bold leading-tight text-white">
+                        {benefit.title}
+                      </h3>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {columnIndex === 0 && (
+              <div>
+                <div class="why-choose-plumber mx-auto max-w-[17rem] sm:max-w-[20rem] lg:max-w-[24rem]">
+                  <img
+                    src={plumberImage.src}
+                    alt="Preferred Plumbing plumber"
+                    class="block h-auto w-full drop-shadow-[0_28px_50px_rgba(0,0,0,0.32)]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              </div>
+            )}
+          </Fragment>
+        ))
+      }
+    </div>
+
+    <div class="mt-12 grid gap-4 lg:hidden">
+      {items.map((benefit) => (
+        <article class="px-2">
+          <div class="flex items-center gap-4">
+            {benefit.icon && (
+              <span class="inline-flex h-16 w-16 shrink-0 items-center justify-center text-accent">
+                <Icon icon={benefit.icon} size="2xl" />
+              </span>
+            )}
+
+            <div class="min-w-0">
+              <h3 class="font-tt-lakes text-[clamp(0.95rem,3.8vw,1.08rem)] font-bold leading-tight text-white whitespace-normal">
+                {benefit.title}
+              </h3>
+            </div>
+          </div>
+        </article>
+      ))}
+
+      <div class="pt-4">
+        <div class="why-choose-plumber mx-auto max-w-[15rem] sm:max-w-[18rem]">
+          <img
+            src={plumberImage.src}
+            alt="Preferred Plumbing plumber"
+            class="block h-auto w-full drop-shadow-[0_28px_50px_rgba(0,0,0,0.32)]"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-choose-plumber {
+    position: relative;
+  }
+
+  .why-choose-plumber::before {
+    content: "";
+    position: absolute;
+    inset: 12% 6% 8%;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at center, color-mix(in srgb, var(--color-on-primary) 18%, transparent) 0%, transparent 72%);
+    filter: blur(6px);
+  }
+
+  .why-choose-plumber img {
+    position: relative;
+    z-index: 1;
+  }
+</style>

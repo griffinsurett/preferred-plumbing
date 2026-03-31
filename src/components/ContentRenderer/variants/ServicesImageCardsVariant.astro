@@ -1,0 +1,98 @@
+---
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import SectionHeading from "@/components/SectionHeading.astro";
+import Icon from "@/components/Icon";
+import truckImage from "@/assets/truck.png";
+
+interface Props extends BaseVariantProps {
+  columns?: 2 | 3;
+}
+
+const {
+  items = [],
+  title,
+  description,
+  className = "",
+  id,
+  columns = 3,
+} = Astro.props as Props;
+
+const gridClass =
+  columns === 2 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3";
+
+function truncateText(text?: string, maxLength = 145): string | undefined {
+  if (!text) return text;
+  if (text.length <= maxLength) return text;
+
+  const clipped = text.slice(0, maxLength).trimEnd();
+  const lastSpaceIndex = clipped.lastIndexOf(" ");
+
+  return `${(lastSpaceIndex > 0 ? clipped.slice(0, lastSpaceIndex) : clipped).trimEnd()}...`;
+}
+---
+
+<section id={id} class={` bg-accent px-8 py-16 text-primary md:px-12 lg:px-16 xl:px-20 ${className}`}>
+  <div class="mx-auto max-w-6xl">
+    {(title || description) && (
+      <div class="mb-6 mx-auto">
+        <SectionHeading
+          title={title}
+          description={description}
+          align="center"
+          titleClass="mx-auto"
+          descriptionClass="mx-auto max-w-4xl"
+        />
+      </div>
+    )}
+
+    {items.length > 0 && (
+      <ul class={`grid ${gridClass} gap-x-6 gap-y-6`}>
+        {items.map((item) => {
+          const imageSrc = truckImage.src;
+          const imageAlt = "Preferred Plumbing truck ready for service";
+          const truncatedDescription = truncateText(item.description);
+
+          return (
+            <li class="h-full">
+              <article class="group relative h-full pb-[5rem]">
+                <div class="h-[21rem] overflow-hidden bg-primary/6 shadow-[0_26px_70px_-44px_rgba(15,34,48,0.4)] sm:h-[23rem] lg:h-[24rem]">
+                  {imageSrc ? (
+                    <img
+                      src={imageSrc}
+                      alt={imageAlt}
+                      class="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <div class="h-full w-full bg-primary/10"></div>
+                  )}
+                </div>
+
+                <div class="pointer-events-none absolute inset-x-5 top-[15%] sm:inset-x-7 sm:top-[30%]">
+                  <div class="pointer-events-auto relative mx-auto flex aspect-square w-full max-w-[20rem] flex-col bg-white px-6 pb-7 pt-7 shadow-[0_20px_60px_-32px_rgba(15,34,48,0.35)]">
+                    <div class="absolute left-1/2 top-0 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl bg-accent text-primary shadow-[0_16px_36px_-18px_rgba(15,34,48,0.45)]">
+                      <Icon icon={item.icon || "fa6-solid:wrench"} size="lg" className="text-current" />
+                    </div>
+
+                    <h3
+                      class="font-tt-lakes flex min-h-[7.5rem] items-center justify-center text-center text-[1.5rem] font-bold uppercase leading-[0.95] tracking-[0.02em] text-primary"
+                    >
+                      {item.title}
+                    </h3>
+
+                    {truncatedDescription && (
+                      <p class="flex-1 overflow-hidden text-center text-base leading-7 text-primary/74">
+                        {truncatedDescription}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </article>
+            </li>
+          );
+        })}
+      </ul>
+    )}
+  </div>
+</section>

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "clean-careful-workmanship",
+    "title": "Clean, careful workmanship",
+    "description": "Repairs and installs handled with attention to detail and respect for the home.",
+    "icon": "fa6-solid:screwdriver-wrench",
+    "order": 1
+  },
+  {
+    "id": "fast-response",
+    "title": "Fast response when issues cannot wait",
+    "description": "Quick help for plumbing problems that need attention right away.",
+    "icon": "fa6-solid:bolt",
+    "order": 2
+  },
+  {
+    "id": "straightforward-estimates",
+    "title": "Straightforward estimates and communication",
+    "description": "Clear pricing, direct answers, and no unnecessary runaround.",
+    "icon": "fa6-solid:comments",
+    "order": 3
+  },
+  {
+    "id": "built-to-last",
+    "title": "Repairs and installs built to last",
+    "description": "Work completed with long-term function and dependable performance in mind.",
+    "icon": "fa6-solid:shield-halved",
+    "order": 4
+  },
+  {
+    "id": "respect-your-time",
+    "title": "Respect for your time and schedule",
+    "description": "Appointments, communication, and follow-through handled with the expectation that your day matters.",
+    "icon": "fa6-solid:clock",
+    "order": 5
+  },
+  {
+    "id": "practical-recommendations",
+    "title": "Practical recommendations without the runaround",
+    "description": "Clear next steps and honest recommendations based on what the plumbing actually needs.",
+    "icon": "fa6-solid:thumbs-up",
+    "order": 6
+  }
+]

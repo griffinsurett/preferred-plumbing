@@ -1,0 +1,110 @@
+---
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import Icon from "@/components/Icon";
+import ServiceCarouselCard from "@/components/LoopComponents/ServiceCarouselCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+
+interface Props extends BaseVariantProps {
+  bottomText?: string;
+}
+
+const {
+  items = [],
+  title,
+  description,
+  className = "",
+  id,
+  bottomText,
+} = Astro.props as Props;
+
+const sectionId = id || "services-carousel";
+const trackId = `${sectionId}-track`;
+---
+
+<section id={sectionId} class={`bg-transparent px-8 py-16 text-heading md:px-12 lg:px-16 xl:px-20 ${className}`}>
+  <div class="mx-auto max-w-6xl">
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div class="max-w-2xl">
+        <SectionHeading
+          title={title}
+          bottomText={bottomText}
+          description={description}
+          align="left"
+          bottomTextClass="text-text/88"
+          descriptionClass="max-w-2xl text-text/88"
+        />
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button
+          type="button"
+          class="services-arrow inline-flex h-12 w-12 items-center justify-center rounded-full bg-accent text-primary transition-transform duration-200 hover:scale-[1.03]"
+          data-services-arrow="prev"
+          data-services-target={trackId}
+          aria-label="Previous services"
+        >
+          <Icon icon="fa6-solid:arrow-left" size="sm" className="text-current" />
+        </button>
+        <button
+          type="button"
+          class="services-arrow inline-flex h-12 w-12 items-center justify-center rounded-full bg-accent text-primary transition-transform duration-200 hover:scale-[1.03]"
+          data-services-arrow="next"
+          data-services-target={trackId}
+          aria-label="Next services"
+        >
+          <Icon icon="fa6-solid:arrow-right" size="sm" className="text-current" />
+        </button>
+      </div>
+    </div>
+
+    {
+      items.length > 0 && (
+        <ul
+          id={trackId}
+          class="services-track mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2"
+          tabindex="0"
+          aria-label="Plumbing services"
+        >
+          {items.map((item) => (
+            <li class="basis-[78%] shrink-0 snap-start sm:basis-[20rem] lg:basis-[18rem] xl:basis-[19rem]">
+              <ServiceCarouselCard {...item} />
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .services-track {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .services-track::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
+<script is:inline>
+  const serviceArrowButtons = Array.from(document.querySelectorAll("[data-services-arrow]"));
+
+  serviceArrowButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const direction = button.getAttribute("data-services-arrow") === "prev" ? -1 : 1;
+      const targetId = button.getAttribute("data-services-target");
+      if (!targetId) return;
+
+      const track = document.getElementById(targetId);
+      if (!track) return;
+
+      const firstSlide = track.querySelector("li");
+      const gap = Number.parseFloat(getComputedStyle(track).gap || "0");
+      const amount = firstSlide
+        ? firstSlide.getBoundingClientRect().width + gap
+        : Math.max(track.clientWidth * 0.88, 280);
+      track.scrollBy({ left: direction * amount, behavior: "smooth" });
+    });
+  });
+</script>

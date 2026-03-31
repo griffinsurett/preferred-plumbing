@@ -33,9 +33,10 @@ export default function MobileMenuDrawer({
   const phoneEntry = contactItems.find((item) => item.id === "phone");
   const phoneValue = phoneEntry?.description ?? "";
   const phoneHref = phoneValue
-    ? `${phoneEntry?.linkPrefix || "tel:"}${phoneValue}`
+    && phoneEntry?.linkPrefix
+    ? `${phoneEntry.linkPrefix}${phoneValue}`
     : undefined;
-  const phoneLabel = phoneValue ? formatPhoneNumber(phoneValue) : "Call Us";
+  const phoneLabel = phoneValue ? formatPhoneNumber(phoneValue) : "";
 
   const handleNavigate = () => {
     setIsOpen(false);
@@ -102,7 +103,7 @@ export default function MobileMenuDrawer({
               aria-label={`Call ${phoneLabel}`}
               title={phoneLabel}
             >
-              <Icon icon={phoneEntry?.icon || "fa6:phone"} size="md" className="text-current" />
+              {phoneEntry?.icon && <Icon icon={phoneEntry.icon} size="md" className="text-current" />}
               <span className="text-lg font-semibold">{phoneLabel}</span>
             </a>
           )}

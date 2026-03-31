@@ -114,7 +114,7 @@ body {
   }
 
   .h2 {
-    @apply text-4xl sm:text-5xl lg:text-6xl font-bold leading-[0.95];
+    @apply text-4xl sm:text-5xl lg:text-5xl font-bold leading-[0.95];
     font-family: var(--font-tt-lakes);
   }
 
@@ -213,5 +213,80 @@ body {
 
   .animate-slide-up {
     animation: slide-up 0.3s ease-out;
+  }
+
+  .sticky-section {
+    @apply lg:sticky lg:top-40;
+  }
+
+  .homepage-content {
+    color: #e1f1df;
+  }
+
+  .homepage-content .text-heading,
+  .homepage-content h2,
+  .homepage-content h3,
+  .homepage-content h4,
+  .homepage-content h5,
+  .homepage-content h6 {
+    color: #fff !important;
+  }
+
+  .homepage-content .text-text,
+  .homepage-content p,
+  .homepage-content li,
+  .homepage-content label,
+  .homepage-content time {
+    color: #e1f1df;
+  }
+
+  .homepage-content .bg-bg {
+    background-color: var(--color-primary) !important;
+  }
+
+  .homepage-content .hover\:bg-text\/5:hover,
+  .homepage-content .bg-text\/5 {
+    background-color: color-mix(in srgb, var(--color-on-primary) 8%, transparent) !important;
+  }
+
+  .homepage-content .border-surface {
+    border-color: color-mix(in srgb, var(--color-on-primary) 18%, transparent);
+  }
+
+  .homepage-content .bg-surface {
+    background-color: color-mix(in srgb, var(--color-primary) 88%, var(--color-on-primary) 12%) !important;
+  }
+
+  .homepage-testimonials {
+    color: var(--color-primary);
+  }
+
+  .homepage-testimonials .text-heading,
+  .homepage-testimonials h2,
+  .homepage-testimonials h3,
+  .homepage-testimonials h4,
+  .homepage-testimonials h5,
+  .homepage-testimonials h6 {
+    color: var(--color-primary) !important;
+  }
+
+  .homepage-testimonials .text-text,
+  .homepage-testimonials p,
+  .homepage-testimonials li,
+  .homepage-testimonials label,
+  .homepage-testimonials time {
+    color: color-mix(in srgb, var(--color-primary) 82%, transparent);
+  }
+
+  .homepage-testimonials .bg-bg {
+    background-color: var(--color-on-primary) !important;
+  }
+
+  .homepage-testimonials .bg-surface {
+    background-color: color-mix(in srgb, var(--color-primary) 6%, white) !important;
+  }
+
+  .homepage-testimonials .border-surface {
+    border-color: color-mix(in srgb, var(--color-primary) 14%, transparent);
   }
 }

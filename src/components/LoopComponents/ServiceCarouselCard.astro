@@ -1,0 +1,31 @@
+---
+import Icon from "@/components/Icon";
+import type { IconType } from "@/content/schema";
+
+export interface Props {
+  title: string;
+  description?: string;
+  icon?: IconType;
+}
+
+const { title, icon } = Astro.props as Props;
+---
+
+<article class="group flex items-center justify-center bg-white aspect-1/1 text-primary transition-colors duration-200 hover:bg-primary hover:text-text">
+  <div class="flex max-w-[10rem] flex-col items-center justify-center text-center">
+    {
+      icon && (
+        <span class="text-accent">
+          <Icon icon={icon} size="2xl" className="text-current" />
+        </span>
+      )
+    }
+
+    <h3
+      class="mt-4 text-[1.42rem] font-bold uppercase leading-[1.02] tracking-[0.02em]"
+      style="font-family: var(--font-tt-lakes);"
+    >
+      {title}
+    </h3>
+  </div>
+</article>

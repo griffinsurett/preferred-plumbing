@@ -1,0 +1,101 @@
+---
+import truckImage from "@/assets/truck-2.png";
+import Button from "@/components/Button/Button";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { ctaData } from "@/content/siteData";
+---
+
+<section id="about-home" class="bg-transparent px-8 py-16 text-primary md:px-12 lg:px-16 xl:px-20">
+  <!-- Previous why choose us layout retained for reference.
+  <div class="mx-auto max-w-6xl">
+    <div class="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-10">
+      <div class="sticky-section self-start grid gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(10rem,0.56fr)] sm:items-end">
+        <div class="overflow-hidden rounded-[2rem] border border-primary/10 bg-white/35">
+          <img
+            src={truckImage.src}
+            alt="Preferred Plumbing team in the service truck"
+            class="aspect-[9/16] w-full object-cover object-center"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        <div class="overflow-hidden rounded-[1.7rem] border border-primary/10 bg-white/35">
+          <img
+            src={truckImage.src}
+            alt="Preferred Plumbing service truck detail"
+            class="aspect-square w-full object-cover object-center"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+
+      <div>
+        <p class="text-sm font-black uppercase tracking-[0.18em] text-accent">
+          Why Choose Us
+        </p>
+
+        <h2 class="h2 mt-4 max-w-3xl text-primary">
+          Why homeowners keep choosing Preferred Plumbing.
+        </h2>
+
+        <p class="mt-5 max-w-2xl text-base leading-8 text-primary/82 md:text-lg">
+          Choosing the right plumber matters when the issue affects your home, your time, and your
+          peace of mind. Preferred Plumbing focuses on clean workmanship, reliable communication,
+          and fixes that feel finished instead of temporary.
+        </p>
+      </div>
+    </div>
+  </div>
+  -->
+
+  <div class="mx-auto max-w-6xl">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1fr)] lg:items-start lg:gap-14">
+      <div class="sticky-section self-start overflow-hidden rounded-[2rem] border border-primary/10 bg-white/35">
+        <img
+          src={truckImage.src}
+          alt="Preferred Plumbing team in the service truck"
+          class="aspect-[3/4] w-full object-cover object-center"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      <div class="max-w-3xl">
+        <SectionHeading
+          title="Preferred Plumbing for homes that need dependable work."
+          bottomText="Clean workmanship, clear communication, and dependable follow-through."
+          align="left"
+          bottomTextClass="max-w-2xl text-accent"
+        />
+
+        <div class="mt-6 space-y-6 text-base leading-8 text-primary/82 md:text-lg">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante
+            venenatis dapibus posuere velit aliquet. Curabitur blandit tempus porttitor donec id
+            elit non mi porta gravida at eget metus.
+          </p>
+
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed posuere consectetur est at
+            lobortis. Maecenas faucibus mollis interdum, nullam id dolor id nibh ultricies vehicula
+            ut id elit, etiam porta sem malesuada magna mollis euismod.
+          </p>
+
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean lacinia bibendum nulla
+            sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et cras
+            mattis consectetur purus sit amet fermentum.
+          </p>
+        </div>
+
+        <div class="mt-8">
+          <Button href={ctaData.link} variant="primary" size="lg">
+            {ctaData.text}
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

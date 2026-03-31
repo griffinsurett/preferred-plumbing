@@ -3,15 +3,19 @@
 
 import type { IconType } from 'react-icons';
 import { LuArrowRight, LuBookOpen, LuChevronRight, LuContact, LuGlobe, LuImage, LuMail, LuPhone, LuSettings } from 'react-icons/lu';
-import { FaArrowsUpDownLeftRight, FaBuilding, FaBullseye, FaClockRotateLeft, FaCompass, FaDroplet, FaEye, FaFeather, FaFileLines, FaHeadset, FaHouseFloodWater, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaPhone, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaShower, FaTemperatureArrowUp, FaUniversalAccess, FaWandMagicSparkles, FaWater } from 'react-icons/fa6';
-import { FaBullhorn, FaCode } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaArrowsUpDownLeftRight, FaBolt, FaBuilding, FaBullseye, FaClock, FaClockRotateLeft, FaComments, FaCompass, FaDroplet, FaEye, FaFeather, FaFileLines, FaHeadset, FaHouseFloodWater, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaPhone, FaRobot, FaRotateLeft, FaScaleBalanced, FaScrewdriverWrench, FaShieldHalved, FaShower, FaTemperatureArrowUp, FaThumbsUp, FaUniversalAccess, FaWandMagicSparkles, FaWater, FaWrench } from 'react-icons/fa6';
 import { SiFacebook, SiInstagram, SiLinkedin } from 'react-icons/si';
 
 export const iconMap = {
+  'fa6:arrow-left': FaArrowLeft,
+  'fa6:arrow-right': FaArrowRight,
   'fa6:arrows-up-down-left-right': FaArrowsUpDownLeftRight,
+  'fa6:bolt': FaBolt,
   'fa6:building': FaBuilding,
   'fa6:bullseye': FaBullseye,
+  'fa6:clock': FaClock,
   'fa6:clock-rotate-left': FaClockRotateLeft,
+  'fa6:comments': FaComments,
   'fa6:compass': FaCompass,
   'fa6:droplet': FaDroplet,
   'fa6:eye': FaEye,
@@ -27,14 +31,15 @@ export const iconMap = {
   'fa6:robot': FaRobot,
   'fa6:rotate-left': FaRotateLeft,
   'fa6:scale-balanced': FaScaleBalanced,
+  'fa6:screwdriver-wrench': FaScrewdriverWrench,
   'fa6:shield-halved': FaShieldHalved,
   'fa6:shower': FaShower,
   'fa6:temperature-arrow-up': FaTemperatureArrowUp,
+  'fa6:thumbs-up': FaThumbsUp,
   'fa6:universal-access': FaUniversalAccess,
   'fa6:wand-magic-sparkles': FaWandMagicSparkles,
   'fa6:water': FaWater,
-  'fa:bullhorn': FaBullhorn,
-  'fa:code': FaCode,
+  'fa6:wrench': FaWrench,
   'lu:arrow-right': LuArrowRight,
   'lu:book-open': LuBookOpen,
   'lu:chevron-right': LuChevronRight,

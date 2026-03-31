@@ -1,0 +1,121 @@
+---
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import Icon from "@/components/Icon";
+import SectionHeading from "@/components/SectionHeading.astro";
+import truckImage from "@/assets/truck-2.png";
+import type { PreparedItem } from "@/utils/collections";
+
+interface Props extends BaseVariantProps {
+  bottomText?: string;
+}
+
+const {
+  items = [],
+  title,
+  description,
+  className = "",
+  id,
+  bottomText,
+} = Astro.props as Props;
+
+const sectionId = id || "services-list";
+
+const SMALL_WORDS = new Set(["and", "or", "to", "of", "the", "a", "an", "for", "in", "on", "with"]);
+
+function formatServiceTitle(item: PreparedItem) {
+  if (item.title && item.title.trim() && item.title.trim() !== "Plumbing Service") {
+    return item.title.trim();
+  }
+
+  if (!item.slug) {
+    return "Plumbing Service";
+  }
+
+  const parts = item.slug.split("-").filter(Boolean);
+
+  return parts
+    .map((part, index) => {
+      const lower = part.toLowerCase();
+
+      if (lower === "and") return "&";
+      if (lower === "24" || lower === "7" || lower === "24/7") return lower;
+      if (index !== 0 && index !== parts.length - 1 && SMALL_WORDS.has(lower)) {
+        return lower;
+      }
+
+      return lower.charAt(0).toUpperCase() + lower.slice(1);
+    })
+    .join(" ");
+}
+
+const sectionDescription =
+  description && description.trim() !== "Our professional services" ? description : undefined;
+---
+
+<section
+  id={sectionId}
+  class={`relative overflow-hidden bg-accent px-8 py-16 text-primary md:px-12 lg:px-16 xl:px-20 ${className}`}
+>
+  <div class="pointer-events-none absolute left-0 top-[60%] hidden h-52 w-52 -translate-x-[34%] -translate-y-1/2 rounded-full bg-primary/12 blur-3xl lg:block"></div>
+
+  <div class="mx-auto max-w-6xl">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-start lg:gap-14">
+      <div class="max-w-md">
+        <SectionHeading
+          title={title}
+          bottomText={bottomText}
+          description={sectionDescription}
+          align="left"
+          titleClass="max-w-[11ch]"
+          bottomTextClass="max-w-md text-primary/72"
+          descriptionClass="max-w-md text-primary/76"
+        />
+      </div>
+
+      {
+        items.length > 0 && (
+          <ul class="grid gap-4 sm:grid-cols-2">
+            {items.map((item) => (
+              <li class="contents">
+                <div class="flex items-start gap-3">
+                  <span class="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-accent">
+                    <Icon icon={item.icon || "fa6-solid:wrench"} size="sm" className="text-current" />
+                  </span>
+
+                  <div>
+                    <h3
+                      class="text-[1.04rem] font-bold uppercase leading-[1.02] tracking-[0.03em] text-primary"
+                      style="font-family: var(--font-tt-lakes);"
+                    >
+                      {formatServiceTitle(item)}
+                    </h3>
+
+                    {item.description && (
+                      <p class="mt-2 text-sm leading-6 text-primary/80">
+                        {item.description}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    <div class="mt-10">
+      <div class="hidden lg:block" aria-hidden="true"></div>
+
+      <div class="overflow-hidden rounded-[2rem] border border-primary/18 bg-white/34 shadow-[0_24px_80px_-36px_rgba(15,34,48,0.5)] backdrop-blur-sm">
+        <img
+          src={truckImage.src}
+          alt="Preferred Plumbing service truck and team"
+          class="aspect-[16/10] w-full object-cover object-center"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </div>
+</section>

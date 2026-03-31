@@ -1,0 +1,58 @@
+---
+export interface Props {
+  title?: string;
+  highlightedTitle?: string;
+  afterTitle?: string;
+  bottomText?: string;
+  bottomTextClass?: string;
+  description?: string;
+  descriptionClass?: string;
+  titleClass?: string;
+  align?: "left" | "center" | "right";
+  className?: string;
+}
+
+const {
+  title,
+  highlightedTitle,
+  afterTitle,
+  bottomText,
+  bottomTextClass = "",
+  description,
+  descriptionClass = "",
+  titleClass = "",
+  align = "center",
+  className = "",
+} = Astro.props as Props;
+
+const alignmentClass = {
+  left: "text-left",
+  center: "text-center",
+  right: "text-right",
+}[align];
+---
+
+<div class={`w-full ${alignmentClass} ${className}`}>
+  {(title || highlightedTitle || afterTitle) && (
+    <h2 class={`h2 text-primary ${titleClass}`}>
+      {title && <Fragment set:html={title} />}
+      {title && highlightedTitle && " "}
+      {highlightedTitle && <span class="text-accent">{highlightedTitle}</span>}
+      {afterTitle && ` ${afterTitle}`}
+    </h2>
+  )}
+
+  {bottomText && (
+    <p
+      class={`mt-4 font-montserrat-heading text-base font-bold leading-[1.25] uppercase tracking-[0.08em] text-accent md:text-lg ${bottomTextClass}`}
+    >
+      {bottomText}
+    </p>
+  )}
+
+  {description && (
+    <p class={`mt-4 text-base leading-8 text-primary/82 md:text-lg ${descriptionClass}`}>
+      {description}
+    </p>
+  )}
+</div>

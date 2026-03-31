@@ -15,7 +15,7 @@ import newHeroFrame from "@/assets/new-hero-frame.png";
 import plumberImage from "@/assets/plumber.webp";
 import { find } from "@/utils/query";
 import { formatPhoneNumber } from "@/utils/string";
-import preferredWordmark from "@/assets/just-preferred/just-pref-blue-white.png";
+import UnderHeroStats from "@/components/Home/UnderHeroStats.astro";
 
 
 export interface Props {
@@ -38,6 +38,7 @@ export interface Props {
   secondaryCTA?: {
     text: string;
     link: string;
+    leftIcon?: any;
   };
   className?: string;
   id?: string;
@@ -60,20 +61,22 @@ const {
 
 const phoneEntry = await find("contact-us", "phone");
 const phoneValue = String(phoneEntry?.data?.description ?? "").trim();
-const phoneHref = phoneValue ? `${phoneEntry?.data?.linkPrefix || "tel:"}${phoneValue}` : undefined;
+const phoneHref =
+  phoneValue && phoneEntry?.data?.linkPrefix ? `${phoneEntry.data.linkPrefix}${phoneValue}` : undefined;
 const resolvedSecondaryCTA =
   secondaryCTA ||
   (phoneHref
     ? {
         text: formatPhoneNumber(phoneValue),
         link: phoneHref,
+        leftIcon: phoneEntry?.data?.icon,
       }
     : undefined);
 
 ---
 
 <section id={id} class={`relative bg-accent ${className}`}>
-  <div class="relative min-h-[160vh]">
+  <div class="relative min-h-[118vh] lg:min-h-[132vh]">
     <div class="pointer-events-none absolute top-0 right-0 bottom-0 z-20 hidden w-[min(34vw,31rem)] translate-x-[4%] lg:block xl:w-[min(36vw,34rem)]">
       <div
         class="sticky flex h-screen items-end overflow-hidden"
@@ -126,7 +129,12 @@ const resolvedSecondaryCTA =
 
               {
                 resolvedSecondaryCTA && (
-                  <Button href={resolvedSecondaryCTA.link} variant="secondary" size="lg">
+                  <Button
+                    href={resolvedSecondaryCTA.link}
+                    variant="secondary"
+                    size="lg"
+                    leftIcon={resolvedSecondaryCTA.leftIcon}
+                  >
                     {resolvedSecondaryCTA.text}
                   </Button>
                 )
@@ -140,6 +148,7 @@ const resolvedSecondaryCTA =
       </div>
     </div>
 
+    <!-- Previous under-hero about section retained for reference.
     <div
       id="about"
       class="under-hero relative min-h-[60vh] lg:py-10 px-8 md:px-12 lg:px-16 lg:pr-[24rem] xl:px-20 xl:pr-[32rem]"
@@ -191,6 +200,9 @@ const resolvedSecondaryCTA =
         </div>
       </div>
     </div>
+    -->
+
+    <UnderHeroStats />
   </div>
 </section>
 

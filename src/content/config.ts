@@ -70,6 +70,12 @@ export const collections = {
       baseSchema({ image })
   }),
 
+  "benefits": defineCollection({
+    loader: file("src/content/benefits/benefits.json"),
+    schema: ({ image }) =>
+      baseSchema({ image }),
+  }),
+
   "blog": defineCollection({
     schema: ({ image }) =>
       baseSchema({ image }).extend({

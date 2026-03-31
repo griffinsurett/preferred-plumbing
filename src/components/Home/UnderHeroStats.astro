@@ -1,0 +1,124 @@
+---
+import plumberImage from "@/assets/plumber.webp";
+import { query } from "@/utils/query";
+
+const serviceCount = (await query("services").all()).length;
+const projectCount = (await query("projects").all()).length;
+
+const stats = [
+  {
+    value: 24,
+    suffix: "/7",
+    label: "Emergency Help",
+    description: "Fast response when plumbing problems cannot wait.",
+  },
+  {
+    value: serviceCount,
+    suffix: "+",
+    label: "Plumbing Services",
+    description: "Repairs, installs, drains, fixtures, and water heaters.",
+  },
+  {
+    value: projectCount,
+    suffix: "+",
+    label: "Before & After Fixes",
+    description: "Visible project turnarounds from problem to clean finish.",
+  },
+];
+---
+
+<section
+  id="hero-stats"
+  class="under-hero relative z-30 px-8 pt-4 pb-0 md:px-12 lg:px-16 lg:pr-[24rem] xl:px-20 xl:pr-[32rem]"
+>
+  <div class="mx-auto w-full max-w-4xl text-white/92">
+    <div class="grid gap-6 md:grid-cols-3 md:gap-8">
+      {
+        stats.map((stat) => (
+          <article class="border-t border-white/12 pt-4 first:border-t-0 first:pt-0 md:border-t-0 md:border-l md:pt-0 md:pl-6 md:first:border-l-0 md:first:pl-0">
+            <p
+              class="text-[2rem] font-semibold leading-none text-primary md:text-[2.35rem] lg:text-[3.35rem]"
+              style="font-family: var(--font-tt-lakes);"
+            >
+              <span data-count-up data-target={stat.value} data-suffix={stat.suffix}>
+                0{stat.suffix}
+              </span>
+            </p>
+            <p class="mt-2 text-sm font-black uppercase tracking-[0.14em] text-heading">
+              {stat.label}
+            </p>
+            <p class="mt-2 max-w-xs text-sm leading-6 text-white/70">
+              {stat.description}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-2 flex justify-center overflow-hidden lg:hidden">
+      <div class="h-[14.5rem] w-full max-w-[15rem] overflow-hidden">
+        <img
+          src={plumberImage.src}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          class="block w-full translate-y-5"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const counterElements = Array.from(document.querySelectorAll("[data-count-up]"));
+
+  if (counterElements.length) {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const numberFormatter = new Intl.NumberFormat("en-US");
+
+    const setCounterValue = (element, value) => {
+      const suffix = element.dataset.suffix || "";
+      element.textContent = `${numberFormatter.format(Math.round(value))}${suffix}`;
+    };
+
+    const animateCounter = (element) => {
+      const target = Number(element.dataset.target || 0);
+      if (!Number.isFinite(target)) return;
+
+      if (reduceMotion) {
+        setCounterValue(element, target);
+        return;
+      }
+
+      const duration = 1200;
+      const startTime = performance.now();
+
+      const step = (now) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setCounterValue(element, target * eased);
+
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+
+      window.requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          animateCounter(entry.target);
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    counterElements.forEach((element) => observer.observe(element));
+  }
+</script>

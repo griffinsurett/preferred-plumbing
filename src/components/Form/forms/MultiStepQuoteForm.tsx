@@ -126,12 +126,12 @@ export default function MultiStepQuoteForm() {
           placeholder="Select service type"
           containerClassName="mb-4"
           options={[
-            { value: "web-design", label: "Web Design" },
-            { value: "web-development", label: "Web Development" },
-            { value: "seo", label: "SEO Services" },
-            { value: "branding", label: "Branding" },
-            { value: "marketing", label: "Digital Marketing" },
-            { value: "consulting", label: "Consulting" },
+            { value: "emergency-plumbing-repairs", label: "Emergency Plumbing Repairs" },
+            { value: "water-heater-repair-installation", label: "Water Heater Repair & Installation" },
+            { value: "leak-detection-pipe-repair", label: "Leak Detection & Pipe Repair" },
+            { value: "fixture-installation-remodel-plumbing", label: "Fixture Installation & Remodel Plumbing" },
+            { value: "commercial-property-plumbing", label: "Commercial & Property Plumbing" },
+            { value: "sump-pumps-drainage-protection", label: "Sump Pumps & Drainage Protection" },
           ]}
           selectClassName="w-full px-4 py-3 bg-text/5 border-0 rounded-md focus:outline-none focus:ring-2 focus:ring-MainDark"
         />

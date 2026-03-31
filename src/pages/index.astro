@@ -3,15 +3,10 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import { siteData, ctaData } from "@/content/siteData";
-import {
-  query,
-  whereArrayContains,
-  whereEquals,
-  sortByDate,
-  sortByOrder,
-  sortBy,
-} from "@/utils/query";
+import { query, sortByDate, sortByOrder } from "@/utils/query";
 import FrontPageHero from "@/layouts/FrontPageHero.astro";
+import HomeAboutSection from "@/components/Home/HomeAboutSection.astro";
+
 ---
 
 <BaseLayout title="Home" description={siteData.description}>
@@ -23,7 +18,25 @@ import FrontPageHero from "@/layouts/FrontPageHero.astro";
       primaryCTA={ctaData}
     />
 
+    <div class="bg-text">
+      <HomeAboutSection />
+      <ContentRenderer
+        query={query("services").orderBy(sortByOrder()).limit(6)}
+        variant="ServicesImageCardsVariant"
+        title="Complete Plumbing Services for Repairs, Upgrades, and Protection"
+        description="From emergency plumbing and leak repair to water heaters, remodel work, sump pump protection, and property plumbing support, Preferred Plumbing covers the work that keeps homes and buildings running right."
+        columns={3}
+      />
+    </div>
+
     <div class="homepage-content bg-primary text-text">
+      <ContentRenderer
+        query={query("benefits").orderBy(sortByOrder()).limit(6)}
+        variant="WhyChooseUsVariant"
+        title="Why homeowners choose Preferred Plumbing."
+        description="Fast response, clear communication, and workmanship that is handled carefully from the first visit through the finished result."
+      />
+
       <!-- <ContentRenderer query={query("about-us")} variant="AccordionVariant" /> -->
 
       <!-- Services - auto-populates from services meta -->
@@ -42,26 +55,20 @@ import FrontPageHero from "@/layouts/FrontPageHero.astro";
         gap="lg"
       /> -->
 
-      <!-- Portfolio with sorting -->
-      <ContentRenderer
-        query={query("projects")
-          .orderBy(sortByDate("publishDate", "desc"))
-          .limit(5)}
-        variant="GridVariant"
-      />
-
       <!-- Testimonials with rating filter -->
-      <ContentRenderer
-        query={query("testimonials").where((entry) => entry.data.rating >= 4)}
-        variant="MasonryVariant"
-      />
+      <div class="homepage-testimonials bg-text">
+        <ContentRenderer
+          query={query("testimonials").where((entry) => entry.data.rating >= 4)}
+          variant="MasonryVariant"
+        />
+      </div>
 
       <!-- FAQ ContentRenderer -->
-      <ContentRenderer
+      <!-- <ContentRenderer
         query={query("faq").orderBy(sortByOrder())}
         variant="AccordionVariant"
         allowMultiple={false}
-      />
+      /> -->
 
       <!-- Contact ContentRenderer -->
       <ContentRenderer
@@ -71,57 +78,19 @@ import FrontPageHero from "@/layouts/FrontPageHero.astro";
       />
 
       <!-- Blog with limit - auto-populates from blog meta -->
-      <ContentRenderer
+      <!-- <ContentRenderer
         query={query("blog").limit(2)}
         variant="BlogVariant"
         columns={2}
-      />
+      /> -->
 
       <!-- Multi-collection query - requires manual title/description -->
-      <ContentRenderer
+      <!-- <ContentRenderer
         query={query(["blog", "projects"]).orderBy(sortByDate()).limit(10)}
         variant="ListVariant"
         title="Recent Updates"
         description="Latest from our blog and portfolio"
-      />
+      /> -->
     </div>
-
-    <style>
-      .homepage-content {
-        color: #e1f1df;
-      }
-
-      .homepage-content .text-heading,
-      .homepage-content h2,
-      .homepage-content h3,
-      .homepage-content h4,
-      .homepage-content h5,
-      .homepage-content h6 {
-        color: #fff !important;
-      }
-
-      .homepage-content .text-text,
-      .homepage-content p,
-      .homepage-content li,
-      .homepage-content label,
-      .homepage-content time {
-        color: #e1f1df;
-      }
-
-      .homepage-content .bg-bg {
-        background-color: var(--color-primary) !important;
-      }
-      .homepage-content .hover\:bg-text\/5:hover,
-      .homepage-content .bg-text\/5 {
-        background-color: color-mix(in srgb, var(--color-on-primary) 8%, transparent) !important;
-      }
-
-      .homepage-content .border-surface {
-        border-color: color-mix(in srgb, var(--color-on-primary) 18%, transparent);
-      }
-      .homepage-content .bg-surface {
-        background-color: color-mix(in srgb, var(--color-primary) 88%, var(--color-on-primary) 12%) !important;
-      }
-    </style>
   </main>
 </BaseLayout>
