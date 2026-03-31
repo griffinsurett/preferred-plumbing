@@ -116,6 +116,9 @@ export const collections = {
         role: z.string(),
         company: z.string().optional(),
         rating: z.number().min(1).max(5).default(5),
+        reviewDate: z.string().optional(),
+        reviewUrl: z.string().url().optional(),
+        avatarColor: z.string().optional(),
       }),
   }),
 

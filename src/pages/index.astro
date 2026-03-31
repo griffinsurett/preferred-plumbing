@@ -6,7 +6,6 @@ import { siteData, ctaData } from "@/content/siteData";
 import { query, sortByDate, sortByOrder } from "@/utils/query";
 import FrontPageHero from "@/layouts/FrontPageHero.astro";
 import HomeAboutSection from "@/components/Home/HomeAboutSection.astro";
-
 ---
 
 <BaseLayout title="Home" description={siteData.description}>
@@ -58,8 +57,15 @@ import HomeAboutSection from "@/components/Home/HomeAboutSection.astro";
       <!-- Testimonials with rating filter -->
       <div class="homepage-testimonials bg-text">
         <ContentRenderer
-          query={query("testimonials").where((entry) => entry.data.rating >= 4)}
-          variant="MasonryVariant"
+          query={query("testimonials").where((entry) => entry.data.rating >= 4).orderBy(sortByOrder())}
+          variant="GoogleReviewsCarouselVariant"
+          id="testimonials"
+          title="Why Customers Choose Preferred Plumbing"
+          description="A quick look at the kind of service homeowners and builders keep calling out in public Google reviews."
+          summaryRating={5}
+          summaryCount={72}
+          summaryLabel="Google Reviews"
+          summaryUrl="https://reviews.birdeye.com/preferred-plumbing-of-nj-166787370757944"
         />
       </div>
 
