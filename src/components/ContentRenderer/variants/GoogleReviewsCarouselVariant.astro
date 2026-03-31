@@ -123,9 +123,9 @@ const getInitials = (reviewer: string) =>
                   </span>
 
                   <div>
-                    <p class="text-[1.15rem] font-bold leading-tight text-primary">{review.reviewer}</p>
+                    <p class="text-[0.98rem] font-bold leading-tight text-primary">{review.reviewer}</p>
                     {review.reviewDate && (
-                      <p class="mt-1 text-sm font-medium text-primary/55">{review.reviewDate}</p>
+                      <p class="mt-1 text-[0.8rem] font-medium text-primary/55">{review.reviewDate}</p>
                     )}
                   </div>
                 </div>
@@ -143,7 +143,7 @@ const getInitials = (reviewer: string) =>
               <div class="mt-2 flex items-center gap-1">
                 <div class="flex items-center gap-1 text-[#fbbc04]" aria-label={`${review.rating || 5} out of 5 stars`}>
                   {Array.from({ length: review.rating || 5 }).map(() => (
-                    <svg class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
@@ -156,14 +156,14 @@ const getInitials = (reviewer: string) =>
                 </span>
               </div>
 
-              <p class="mt-5 text-[1.02rem] leading-8 text-primary/88">{review.excerpt}</p>
+              <p class="mt-5 text-[0.88rem] leading-7 text-primary/88">{review.excerpt}</p>
 
               {review.reviewUrl && (
                 <a
                   href={review.reviewUrl}
                   target="_blank"
                   rel="noreferrer"
-                  class="mt-6 inline-flex items-center text-sm font-semibold text-primary/52 transition hover:text-primary"
+                  class="mt-6 inline-flex items-center text-[0.82rem] font-semibold text-primary/52 transition hover:text-primary"
                 >
                   Read on Google
                 </a>
@@ -248,13 +248,13 @@ const getInitials = (reviewer: string) =>
   .google-wordmark-image {
     display: block;
     height: auto;
-    width: 10.75rem;
+    width: 9.25rem;
   }
 
   .google-letter-image {
     display: block;
     height: auto;
-    width: 1.8rem;
+    width: 1.45rem;
   }
 
   .google-reviews-track {
@@ -272,27 +272,27 @@ const getInitials = (reviewer: string) =>
   }
 
   .google-review-card {
-    min-width: min(100%, 23rem);
-    flex: 0 0 min(100%, 23rem);
+    min-width: min(100%, 19.5rem);
+    flex: 0 0 min(100%, 19.5rem);
     scroll-snap-align: start;
     border: 1px solid rgba(15, 34, 48, 0.04);
     border-radius: 1.55rem;
     background: linear-gradient(180deg, #f5f5f7 0%, #efeff1 100%);
-    padding: 1.7rem;
+    padding: 1.3rem;
     box-shadow: 0 24px 60px -48px rgba(15, 34, 48, 0.32);
   }
 
   .google-review-avatar {
     display: inline-flex;
-    height: 3.65rem;
-    width: 3.65rem;
+    height: 2.95rem;
+    width: 2.95rem;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
     border-radius: 999px;
     color: white;
     font-family: var(--font-montserrat-heading);
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     font-weight: 700;
   }
 
@@ -351,9 +351,9 @@ const getInitials = (reviewer: string) =>
     }
 
     .google-review-card {
-      min-width: 23.2rem;
-      flex-basis: 23.2rem;
-      min-height: 20.5rem;
+      min-width: 20.5rem;
+      flex-basis: 20.5rem;
+      min-height: 15.8rem;
     }
   }
 </style>
