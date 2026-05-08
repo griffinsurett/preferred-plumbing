@@ -11,7 +11,8 @@ import PrimaryBigButton from "@/components/Button/PrimaryBigButton";
 import Icon from "@/components/Icon";
 import MobileMenuItem from "@/components/LoopComponents/Menu/MobileMenuItem";
 import contactItems from "@/content/contact-us/contact-us.json";
-import { ctaData, siteData, siteLogo } from "@/content/siteData";
+import { ctaData, siteData } from "@/content/siteData";
+import siteLogo from "@/assets/main-logo.png";
 import socialMediaLinks from "@/content/social-media/socialmedia.json";
 import { formatPhoneNumber } from "@/utils/string";
 import HamburgerButton from "./HamburgerButton";
@@ -77,7 +78,7 @@ export default function MobileMenuDrawer({
           >
             <img
               src={siteLogo.src}
-              alt={siteData.logoAlt}
+              alt="Preferred Plumbing"
               className="h-20 w-auto max-w-[220px] object-contain"
             />
             <span className="mt-3 max-w-[16rem] text-sm font-semibold uppercase tracking-[0.08em] text-on-primary">

@@ -291,6 +291,22 @@ export type SEOData = z.infer<ReturnType<typeof seoSchema>>;
 // ============================================================================
 // BASE SCHEMA
 // ============================================================================
+// LLMS SCHEMA
+// ============================================================================
+
+export const llmsItemSchema = z.object({
+  addToLLMs: z.boolean().optional(),
+}).optional();
+
+export const llmsMetaSchema = z.object({
+  addToLLMs: z.boolean().optional(),
+  itemsAddToLLMs: z.boolean().optional(),
+}).optional();
+
+export type LLMsItemData = z.infer<typeof llmsItemSchema>;
+export type LLMsMetaData = z.infer<typeof llmsMetaSchema>;
+
+// ============================================================================
 
 export const baseSchema = ({ image }: { image: Function }) =>
   z.object({
@@ -324,6 +340,7 @@ export const baseSchema = ({ image }: { image: Function }) =>
     tags: z.array(z.string()).default([]),
     // Per-item link behavior override (takes priority over collection's itemsLinkBehavior)
     linkBehavior: LinkBehaviorConfig,
+    llms: llmsItemSchema,
   });
 
 export type BaseData = z.infer<ReturnType<typeof baseSchema>>;
@@ -411,6 +428,7 @@ export const metaSchema = ({ image }: { image: Function }) =>
     itemsAddToMenu: z.array(ItemsAddToMenuFields).optional(),
     // Link behavior for all items in this collection (can be overridden per-item)
     itemsLinkBehavior: LinkBehaviorConfig,
+    llms: llmsMetaSchema,
     indexLayout: z.string().default('../layouts/collections/CollectionIndexLayout.astro'),
     itemsLayout: z.string().default('../layouts/collections/CollectionLayout.astro'),
   });

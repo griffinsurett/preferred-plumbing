@@ -7,6 +7,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 import { SITE_URL } from './src/content/siteDomain.js';
+import robotsLlmsIntegration from './src/integrations/robots-llms/robots-llms.integration.ts';
 import { buildRedirectConfig } from './src/utils/redirects';
 import { manualChunks, assetFileNames } from './vite.chunks.js';
 import iconGeneratorIntegration from './src/integrations/icons/icon-generator.integration.mjs';
@@ -60,6 +61,7 @@ export default defineConfig({
     }),
     sitemap(),
     conditionalPartytown(),
+    robotsLlmsIntegration(),
   ],
   
   build: {

@@ -8,7 +8,8 @@ import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro"
 import Icon from "@/components/Icon";
 import PrimaryBigButton from "@/components/Button/PrimaryBigButton";
 import { find, related } from "@/utils/query";
-import { siteData, siteLogo, ctaData } from "@/content/siteData";
+import { siteData, ctaData } from "@/content/siteData";
+import siteLogo from "@/assets/main-logo.png";
 
 const phoneEntry = await find("contact-us", "phone");
 const phoneValue = String(phoneEntry?.data?.description ?? "").trim();
@@ -54,7 +55,7 @@ const phoneLabel = String(phoneEntry?.data?.title ?? "").trim() || undefined;
       >
         <Image
           src={siteLogo}
-          alt={siteData.logoAlt}
+          alt="Preferred Plumbing"
           class="block h-14 w-auto sm:h-16 md:h-[3.25rem] lg:h-18 xl:h-22 max-w-[min(100%,220px)] sm:max-w-[260px] md:max-w-[280px] lg:max-w-[300px] object-contain object-left"
           loading="eager"
           fetchpriority="high"
