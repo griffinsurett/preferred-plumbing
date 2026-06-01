@@ -190,7 +190,7 @@ function Modal({
     >
       <div
         ref={modalRef}
-        className={`relative ${className} ${modalPointerEventsClass} transform-gpu transition-all duration-300 ease-in-out origin-center ${
+        className={`relative outline-none ${className} ${modalPointerEventsClass} transform-gpu transition-all duration-300 ease-in-out origin-center ${
           isOpen
             ? "scale-100 translate-y-0 opacity-100"
             : "scale-95 translate-y-4 opacity-0"

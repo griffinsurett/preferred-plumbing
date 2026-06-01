@@ -44,10 +44,7 @@ function HamburgerButton({
         htmlFor={id}
         className="group cursor-pointer p-2 text-accent hover:text-accent transition-colors inline-flex items-center justify-center gap-2"
       >
-        <span className="font-tt-lakes text-[1.05rem] leading-none tracking-[0.08em] uppercase">
-          Menu
-        </span>
-        <div className="w-7 h-6 relative flex items-center justify-center">
+<div className="w-7 h-6 relative flex items-center justify-center">
           {/* Top line */}
           <span
             className={`absolute h-[3px] w-full bg-current transition-all duration-300 ease-in-out origin-center ${

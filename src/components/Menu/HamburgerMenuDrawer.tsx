@@ -67,12 +67,13 @@ export default function MobileMenuDrawer({
         ssr={false}
       >
         <nav
-          className={`${className} h-full overflow-y-auto px-6 py-8 flex flex-col items-center`}
+          className={`${className} h-full overflow-y-auto px-6 py-8 flex flex-col items-center justify-between`}
           aria-label="Mobile navigation"
         >
+          {/* Top: logo + tagline */}
           <a
             href="/"
-            className="mb-8 inline-flex flex-col items-center justify-center text-center"
+            className="inline-flex flex-col items-center justify-center text-center"
             aria-label={siteData.title}
             onClick={handleNavigate}
           >
@@ -86,6 +87,7 @@ export default function MobileMenuDrawer({
             </span>
           </a>
 
+          {/* Middle: nav links centered */}
           <ul className="w-full max-w-sm space-y-2 text-center">
             {items.map((item) => (
               <MobileMenuItem
@@ -96,43 +98,46 @@ export default function MobileMenuDrawer({
             ))}
           </ul>
 
-        {phoneHref && (
-            <a
-              href={phoneHref}
-              onClick={handleNavigate}
-              className="mt-5 inline-flex items-center justify-center gap-2 text-accent transition-[transform,opacity] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-80 active:translate-y-0"
-              aria-label={`Call ${phoneLabel}`}
-              title={phoneLabel}
-            >
-              {phoneEntry?.icon && <Icon icon={phoneEntry.icon} size="md" className="text-current" />}
-              <span className="text-lg font-semibold">{phoneLabel}</span>
-            </a>
-          )}
-          
-          <div className="mt-8 w-full max-w-sm">
-            <PrimaryBigButton
-              href={ctaData.link}
-              fullWidth
-              onClick={handleNavigate}
-            >
-              {ctaData.text}
-            </PrimaryBigButton>
-          </div>
-
-          <div className="mt-5 flex items-center justify-center gap-5">
-            {socialMediaLinks.map((item) => (
+          {/* Bottom: phone + CTA + socials */}
+          <div className="flex flex-col items-center w-full gap-5">
+            {phoneHref && (
               <a
-                key={item.id}
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center text-accent transition-[transform,opacity] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-80 active:translate-y-0"
-                aria-label={`Visit our ${item.title} page`}
-                title={item.title}
+                href={phoneHref}
+                onClick={handleNavigate}
+                className="inline-flex items-center justify-center gap-2 text-accent transition-[transform,opacity] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-80 active:translate-y-0"
+                aria-label={`Call ${phoneLabel}`}
+                title={phoneLabel}
               >
-                <Icon icon={item.icon} size="md" className="text-current" />
+                {phoneEntry?.icon && <Icon icon={phoneEntry.icon} size="md" className="text-current" />}
+                <span className="text-lg font-semibold">{phoneLabel}</span>
               </a>
-            ))}
+            )}
+
+            <div className="w-full max-w-sm">
+              <PrimaryBigButton
+                href={ctaData.link}
+                fullWidth
+                onClick={handleNavigate}
+              >
+                {ctaData.text}
+              </PrimaryBigButton>
+            </div>
+
+            <div className="flex items-center justify-center gap-5">
+              {socialMediaLinks.map((item) => (
+                <a
+                  key={item.id}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center text-accent transition-[transform,opacity] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-80 active:translate-y-0"
+                  aria-label={`Visit our ${item.title} page`}
+                  title={item.title}
+                >
+                  <Icon icon={item.icon} size="md" className="text-current" />
+                </a>
+              ))}
+            </div>
           </div>
         </nav>
       </Modal>

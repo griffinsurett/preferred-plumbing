@@ -101,12 +101,20 @@
   }
 }
 
-/* Mobile hamburger: dark primary on the green bar */
+/* Mobile hamburger: dark primary on the green bar (desktop context, unused on mobile now) */
 .header-nav-bar .menu-mobile label.cursor-pointer {
   color: var(--color-primary);
 }
 .header-nav-bar .menu-mobile label.cursor-pointer:hover {
   color: var(--color-primary-700);
+}
+
+/* Mobile hamburger in blue primary bar: accent green lines */
+.site-header .header-navigation-mobile label.cursor-pointer {
+  color: var(--color-accent);
+}
+.site-header .header-navigation-mobile label.cursor-pointer:hover {
+  color: var(--color-accent);
 }
 
 /* Arrow rotation on hover */
