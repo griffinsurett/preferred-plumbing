@@ -88,14 +88,14 @@ const resolvedSecondaryCTA =
       </div>
     </div>
 
-    <div class="relative h-[100vh] overflow-hidden">
+    <div class="relative h-[90vh] md:h-[100vh] overflow-hidden">
       <div
         class="hero-bg absolute inset-0 bg-no-repeat"
         style={`background-image: url('${newHeroFrame.src}'), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${backgroundImage.src}');`}
         aria-hidden="true"
       ></div>
 
-      <div class="relative z-10 flex h-screen w-full items-center justify-start px-8 md:px-12 lg:px-16 lg:pr-[24rem] xl:px-20 xl:pr-[32rem]">
+      <div class="relative z-10 flex h-full w-full items-center justify-start px-8 md:px-12 lg:px-16 lg:pr-[24rem] xl:px-20 xl:pr-[32rem]">
         <HeroContent
           title={title}
           primaryCTA={primaryCTA}
