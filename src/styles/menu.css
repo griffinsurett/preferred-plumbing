@@ -1,6 +1,5 @@
 /* src/styles/menu.css */
 
-/* Header masthead (bg-primary): top-level nav uses on-primary; hover uses accent text + underline */
 .menu-item:hover > .menu-dropdown,
 .menu-item:focus-within > .menu-dropdown,
 .menu-item.is-open > .menu-dropdown,
@@ -9,6 +8,7 @@
   display: block;
 }
 
+/* ── Nav bar layout (sits on bg-accent green bar) ── */
 @media (min-width: 768px) {
   .header-navigation {
     align-self: stretch;
@@ -25,7 +25,7 @@
     align-items: stretch;
   }
 
-  .site-header .menu-desktop > ul > li {
+  .header-nav-bar .menu-desktop > ul > li {
     position: relative;
     display: flex;
     align-items: center;
@@ -49,71 +49,64 @@
   }
 }
 
-.site-header .menu-desktop > ul > li::after {
-  content: "";
-  position: absolute;
-  left: 1rem;
-  right: 1rem;
-  bottom: 0;
-  height: 3px;
-  background-color: var(--color-accent);
-  opacity: 0;
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 240ms ease, opacity 240ms ease;
+/* Remove the old underline indicator — no longer needed */
+.header-nav-bar .menu-desktop > ul > li::after {
+  display: none;
 }
 
-.site-header .menu-desktop > ul > li > a,
-.site-header .menu-desktop > ul > li > button {
-  color: var(--color-on-primary);
-  background-color: transparent;
+/* Nav links: dark primary text on green bar — !important needed to beat inline Tailwind classes */
+.header-nav-bar .menu-desktop > ul > li > a,
+.header-nav-bar .menu-desktop > ul > li > button {
+  color: var(--color-primary) !important;
+  background-color: transparent !important;
   font-family: var(--font-montserrat-heading);
   font-weight: 700;
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  transition: color 220ms ease;
+  padding: 0.75rem 1.1rem !important;
+  transition: color 200ms ease, background-color 200ms ease;
+  border-radius: 0;
 }
 
-.site-header .menu-desktop > ul > li > a:hover,
-.site-header .menu-desktop > ul > li > a:focus-visible,
-.site-header .menu-desktop > ul > li > button:hover,
-.site-header .menu-desktop > ul > li > button:focus-visible {
-  color: var(--color-accent);
-  background-color: transparent;
+/* Hover: slight dark overlay */
+.header-nav-bar .menu-desktop > ul > li > a:hover,
+.header-nav-bar .menu-desktop > ul > li > a:focus-visible,
+.header-nav-bar .menu-desktop > ul > li > button:hover,
+.header-nav-bar .menu-desktop > ul > li > button:focus-visible {
+  color: var(--color-primary) !important;
+  background-color: color-mix(in srgb, var(--color-primary) 18%, transparent) !important;
 }
 
-.site-header .menu-desktop > ul > li:hover::after,
-.site-header .menu-desktop > ul > li:focus-within::after {
-  opacity: 1;
-  transform: scaleX(1);
-}
-
-.site-header .menu-desktop > ul > li > a.text-primary,
-.site-header .menu-desktop > ul > li > button.text-primary {
-  color: var(--color-on-primary);
-  background-color: transparent;
+/* Active / current page: filled primary box with accent green text */
+.header-nav-bar .menu-desktop > ul > li > a[aria-current="page"],
+.header-nav-bar .menu-desktop > ul > li > a[aria-current="page"]:hover {
+  color: var(--color-accent) !important;
+  background-color: var(--color-primary) !important;
+  border-radius: 0;
 }
 
 @media (min-width: 1024px) {
-  .site-header .menu-desktop > ul > li > a,
-  .site-header .menu-desktop > ul > li > button {
-    font-size: 1.0625rem;
-    line-height: 1.4;
+  .header-nav-bar .menu-desktop > ul > li > a,
+  .header-nav-bar .menu-desktop > ul > li > button {
+    font-size: 0.8rem;
   }
 }
 
 @media (min-width: 1280px) {
-  .site-header .menu-desktop > ul > li > a,
-  .site-header .menu-desktop > ul > li > button {
-    font-size: 1.125rem;
+  .header-nav-bar .menu-desktop > ul > li > a,
+  .header-nav-bar .menu-desktop > ul > li > button {
+    font-size: 0.875rem;
+    padding: 0.75rem 1.25rem !important;
   }
 }
 
-.site-header .menu-mobile label.cursor-pointer {
-  color: var(--color-accent);
+/* Mobile hamburger: dark primary on the green bar */
+.header-nav-bar .menu-mobile label.cursor-pointer {
+  color: var(--color-primary);
 }
-.site-header .menu-mobile label.cursor-pointer:hover {
-  color: var(--color-accent);
+.header-nav-bar .menu-mobile label.cursor-pointer:hover {
+  color: var(--color-primary-700);
 }
 
 /* Arrow rotation on hover */

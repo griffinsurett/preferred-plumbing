@@ -1,14 +1,12 @@
 ---
 // src/layouts/Header.astro
-/**
- * Site Header with Navigation + accent top bar (contact strip)
- */
 import { Image } from "astro:assets";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import Icon from "@/components/Icon";
 import PrimaryBigButton from "@/components/Button/PrimaryBigButton";
 import { find, related } from "@/utils/query";
 import { siteData, ctaData } from "@/content/siteData";
+import { formatPhoneNumber } from "@/utils/string";
 import siteLogo from "@/assets/main-logo.png";
 
 const phoneEntry = await find("contact-us", "phone");
@@ -18,74 +16,121 @@ const phoneHref =
 const phoneLabel = String(phoneEntry?.data?.title ?? "").trim() || undefined;
 ---
 
-<header class="sticky top-0 z-[40]">
-  <div
-    class="relative w-full flex justify-center items-center text-[0.78rem] sm:text-sm lg:text-base xl:text-lg bg-accent text-primary py-1.5 px-4 pr-12 sm:px-5"
-  >
-    <p
-      class="m-0 text-center font-black uppercase tracking-wide text-balance text-primary"
-    >
-      {siteData.topBarMessage}
-    </p>
+<header id="site-header" class="sticky top-0 z-[40] shadow-md shadow-black/20">
+  <!-- Top row: phone | logo | CTA -->
+  <div class="site-header bg-primary text-on-primary">
+    <div class="w-full grid grid-cols-3 items-center gap-3 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
 
-    {
-      phoneHref && (
-        <a
-          href={phoneHref}
-          class="absolute right-4 sm:right-5 flex lg:hidden items-center justify-center text-primary transition-[transform,opacity] duration-300 ease-out hover:-translate-y-0.5 hover:opacity-80 active:translate-y-0"
-          aria-label={phoneLabel}
-          title={phoneLabel}
-        >
-          <Icon icon="fa6:phone" size="md" className="text-current" />
-        </a>
-      )
-    }
-  </div>
+      <!-- Phone (left) -->
+      <div class="flex items-center gap-2">
+        {phoneHref ? (
+          <a
+            href={phoneHref}
+            class="flex items-center gap-2.5 text-on-primary hover:text-accent transition-colors duration-200"
+            aria-label={phoneLabel}
+          >
+            <span class="flex flex-col leading-tight">
+              <span class="text-[0.65rem] sm:text-xs uppercase tracking-widest font-semibold text-on-primary/70">Call Us Today</span>
+              <span class="flex items-center gap-1.5 text-base sm:text-lg font-black tracking-tight">
+                <Icon icon="fa6:phone" size="sm" className="text-accent shrink-0" />
+                {formatPhoneNumber(phoneValue)}
+              </span>
+            </span>
+          </a>
+        ) : (
+          <span />
+        )}
+      </div>
 
-  <div
-    class="site-header bg-primary text-on-primary shadow-md shadow-black/20"
-  >
-    <div
-      class="w-full flex items-center justify-between gap-3 sm:gap-4 md:gap-6 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12"
-    >
+      <!-- Logo (center) -->
       <a
         href="/"
-        class="shrink-0 flex items-center hover:opacity-90 transition-opacity leading-none min-w-0"
+        class="flex items-center justify-center hover:opacity-90 transition-opacity leading-none"
         aria-label={siteData.title}
       >
         <Image
           src={siteLogo}
           alt="Preferred Plumbing"
-          class="block h-14 w-auto sm:h-16 md:h-[3.25rem] lg:h-18 xl:h-22 max-w-[min(100%,220px)] sm:max-w-[260px] md:max-w-[280px] lg:max-w-[300px] object-contain object-left"
+          id="site-logo"
+          class="block w-auto object-contain"
           loading="eager"
           fetchpriority="high"
         />
       </a>
 
-        <ContentRenderer
-          query={related("menu-items", "menu", "main-menu")}
-          variant="MenuVariant"
-          mode="responsive"
-          className="header-navigation"
-          hamburgerTransform={false}
-          closeButton={true}
-        />
+      <!-- CTA button (right) -->
+      <div class="flex items-center justify-end gap-3">
         <PrimaryBigButton
           href={ctaData.link}
-          className="hidden lg:inline-flex"
+          className="hidden lg:inline-flex text-sm xl:text-base px-4 xl:px-6 py-2.5 xl:py-3"
         >
           {ctaData.text}
         </PrimaryBigButton>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom nav bar: full-width accent green -->
+  <div class="header-nav-bar bg-accent w-full py-1">
+    <div class="w-full flex items-center justify-center px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+      <ContentRenderer
+        query={related("menu-items", "menu", "main-menu")}
+        variant="MenuVariant"
+        mode="responsive"
+        className="header-navigation"
+        hamburgerTransform={false}
+        closeButton={true}
+      />
     </div>
   </div>
 </header>
 
+<style>
+  #site-logo {
+    height: clamp(5rem, 10vw, 8rem);
+    transition: height 400ms ease;
+  }
+
+  #site-header[data-compact="true"] #site-logo {
+    height: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #site-logo { transition: none; }
+  }
+</style>
+
 <script is:inline>
-  const header = document.querySelector("header");
+  const header = document.getElementById("site-header");
   if (header) {
     const setHeaderBottom = () => {
       const rect = header.getBoundingClientRect();
       document.documentElement.style.setProperty("--header-bottom", `${rect.bottom}px`);
+    };
+
+    // Compact logo on scroll — hysteresis prevents toggling at the threshold
+    const COMPACT_ON  = 60;  // shrink when scrolled past this
+    const COMPACT_OFF = 20;  // only expand once back above this
+    let ticking = false;
+    let isCompact = false;
+
+    const updateCompact = () => {
+      const y = window.scrollY;
+      if (!isCompact && y > COMPACT_ON) {
+        isCompact = true;
+        header.setAttribute("data-compact", "true");
+      } else if (isCompact && y < COMPACT_OFF) {
+        isCompact = false;
+        header.removeAttribute("data-compact");
+      }
+      setHeaderBottom();
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateCompact);
     };
 
     setHeaderBottom();
@@ -93,10 +138,10 @@ const phoneLabel = String(phoneEntry?.data?.title ?? "").trim() || undefined;
     observer.observe(header);
 
     window.addEventListener("resize", setHeaderBottom);
-    window.addEventListener("scroll", setHeaderBottom, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
   }
 
-  const menuRoot = document.querySelector(".header-navigation .menu-desktop > ul");
+  const menuRoot = header?.querySelector(".header-navigation .menu-desktop > ul");
   const topLevelItems = menuRoot?.querySelectorAll(":scope > li.menu-item") ?? [];
 
   const updateDropdownLeft = (el) => {

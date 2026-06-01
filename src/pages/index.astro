@@ -3,9 +3,20 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import { siteData, ctaData } from "@/content/siteData";
-import { query, sortByDate, sortByOrder } from "@/utils/query";
+import { query, sortByOrder } from "@/utils/query";
 import FrontPageHero from "@/layouts/FrontPageHero.astro";
 import HomeAboutSection from "@/components/Home/HomeAboutSection.astro";
+import ProjectsPipeScroller from "@/components/Home/ProjectsPipeScroller";
+import greenPipes from "@/assets/pipes.png";
+import { getImageSrc } from "@/layouts/collections/helpers/layoutHelpers";
+
+const featuredProjects = (await query("projects").orderBy(sortByOrder()).limit(3).all()).map((entry) => ({
+  title: entry.data.title,
+  description: entry.data.description ?? "",
+  imageSrc: getImageSrc(entry.data.featuredImage),
+  imageAlt: entry.data.featuredImage?.alt || entry.data.title,
+  category: entry.data.category,
+}));
 ---
 
 <BaseLayout title="Home" description={siteData.description}>
@@ -28,6 +39,14 @@ import HomeAboutSection from "@/components/Home/HomeAboutSection.astro";
       />
     </div>
 
+    <ProjectsPipeScroller
+      client:load
+      pipeImageSrc={greenPipes.src}
+      projects={featuredProjects}
+      title="Featured Plumbing Projects"
+      intro="A few representative plumbing project spotlights showing the type of repair, upgrade, and installation work Preferred Plumbing handles across New Jersey."
+    />
+
     <div class="homepage-content bg-primary text-text">
       <ContentRenderer
         query={query("benefits").orderBy(sortByOrder()).limit(6)}
@@ -35,24 +54,6 @@ import HomeAboutSection from "@/components/Home/HomeAboutSection.astro";
         title="Why homeowners choose Preferred Plumbing."
         description="Fast response, clear communication, and workmanship that is handled carefully from the first visit through the finished result."
       />
-
-      <!-- <ContentRenderer query={query("about-us")} variant="AccordionVariant" /> -->
-
-      <!-- Services - auto-populates from services meta -->
-      <!-- <ContentRenderer
-        query={query("services").orderBy(sortByOrder())}
-        variant="GridVariant"
-        columns={3}
-        gap="lg"
-      /> -->
-
-      <!-- Filtered query - still gets meta from authors -->
-      <!-- <ContentRenderer
-        query={query("authors").where(whereArrayContains("tags", "featured"))}
-        variant="GridVariant"
-        columns={3}
-        gap="lg"
-      /> -->
 
       <!-- Testimonials with rating filter -->
       <div class="homepage-testimonials bg-text">
@@ -82,21 +83,6 @@ import HomeAboutSection from "@/components/Home/HomeAboutSection.astro";
         variant="ContactVariant"
         columns={2}
       />
-
-      <!-- Blog with limit - auto-populates from blog meta -->
-      <!-- <ContentRenderer
-        query={query("blog").limit(2)}
-        variant="BlogVariant"
-        columns={2}
-      /> -->
-
-      <!-- Multi-collection query - requires manual title/description -->
-      <!-- <ContentRenderer
-        query={query(["blog", "projects"]).orderBy(sortByDate()).limit(10)}
-        variant="ListVariant"
-        title="Recent Updates"
-        description="Latest from our blog and portfolio"
-      /> -->
     </div>
   </main>
 </BaseLayout>

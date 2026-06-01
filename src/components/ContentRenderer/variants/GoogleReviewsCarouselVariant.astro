@@ -84,17 +84,26 @@ const getInitials = (reviewer: string) =>
           ))}
         </div>
 
-        <p class="mt-2 text-base leading-7 text-primary/80">
-          Based on <span class="font-bold text-primary">{summaryCount.toLocaleString()} Google reviews</span>
-        </p>
-
         <a
           href={summaryUrl}
           target="_blank"
           rel="noreferrer"
-          class="mt-7 inline-flex items-center justify-center"
+          class="mt-2 inline-flex items-center justify-center gap-2 text-base leading-7 text-primary/80"
         >
-          <img src={googleWord.src} alt={summaryLabel} class="google-wordmark-image" loading="lazy" decoding="async" />
+          <span class="inline-flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+            <span>Based on</span>
+            <span class="inline-flex items-center gap-2 font-bold text-primary">
+              <span>{summaryCount.toLocaleString()}</span>
+              <img
+                src={googleWord.src}
+                alt="Google"
+                class="google-summary-word"
+                loading="lazy"
+                decoding="async"
+              />
+            </span>
+            <span>reviews</span>
+          </span>
         </a>
       </div>
 
@@ -245,16 +254,17 @@ const getInitials = (reviewer: string) =>
     filter: blur(10px);
   }
 
-  .google-wordmark-image {
-    display: block;
-    height: auto;
-    width: 9.25rem;
-  }
-
   .google-letter-image {
     display: block;
     height: auto;
     width: 1.45rem;
+  }
+
+  .google-summary-word {
+    display: block;
+    height: auto;
+    width: 4.1rem;
+    flex-shrink: 0;
   }
 
   .google-reviews-track {

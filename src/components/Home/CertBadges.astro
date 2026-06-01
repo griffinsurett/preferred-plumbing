@@ -1,0 +1,26 @@
+---
+// src/components/Home/CertBadges.astro
+import { Image } from "astro:assets";
+import cert1 from "@/assets/certs/cert1.png";
+import cert2 from "@/assets/certs/cert2.png";
+import cert3 from "@/assets/certs/cert3.png";
+import cert4 from "@/assets/certs/cert4.png";
+
+const badges = [
+  { src: cert1, alt: "HomeAdvisor Screened & Approved" },
+  { src: cert2, alt: "BBB Accredited Business" },
+  { src: cert3, alt: "Trane Comfort Specialist" },
+  { src: cert4, alt: "America's Most Trusted HVAC Brands" },
+];
+---
+
+<div class="flex flex-wrap items-center gap-6 sm:gap-10">
+  {badges.map((badge) => (
+    <Image
+      src={badge.src}
+      alt={badge.alt}
+      class="h-28 sm:h-32 w-auto object-contain"
+      loading="lazy"
+    />
+  ))}
+</div>

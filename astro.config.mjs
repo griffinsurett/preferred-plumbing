@@ -56,9 +56,7 @@ export default defineConfig({
     clientDirectivesIntegration(),
     iconGeneratorIntegration(),
     mdx(),
-    react({
-      include: ['**/react/*', '**/components/**/*.jsx', '**/components/**/*.tsx', '**/hooks/**/*.js', '**/hooks/**/*.ts'],
-    }),
+    react(),
     sitemap(),
     conditionalPartytown(),
     robotsLlmsIntegration(),

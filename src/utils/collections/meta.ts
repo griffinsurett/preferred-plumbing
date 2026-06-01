@@ -12,7 +12,7 @@
  */
 
 import { metaSchema, type MetaData } from "@/content/schema";
-import { z } from "astro:content";
+import { z } from "astro/zod";
 
 /**
  * Pre-load all _meta.mdx files at module load time

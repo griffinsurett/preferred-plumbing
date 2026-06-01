@@ -1,0 +1,82 @@
+---
+// src/components/Home/HeroContent.astro
+import { Image } from "astro:assets";
+import Button from "@/components/Button/Button";
+import googleWord from "@/assets/google/google-word.png";
+
+export interface Props {
+  eyebrow?: string;
+  title: string;
+  bullets?: string[];
+  primaryCTA?: { text: string; link: string };
+  secondaryCTA?: { text: string; link: string; leftIcon?: any };
+  reviewCount?: string;
+  reviewUrl?: string;
+}
+
+const {
+  eyebrow = "Jersey Based Plumbing Company",
+  title,
+  bullets = [
+    "Licensed & insured in NJ and PA",
+    "Clean, respectful service for your home or business",
+    "Reliable scheduling and fast response times",
+  ],
+  primaryCTA,
+  secondaryCTA,
+  reviewCount = "100+",
+  reviewUrl = "/#testimonials",
+} = Astro.props;
+---
+
+<div class="max-w-3xl text-left text-heading">
+  {eyebrow && (
+    <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-white/80 drop-shadow">
+      {eyebrow}
+    </p>
+  )}
+
+  <h1 class="h1">{title}</h1>
+
+  {bullets.length > 0 && (
+    <ul class="mt-5 mb-5 space-y-2">
+      {bullets.map((item) => (
+        <li class="flex items-center gap-3 text-base font-medium text-white drop-shadow md:text-lg">
+          <span class="text-white text-xl leading-none">✓</span>
+          {item}
+        </li>
+      ))}
+    </ul>
+  )}
+
+  <div class="flex flex-wrap justify-start gap-4">
+    {primaryCTA && (
+      <Button href={primaryCTA.link} variant="primary" size="lg" className="shadow-xl hover:shadow-2xl transition-shadow">
+        {primaryCTA.text}
+      </Button>
+    )}
+    {secondaryCTA && (
+      <Button href={secondaryCTA.link} variant="secondary" size="lg" leftIcon={secondaryCTA.leftIcon}>
+        {secondaryCTA.text}
+      </Button>
+    )}
+  </div>
+
+  <!-- Google reviews badge -->
+  <a
+    href={reviewUrl}
+    class="mt-6 inline-flex items-center gap-3 transition-opacity hover:opacity-85"
+    aria-label={`Excellent — ${reviewCount} reviews on Google`}
+  >
+    <span class="text-sm font-black uppercase tracking-widest text-white drop-shadow">Excellent</span>
+    <div class="flex items-center gap-0.5" aria-hidden="true">
+      {Array.from({ length: 5 }).map(() => (
+        <svg class="h-6 w-6 text-yellow-400 drop-shadow" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ))}
+    </div>
+    <span class="text-sm font-semibold text-white drop-shadow">{reviewCount} reviews</span>
+    <Image src={googleWord} alt="Google" class="h-5 w-auto translate-y-[1px]" loading="eager" />
+  </a>
+</div>

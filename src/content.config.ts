@@ -1,41 +1,23 @@
-// src/content/config.ts
-/**
- * Collection structure:
- *
- * src/content/[collection]/
- *   _meta.mdx         ← Collection config (frontmatter) + index page content (body)
- *                        The _ prefix excludes it from collection entries
- *   item-one.mdx      ← Collection item
- *   item-two.mdx      ← Collection item
- *
- * _meta.mdx frontmatter controls:
- * - title: Display name for the collection
- * - description: Collection description
- * - hasPage: Whether to generate /[collection] index page
- * - itemsHasPage: Whether items get individual pages
- * - featuredImage: Hero image for index page
- * - seo: SEO overrides
- */
-import { file } from "astro/loaders";
-import { defineCollection, z } from "astro:content";
-import { baseSchema, MenuSchema, MenuItemFields, refSchema } from "./schema";
+// src/content.config.ts
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
+import { GlobLoad, FileLoad } from "@/utils/loaders/loaderUtils";
+import { baseSchema, MenuSchema, MenuItemFields, refSchema } from "./content/schema";
 import { MenuItemsLoader } from "@/utils/loaders/MenuItemsLoader";
 
 export const collections = {
-  // ── menus.json ─────────────────────────────────────────
   "menus": defineCollection({
-    loader: file("src/content/menus/menus.json"),
+    loader: FileLoad("menus", "menus.json"),
     schema: MenuSchema,
   }),
 
-  // ── menu-items.json ─────────────────────────────────────
   "menu-items": defineCollection({
     loader: MenuItemsLoader(),
     schema: MenuItemFields,
   }),
 
   "contact-us": defineCollection({
-    loader: file("src/content/contact-us/contact-us.json"),
+    loader: FileLoad("contact-us", "contact-us.json"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         linkPrefix: z.string().optional(),
@@ -43,15 +25,15 @@ export const collections = {
   }),
 
   "social-media": defineCollection({
-    loader: file("src/content/social-media/socialmedia.json"),
+    loader: FileLoad("social-media", "socialmedia.json"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         link: z.string().optional(),
       }),
   }),
 
-  // ── legal ───────────────────────────────────────────────
   "legal": defineCollection({
+    loader: GlobLoad("legal"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         effectiveDate: z
@@ -66,17 +48,19 @@ export const collections = {
   }),
 
   "about-us": defineCollection({
+    loader: GlobLoad("about-us"),
     schema: ({ image }) =>
       baseSchema({ image })
   }),
 
   "benefits": defineCollection({
-    loader: file("src/content/benefits/benefits.json"),
+    loader: FileLoad("benefits", "benefits.json"),
     schema: ({ image }) =>
       baseSchema({ image }),
   }),
 
   "blog": defineCollection({
+    loader: GlobLoad("blog"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         author: refSchema("authors"),
@@ -86,7 +70,7 @@ export const collections = {
   }),
 
   "authors": defineCollection({
-    loader: file("src/content/authors/authors.json"),
+    loader: FileLoad("authors", "authors.json"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         email: z.string().email().optional(),
@@ -103,6 +87,7 @@ export const collections = {
   }),
 
   "services": defineCollection({
+    loader: GlobLoad("services"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         price: z.string().optional(),
@@ -111,6 +96,7 @@ export const collections = {
   }),
 
   "testimonials": defineCollection({
+    loader: GlobLoad("testimonials"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         role: z.string(),
@@ -123,6 +109,7 @@ export const collections = {
   }),
 
   "projects": defineCollection({
+    loader: GlobLoad("projects"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         client: z.string(),
@@ -133,6 +120,7 @@ export const collections = {
   }),
 
   "faq": defineCollection({
+    loader: GlobLoad("faq"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         category: z.string().optional(),

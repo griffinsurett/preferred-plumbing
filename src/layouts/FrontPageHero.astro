@@ -6,16 +6,17 @@
  * Full-width hero section with optimized background media for homepage.
  */
 
-import Button from "@/components/Button/Button";
-import StarRating from "@/components/StarRating";
+import { Image } from "astro:assets";
+import CertBadges from "@/components/Home/CertBadges.astro";
+import HeroContent from "@/components/Home/HeroContent.astro";
 import PlumberImage from "@/components/PlumberImage";
 import { siteData, ctaData } from "@/content/siteData";
 import backgroundImage from "@/assets/background-img.jpg";
 import newHeroFrame from "@/assets/new-hero-frame.png";
 import plumberImage from "@/assets/plumber.webp";
+import bottomPipe from "@/assets/bottom-pipe.png";
 import { find } from "@/utils/query";
 import { formatPhoneNumber } from "@/utils/string";
-import UnderHeroStats from "@/components/Home/UnderHeroStats.astro";
 
 
 export interface Props {
@@ -95,56 +96,11 @@ const resolvedSecondaryCTA =
       ></div>
 
       <div class="relative z-10 flex h-screen w-full items-center justify-start px-8 md:px-12 lg:px-16 lg:pr-[24rem] xl:px-20 xl:pr-[32rem]">
-        <div class="max-w-3xl text-left text-heading">
-            <h1 class="h1">
-              {title}
-            </h1>
-
-            <!-- <p class="mt-4 max-w-2xl text-sm font-black uppercase tracking-[0.16em] text-white/90 sm:text-base md:text-lg">
-              {siteData.serviceAreaMessage}
-            </p> -->
-
-
-            {
-              description && (
-                <p class="mt-5 mb-5 max-w-2xl text-xl leading-relaxed text-text opacity-95 md:text-2xl">
-                  {description}
-                </p>
-              )
-            }
-
-            <div class="flex flex-wrap justify-start gap-4">
-              {
-                primaryCTA && (
-                  <Button
-                    href={primaryCTA.link}
-                    variant="primary"
-                    size="lg"
-                    className="shadow-xl hover:shadow-2xl transition-shadow"
-                  >
-                    {primaryCTA.text}
-                  </Button>
-                )
-              }
-
-              {
-                resolvedSecondaryCTA && (
-                  <Button
-                    href={resolvedSecondaryCTA.link}
-                    variant="secondary"
-                    size="lg"
-                    leftIcon={resolvedSecondaryCTA.leftIcon}
-                  >
-                    {resolvedSecondaryCTA.text}
-                  </Button>
-                )
-              }
-            </div>
-
-            <div class="mt-6">
-              <StarRating client:load />
-            </div>
-        </div>
+        <HeroContent
+          title={title}
+          primaryCTA={primaryCTA}
+          secondaryCTA={resolvedSecondaryCTA}
+        />
       </div>
     </div>
 
@@ -202,7 +158,21 @@ const resolvedSecondaryCTA =
     </div>
     -->
 
-    <UnderHeroStats />
+    <!-- Cert badges on the green -->
+    <div class="relative z-30 w-full px-8 pt-10 pb-40 md:px-12 lg:px-16 lg:pr-[24rem] xl:px-20 xl:pr-[32rem]">
+      <CertBadges />
+    </div>
+
+    <!-- Bottom pipe decoration -->
+    <div class="pointer-events-none absolute bottom-0 left-0 right-0 z-40" aria-hidden="true">
+      <Image
+        src={bottomPipe}
+        alt=""
+        class="w-full h-auto block translate-y-1/2"
+        loading="lazy"
+      />
+    </div>
+
   </div>
 </section>
 
