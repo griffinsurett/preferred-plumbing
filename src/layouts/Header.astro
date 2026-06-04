@@ -114,19 +114,10 @@ const phoneLabel = String(phoneEntry?.data?.title ?? "").trim() || undefined;
 <style>
   #site-logo {
     height: clamp(4rem, 8vw, 6.5rem);
-    transition: height 400ms ease;
   }
 
   #site-logo-mobile {
     height: clamp(3.5rem, 18vw, 5rem);
-  }
-
-  #site-header[data-compact="true"] #site-logo {
-    height: clamp(2.5rem, 5vw, 3.5rem);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #site-logo { transition: none; }
   }
 </style>
 
@@ -138,37 +129,11 @@ const phoneLabel = String(phoneEntry?.data?.title ?? "").trim() || undefined;
       document.documentElement.style.setProperty("--header-bottom", `${rect.bottom}px`);
     };
 
-    // Compact logo on scroll — hysteresis prevents toggling at the threshold
-    const COMPACT_ON  = 60;  // shrink when scrolled past this
-    const COMPACT_OFF = 20;  // only expand once back above this
-    let ticking = false;
-    let isCompact = false;
-
-    const updateCompact = () => {
-      const y = window.scrollY;
-      if (!isCompact && y > COMPACT_ON) {
-        isCompact = true;
-        header.setAttribute("data-compact", "true");
-      } else if (isCompact && y < COMPACT_OFF) {
-        isCompact = false;
-        header.removeAttribute("data-compact");
-      }
-      setHeaderBottom();
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(updateCompact);
-    };
-
     setHeaderBottom();
     const observer = new ResizeObserver(setHeaderBottom);
     observer.observe(header);
 
     window.addEventListener("resize", setHeaderBottom);
-    window.addEventListener("scroll", onScroll, { passive: true });
   }
 
   const menuRoot = header?.querySelector(".header-navigation .menu-desktop > ul");

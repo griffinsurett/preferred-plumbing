@@ -25,12 +25,38 @@ async function ensureDir(dir: string) {
 }
 
 function resolveVideoPath(src: string): string {
+  const candidates = new Set<string>();
+
   if (src.startsWith("/")) {
-    return path.join(PUBLIC_DIR, src.slice(1));
+    candidates.add(path.join(PUBLIC_DIR, src.slice(1)));
   }
   if (path.isAbsolute(src)) {
-    return src;
+    candidates.add(src);
+  } else {
+    candidates.add(path.join(PROJECT_ROOT, src));
   }
+
+  const fileName = path.basename(src);
+  const strippedHashName = fileName.replace(/-[A-Za-z0-9_]{6,}(?=\.[^.]+$)/, "");
+
+  const searchNames = strippedHashName !== fileName ? [strippedHashName, fileName] : [fileName];
+  const searchDirs = [
+    path.join(PROJECT_ROOT, "src", "assets"),
+    PUBLIC_DIR,
+    path.join(PROJECT_ROOT, "src"),
+    PROJECT_ROOT,
+  ];
+
+  for (const dir of searchDirs) {
+    for (const name of searchNames) {
+      candidates.add(path.join(dir, name));
+    }
+  }
+
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) return candidate;
+  }
+
   return path.join(PROJECT_ROOT, src);
 }
 

@@ -26,6 +26,7 @@ const featuredProjects = (await query("projects").orderBy(sortByOrder()).limit(3
       title={siteData.tagline}
       description="Professional plumbing services you can count on. From emergency repairs to new installations, we deliver quality workmanship with honest pricing."
       primaryCTA={ctaData}
+      secondaryCTA={{ text: "Financing Options", link: "/#financing" }}
     />
 
     <div class="bg-text">

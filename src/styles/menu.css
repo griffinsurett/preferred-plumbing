@@ -69,19 +69,19 @@
   border-radius: 0;
 }
 
-/* Hover: slight dark overlay */
+/* Hover: full primary blue bg with white text */
 .header-nav-bar .menu-desktop > ul > li > a:hover,
 .header-nav-bar .menu-desktop > ul > li > a:focus-visible,
 .header-nav-bar .menu-desktop > ul > li > button:hover,
 .header-nav-bar .menu-desktop > ul > li > button:focus-visible {
-  color: var(--color-primary) !important;
-  background-color: color-mix(in srgb, var(--color-primary) 18%, transparent) !important;
+  color: #fff !important;
+  background-color: var(--color-primary) !important;
 }
 
-/* Active / current page: filled primary box with accent green text */
+/* Active / current page: filled primary box with white text */
 .header-nav-bar .menu-desktop > ul > li > a[aria-current="page"],
 .header-nav-bar .menu-desktop > ul > li > a[aria-current="page"]:hover {
-  color: var(--color-accent) !important;
+  color: #fff !important;
   background-color: var(--color-primary) !important;
   border-radius: 0;
 }
